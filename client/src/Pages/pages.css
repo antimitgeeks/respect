@@ -1,0 +1,65 @@
+@keyframes mymove {
+    0%   {top: 25px;}
+    100% {top: 45px;}
+  }
+  @keyframes mymoveReverse {
+    0%   {top: 45px;}
+    100% {top: 25px;}
+  }
+
+  .mymove
+  {
+    display: block;
+    animation: mymove .6s ;
+  }
+  .mymoveReverse
+  {
+    animation: mymoveReverse .6s ;
+    
+    display: none;
+  }
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background: #5d5c5c; 
+    border-radius: 8px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3d3c3c; 
+  }
+
+  .css-13cymwt-control
+  {
+    height: 40.5px;
+  }
+  .css-t3ipsp-control
+  {
+    height: 40.5px;
+  }
+
+  .p-highlight
+  {
+    border-radius: 100%;
+    background-color: rgb(114, 109, 109);
+    color: white;
+  }
+
+  .noScroll::-webkit-scrollbar
+  {
+ display: block;
+ height: 3px;
+
+  }
+  .noScroll
+  {
+    overflow-x: scroll;
+    overflow-y:none;
+    scrollbar-width: 0px;
+  }
