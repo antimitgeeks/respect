@@ -9,18 +9,18 @@ import { useDispatch } from 'react-redux';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useLoginMutation } from '../services/AuthServices';
 import { toast } from 'react-toastify';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 function Login(props) {
     const userToken = Cookies.get("AuthLogin");
     const dispatch = useDispatch();
     const [isLoading, setLoading] = useState(false);
     const [decodedToken, setDecodedToken] = useState(null);
-    const [userLoginData,setUserLoginData] = useState()
+    const [userLoginData, setUserLoginData] = useState()
     const navigate = useNavigate();
-    const isLogged =Cookies.get("isLogged");
-    const isChecked =Cookies.get("isChecked");
-    const AuthData =Cookies.get("AuthData");
+    const isLogged = Cookies.get("isLogged");
+    const isChecked = Cookies.get("isChecked");
+    const AuthData = Cookies.get("AuthData");
 
 
     // useEffect(() => {
@@ -58,7 +58,7 @@ function Login(props) {
     const initialValues = {
         email: decodedToken?.email?.toLowerCase() || '',
         password: userLoginData?.password || '',
-        rememberMe: userLoginData?.rememberMe 
+        rememberMe: userLoginData?.rememberMe
     };
 
     const validationSchema = yup.object().shape({
@@ -81,12 +81,12 @@ function Login(props) {
                     else {
                         var in30Minutes = 1 / 48;
                         Cookies.set("AuthLogin", `${res?.data?.result?.accessToken}`, { expires: in30Minutes });
-                        Cookies.set("AuthData",JSON.stringify(data), { expires: in30Minutes });
+                        Cookies.set("AuthData", JSON.stringify(data), { expires: in30Minutes });
 
                     }
                     dispatch(setLoginData(data))
-                    Cookies.set("isLogged", `${res?.data?.result?.accessToken}`,{expires:30});
-                    Cookies.set("isChecked", JSON.stringify(data),{ expires: 30 });
+                    Cookies.set("isLogged", `${res?.data?.result?.accessToken}`, { expires: 30 });
+                    Cookies.set("isChecked", JSON.stringify(data), { expires: 30 });
                     // localStorage.setItem('IsUserLogged', JSON.stringify(data))
                     // toast.success("Login Successfull")
                     navigate('/dashboard')
@@ -112,7 +112,7 @@ function Login(props) {
                     <Form className='w-full flex items-center justify-center'>
                         <div className='flex bg-white justify-center flex-col gap-8 items-center lg:w-1/2 w-5/6 border rounded-lg shadow px-2 mb-20 py-4'>
                             <div>
-                                <span className='font-mono text-[26px] tracking-wide'>LOGIN</span>
+                                <span className='font-mono text-[26px] tracking-wide'>ADMIN LOGIN</span>
                             </div>
                             <div className='w-full items-center justify-center grid grid-cols-1 gap-5'>
                                 <div className='w-2/3 lg:w-1/2 relative mx-auto'>
