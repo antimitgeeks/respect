@@ -44,7 +44,7 @@ const data = () => {
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to itgeeks admin panel." });
+  res.json({ message: "Welcome to respect admin panel." });
 });
 
 

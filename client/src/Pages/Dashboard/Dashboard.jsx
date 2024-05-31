@@ -89,9 +89,9 @@ function Dashboard() {
         {
           role == 'Admin'
             ?
-            <span>Welcome to the Admin panel</span>
+            <span>Welcome to the Respect Admin Panel</span>
             :
-            <span>Welcome to the Npo panel</span>
+            <span>Welcome to the Respect Npo Panel</span>
 
         }
       </div>

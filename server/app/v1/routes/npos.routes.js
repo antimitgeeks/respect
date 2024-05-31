@@ -6,5 +6,6 @@ const router = express.Router();
 // const authValidation = require("../validations/auth.validation.js");
 
 router.post('/page/add/:id', controllers.addPage);
+router.get('/page/add/:id', controllers.getPage);
 
 module.exports = router;
