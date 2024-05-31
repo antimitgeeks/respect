@@ -2,25 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import InputComponent from '../components/InputComponent';
+import InputComponent from '../../components/InputComponent';
 import Cookies from 'js-cookie';
-import { setLoginData } from '../Redux/Slices/loginSlice';
+import { setLoginData } from '../../Redux/Slices/loginSlice';
 import { useDispatch } from 'react-redux';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useLoginMutation } from '../services/AuthServices';
+import { useLoginMutation } from '../../services/AuthServices';
 import { toast } from 'react-toastify';
 import {jwtDecode} from 'jwt-decode';
 
-function Login(props) {
-    const userToken = Cookies.get("AuthLogin");
+function NpoLogin(props) {
+    const userToken = Cookies.get("NpoAuthLogin");
     const dispatch = useDispatch();
     const [isLoading, setLoading] = useState(false);
     const [decodedToken, setDecodedToken] = useState(null);
     const [userLoginData,setUserLoginData] = useState()
     const navigate = useNavigate();
     const isLogged =Cookies.get("isLogged");
-    const isChecked =Cookies.get("isChecked");
-    const AuthData =Cookies.get("AuthData");
+    const isChecked =Cookies.get("NpoisChecked");
+    const AuthData =Cookies.get("NpoAuthData");
 
 
     // useEffect(() => {
@@ -68,25 +68,25 @@ function Login(props) {
 
     const handleSubmit = (data) => {
         setLoading(true);
-        const loginData = { email: data?.email, password: data?.password };
+        const loginData = { email: data?.email, password: data?.password ,role:'npo' };
         console.log(data)
         LoginUser({ data: loginData })
             .then((res) => {
                 setLoading(false)
                 if (res?.data) {
                     if (data?.rememberMe) {
-                        Cookies.set("AuthLogin", `${res?.data?.result?.accessToken}`, { expires: 30 });
-                        Cookies.set("AuthData", JSON.stringify(data), { expires: 30 });
+                        Cookies.set("NpoAuthLogin", `${res?.data?.result?.accessToken}`, { expires: 30 });
+                        Cookies.set("NpoAuthData", JSON.stringify(data), { expires: 30 });
                     }
                     else {
                         var in30Minutes = 1 / 48;
-                        Cookies.set("AuthLogin", `${res?.data?.result?.accessToken}`, { expires: in30Minutes });
-                        Cookies.set("AuthData",JSON.stringify(data), { expires: in30Minutes });
+                        Cookies.set("NpoAuthLogin", `${res?.data?.result?.accessToken}`, { expires: in30Minutes });
+                        Cookies.set("NpoAuthData",JSON.stringify(data), { expires: in30Minutes });
 
                     }
                     dispatch(setLoginData(data))
                     Cookies.set("isLogged", `${res?.data?.result?.accessToken}`,{expires:30});
-                    Cookies.set("isChecked", JSON.stringify(data),{ expires: 30 });
+                    Cookies.set("NpoisChecked", JSON.stringify(data),{ expires: 30 });
                     // localStorage.setItem('IsUserLogged', JSON.stringify(data))
                     // toast.success("Login Successfull")
                     navigate('/dashboard')
@@ -112,7 +112,7 @@ function Login(props) {
                     <Form className='w-full flex items-center justify-center'>
                         <div className='flex bg-white justify-center flex-col gap-8 items-center lg:w-1/2 w-5/6 border rounded-lg shadow px-2 mb-20 py-4'>
                             <div>
-                                <span className='font-mono text-[26px] tracking-wide'>LOGIN</span>
+                                <span className='font-mono text-[26px] tracking-wide'> NPO LOGIN</span>
                             </div>
                             <div className='w-full items-center justify-center grid grid-cols-1 gap-5'>
                                 <div className='w-2/3 lg:w-1/2 relative mx-auto'>
@@ -175,4 +175,4 @@ function Login(props) {
     );
 }
 
-export default Login;
+export default NpoLogin;
