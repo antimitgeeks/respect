@@ -4,7 +4,7 @@ import DataTable from '../../components/DataTable'
 import MobileTabel from '../../components/MobileTable';
 import DialogComponent from '../../components/DialogComponent'
 import AddNgo from './AddNgo/AddNgo';
-import { useAllNpoListQuery } from '../../services/NpoService';
+import { useAllNpoListQuery, useUpdateNpoMutation } from '../../services/NpoService';
 import { AiFillDelete } from 'react-icons/ai';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiEdit2Fill } from "react-icons/ri";
@@ -16,6 +16,7 @@ import { Pagination } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import EditNgo from './EditNgo/EditNgo';
 import Switch from '@mui/material/Switch';
+import { toast } from 'react-toastify';
 
 
 function Home() {
@@ -30,7 +31,8 @@ function Home() {
   const navigate = useNavigate();
   const [listData, setListData] = useState();
   const [editOpen, setEditOpen] = useState(false)
-
+  const [UpdateNpo] = useUpdateNpoMutation();
+  const [toggleData,setToggleData]= useState()
 
   const DataPerPage = 5
   let offset = (Page - 1) * DataPerPage;
@@ -55,6 +57,7 @@ function Home() {
     }
     else {
       setListData(ListData?.result?.rows);
+      setToggleData(ListData?.result?.rows);
       setCount(Math.ceil(ListData?.result?.count / DataPerPage) || 0)
       setTimeout(() => {
 
@@ -107,7 +110,7 @@ function Home() {
   }
 
   const handleDelete = (index) => {
-    AlertComponent({ handleDeleteYes })
+    AlertComponent({ heading:"Are you sure to Delete ?", handleDeleteYes })
   }
 
   const handleView = () => {
@@ -124,19 +127,39 @@ function Home() {
     }
   }
 
-  const handleSwitchToggle=(data,e)=>
-    {
-      console.log(data.id)
-      let customizedData ={
-        name:data?.name,
-        email:data?.email,
-        address:data?.address,
-        number:data?.number,
-        password:data?.password,
-        isActive:e?.target.checked
-      }
-      console.log(customizedData)
+  const handleSwitchToggle = (data, e) => {
+    // confirmAlert()
+    console.log(data.id)
+    let customizedData = {
+      name: data?.name,
+      email: data?.email,
+      address: data?.address,
+      number: data?.number,
+      password: data?.password,
+      isActive: e?.target.checked
     }
+    console.log(customizedData)
+    AlertComponent({heading:"Are you sure to Change ?",
+      handleDeleteYes: () => {
+        UpdateNpo({ Id: data?.id, data: customizedData })
+          .then((res) => {
+            if (res.error) {
+              toast.error(res?.error?.data?.message)
+            }
+            else {
+              // close()
+              toast.success(res.data.message)
+            }
+            // setUpdateLoading(false)
+          })
+          .catch((err) => {
+            console.log(err)
+            // setUpdateLoading(false)
+          })
+      }
+    })
+
+  }
 
 
   return (
@@ -181,8 +204,8 @@ function Home() {
                           <span className=' w-[23%]  text-[14.6px] flex items-center   h-6 pl-2 lg:pl-4  '> <span className=' '>{itm?.name}</span> </span>
                           <span className='  w-[22%] noScroll flex self-center h-6 md:h-7 py-0  text-[14.6px] '>{itm?.email}</span>
                           <span className=' w-[24%] pl-3  text-[13.6px] h-6'>{itm?.number}</span>
-                          <span className=' w-[22%]  text-[13.6px] h-6'><Switch onChange={(e)=>handleSwitchToggle(itm,e)}/></span>
-                          <span className=' w-[10%]  text-[14.6px] h-6 relative '> <span className=' hover:opacity-75 w-fit flex items-center pt-1 w-1/4 cursor-pointer' onClick={() => { actionIndex[indx] === true ? handleActionsClose(indx) : handleActions(indx, itm?.id) }}><BsThreeDotsVertical /></span>
+                          <span className=' w-[22%]  text-[13.6px] h-6'><Switch checked={itm?.isActive} onChange={(e) => handleSwitchToggle(itm, e)} /></span>
+                          <span className=' w-[10%]  text-[14.6px] h-6 relative '> <span className=' hover:opacity-75 w-fit flex items-center pt-1  cursor-pointer' onClick={() => { actionIndex[indx] === true ? handleActionsClose(indx) : handleActions(indx, itm?.id) }}><BsThreeDotsVertical /></span>
                             {
                               actionIndex[indx] === true ?
                                 <>  <span className=' border select-none rounded-full  lg:left-[20px] w-[115px] divide-x-2  2xl:left-[20px]  gap-1  py-1 px-1 shadow  bottom-0 bg-white absolute flex  items-center justify-between'>
