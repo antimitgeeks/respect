@@ -8,10 +8,16 @@ import Home from './Pages/Dashboard/Home';
 import EmailAuth from './Pages/ForgetPassword/EmailAuth';
 import Cookies from 'js-cookie'
 import ForgetPassword from './Pages/ForgetPassword/ForgetPassword';
+import Report from './Pages/Reports/Report';
+import NpoLogin from './Pages/Npo Pages/NpoLogin';
+import {jwtDecode} from 'jwt-decode';
+import NpoHome from './Pages/Npo Pages/NpoHome/NpoHome';
 
 
 function Routing() {
     const [authenticateLogin, setAthenticateLogin] = useState(true);
+    const [decodedToken,setDecodedToken]= useState();
+    const [role,setRole]= useState('admin')
 
     const userToken = Cookies.get("isLogged");
     //////// Checking if user is logged or not ////////////  
@@ -24,31 +30,34 @@ function Routing() {
         }
     }, [])
 
-    // const userToken = Cookies.get("isLogged");
-    // useEffect(()=>
-    // {
+    useEffect(() => {
+        if (userToken?.length > 0) {
+            const DecodedData = jwtDecode(userToken);
+            setDecodedToken(DecodedData);
+        }
+    }, [userToken]);
 
-    //     if (!userToken ||  userToken === null) {
-    //                 setAthenticateLogin(false)
-    //             }
-    //             else {
-    //                     setAthenticateLogin(true)
-    //                 }
+    useEffect(()=>
+    {
+        console.log(decodedToken?.role)
+        setRole(decodedToken?.role)
 
-    // },)
-    // console.log(userToken)
+    },[decodedToken,userToken])
+
 
     return (
         <div>
             <Routes>
                 <Route path="/" element={<Login auth={setAthenticateLogin} />} />
+                <Route path="/npo" element={<NpoLogin auth={setAthenticateLogin} />} />
                 <Route path="/forgot-password/:id" element={<ForgetPassword />} />
                 <Route path="/reset-password" element={<EmailAuth />} />
                 <Route path="*" element={<Login auth={setAthenticateLogin} />} />
                  { 
                      authenticateLogin ?
                         <Route path="/dashboard" element={<Dashboard />} >
-                            <Route path='' element={<Home />} />
+                            <Route path='' element={ role =='Admin'?<Home />:<NpoHome/>} />
+                            <Route path='reports' element={<Report />} />
                         </Route> 
                           : ""
               }  

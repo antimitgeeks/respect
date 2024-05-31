@@ -1,144 +1,247 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
 import DataTable from '../../components/DataTable'
-import MobileTabel from '../../components/MobileTable'
+import MobileTabel from '../../components/MobileTable';
+import DialogComponent from '../../components/DialogComponent'
+import AddNgo from './AddNgo/AddNgo';
+import { useAllNpoListQuery } from '../../services/NpoService';
+import { AiFillDelete } from 'react-icons/ai';
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { RiEdit2Fill } from "react-icons/ri";
+import { IoMdEye } from "react-icons/io";
+import AlertComponent from '../../components/AlertComponent';
+import InputComponent from '../../components/InputComponent';
+import { FaSearch } from 'react-icons/fa';
+import { Pagination } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import EditNgo from './EditNgo/EditNgo';
+import Switch from '@mui/material/Switch';
+
+
 function Home() {
 
   ////////// Dashboard top Cards Data ///////////
-  const CardData = [
-    { name: "Total Tutorials", value: 22 },
-    { name: "Total Product", value: 14 },
-    { name: "Total Warehouses", value: 14},
-    { name: "Total Income", value: 11 },
-  ]
+  const [isModalOpen, setModalOpen] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [Page, setcurrentPage] = useState(1);
+  const [count, setCount] = useState(0)
+  const [actionIndex, setActionIndex] = useState([])
+  const [selectedIndex, setSelectedIndex] = useState()
+  const navigate = useNavigate();
+  const [listData, setListData] = useState();
+  const [editOpen, setEditOpen] = useState(false)
 
-  //////////// Donut Chart Data //////////////
-  const ChartData = {
-    options: { labels: ['Team 1', 'Team 2', 'Team 3', 'Team 4'] },
-    series: CardData.map((itm)=> {return itm.value}),
+
+  const DataPerPage = 5
+  let offset = (Page - 1) * DataPerPage;
+
+
+  const { data: ListData, isLoading: isListLoading, isFetching: isListFetching } = useAllNpoListQuery({
+    limit: DataPerPage,
+    offset: offset
+  })
+  const handleModalOpen = () => {
+    setModalOpen(true)
+  }
+
+  const handleModalClose = () => {
+    setModalOpen(false)
+  }
+
+
+  useEffect(() => {
+    if (isListLoading || isListFetching) {
+      setLoading(true)
+    }
+    else {
+      setListData(ListData?.result?.rows);
+      setCount(Math.ceil(ListData?.result?.count / DataPerPage) || 0)
+      setTimeout(() => {
+
+        setLoading(false)
+      }, 500);
+    }
+
+  }, [ListData, isListFetching, isListLoading])
+
+  const handleActions = (indx, id) => {
+    let itm = [actionIndex];
+    setSelectedIndex(id)
+
+    itm[indx] = true;
+    setActionIndex(itm)
+  }
+
+  const handlePageChange = (e, value) => {
+    let itm = [actionIndex];
+    itm[actionIndex] = false;
+    setActionIndex(itm)
+    setSelectedIndex('')
+    setcurrentPage(value)
+  }
+
+
+  const handleActionsClose = (indx) => {
+    let itm = [actionIndex];
+    itm[indx] = false;
+    setActionIndex(itm)
+  }
+  const handleDeleteYes = () => {
+
+    // DeleteStore({ Id: selectedIndex })
+
+    //     .then((res) => {
+    //         if (res?.error) {
+    //             console.log(res.error)
+    //             toast.error("Error Occured")
+    //         }
+    //         else if (res.data) {
+    //             setSelectedIndex('');
+    //             setActionIndex('');
+    //             toast.success("Store Successfully Deleted")
+    //         }
+
+    //     })
+    //     .catch((err)=>toast.error("Internal Server Error"))
 
   }
 
-  ///////// Bar Chart Data //////////
-  const ColumnChartData = {
-    series: [{
-      name: 'Margin',
-      data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, ]
-    }],
-    options: {
-      chart: {
-        height: 100,
-        type: 'bar',
-      },
-      plotOptions: {
-        bar: {
-          borderRadius: 5,
-          dataLabels: {
-            position: 'top', // top, center, bottom
-          },
-        }
-      },
-      dataLabels: {
-        enabled: true,
-        formatter: function (val) {
-          return val + "%";
-        },
-        offsetY: -20,
-        style: {
-          fontSize: '12px',
-          colors: ["#304758"]
-        }
-      },
+  const handleDelete = (index) => {
+    AlertComponent({ handleDeleteYes })
+  }
 
-      xaxis: {
-        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"],
-        position: 'top',
-        axisBorder: {
-          show: false
-        },
-        axisTicks: {
-          show: false
-        },
-        crosshairs: {
-          fill: {
-            type: 'gradient',
-            gradient: {
-              colorFrom: '#D8E3F0',
-              colorTo: '#BED1E6',
-              stops: [0, 100],
-              opacityFrom: 0.4,
-              opacityTo: 0.5,
-            }
-          }
-        },
-        tooltip: {
-          enabled: true,
-        }
-      },
-      yaxis: {
-        axisBorder: {
-          show: false
-        },
-        axisTicks: {
-          show: false,
-        },
-        labels: {
-          show: false,
-          formatter: function (val) {
-            return val + "%";
-          }
-        }
+  const handleView = () => {
+    // setViewOpen(!viewOpen)
+    // navigate(`${selectedIndex}`)
 
+  }
+
+
+  const handleEdit = () => {
+    setEditOpen(!editOpen)
+    if (editOpen == true) {
+      setActionIndex('')
+    }
+  }
+
+  const handleSwitchToggle=(data,e)=>
+    {
+      console.log(data.id)
+      let customizedData ={
+        name:data?.name,
+        email:data?.email,
+        address:data?.address,
+        number:data?.number,
+        password:data?.password,
+        isActive:e?.target.checked
       }
-    },
-  }
+      console.log(customizedData)
+    }
 
-  ////////// Polar Area Chart Data //////////
-  const PolarArea = {
-    series: [24, 33, 31, 27, 25, 22, 24],
-    options: {
-      chart: {
-        type: 'polarArea',
-      },
-      stroke: {
-        colors: ['#fff']
-      },
-      fill: {
-        opacity: 0.8
-      },
-      labels: ['Team 1', 'Team 2', 'Team 3', 'Team 4','Team 5'],
-      responsive: [{
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200
-          },
-          legend: {
-            position: 'bottom'
-          }
-        }
-      }]
-    },
 
-  }
-  /////////////// Dashboard Home Table Heading /////////////////
-  const TableHeading = ['Name', 'Email', 'Address', 'Number']
-
-  //////////////// Dashboard Home Table Body Data ////////////////////
-  const TableBody = [
-    { name: 'Akshat', email: 'akshat@gmail.com', address: '101 vikas nagar', number: '8987908821' },
-    { name: 'Amit', email: 'amit@gmail.com', address: '', number: '7998508098' },
-    { name: 'Raj', email: 'raj@gmail.com', address: '03 yamuna nagar', number: '9879070703' },
-    { name: 'Kumkum', email: 'kumkum@gmail.com', address: '60 gandhi nagar', number: '7896987794' },
-    { name: 'Mihir', email: 'mihir@gmail.com', address: '33 prem nagar', number: '8907800985' },
-    { name: 'Deepraj', email: 'deepraj@gmail.com', address: '78 jaadu nagar', number: '8907890985' },
-    { name: 'Ankit', email: 'ankit@gmail.com', address: '81 ujwal nagar', number: '8908890586' },
-    { name: 'Jay', email: 'jay@gmail.com', address: '99 gomti nagar', number: '9798987698' },
-  ]
   return (
-    <div className=' flex flex-col gap-8 overflow-y-scroll scroll-m-1 py-4 px-4 bg-white h-full w-full'>
+    <>
+      <div className=' flex flex-col gap-8 overflow-y-scroll scroll-m-1 py-3 px-3 bg-slate-50 h-full w-full'>
+        <div className=' flex w-full justify-end'>
+          <div onClick={() => handleModalOpen()} className=' hover:opacity-80 hover:border-slate-500 py-[7px] px-7  bg-slate-200 border border-slate-700 rounded cursor-pointer'>
+            <span>ADD</span>
+          </div>
+        </div>
+        <div className='w-full flex-wrap  rounded '>
+          <DialogComponent open={isModalOpen} maxWidth={'sm'}>
+            <AddNgo close={handleModalClose} />
+          </DialogComponent>
 
-    </div>
+          <DialogComponent open={editOpen} maxWidth={'md'}>
+            <EditNgo Id={selectedIndex} close={handleEdit} />
+          </DialogComponent>
+
+          <div className='  w-full flex flex-col gap-5 items-center'>
+            <div className=' hidden  md:table rounded w-full '>
+              <div className='head divide-x-2 bg-slate-300 text-black rounded border-r border-l flex justify-between'>
+                <div className=' w-full font-medium  text-[13.5px] self-center py-3 pl-3 uppercase' >NGO  name</div>
+                <div className=' w-full font-medium text-[13.5px] self-center py-3 pl-3 uppercase'>NGO email</div>
+                <div className=' w-full font-medium text-[13.0px] self-center py-3 pl-3 uppercase'>Ngo number</div>
+                <div className=' w-full font-medium text-[13.0px] self-center py-3 pl-3 uppercase'>Status</div>
+                <div className=' w-1/2 font-medium text-[13.5px] self-center py-3 pl-3 uppercase'>Action</div>
+              </div>
+              <div className=' flex flex-col gap-2 pt-2  '>
+                {
+                  loading ?
+                    <div className=' w-full flex flex-col gap-2'>
+                      {Array(5).fill(0).map((itm, indx) => {
+                        return <div key={indx} className=' border h-[60px] rounded w-full bg-slate-400 animate-pulse'></div>
+                      })}
+                    </div>
+                    :
+                    listData?.length <= 0 || !listData ?
+                      "No data" :
+                      listData?.map((itm, indx) => {
+                        return <div key={indx} className=' w-full  gap-1  border-zinc-400  flex justify-between border   rounded-md  px-1 py-3'>
+                          <span className=' w-[23%]  text-[14.6px] flex items-center   h-6 pl-2 lg:pl-4  '> <span className=' '>{itm?.name}</span> </span>
+                          <span className='  w-[22%] noScroll flex self-center h-6 md:h-7 py-0  text-[14.6px] '>{itm?.email}</span>
+                          <span className=' w-[24%] pl-3  text-[13.6px] h-6'>{itm?.number}</span>
+                          <span className=' w-[22%]  text-[13.6px] h-6'><Switch onChange={(e)=>handleSwitchToggle(itm,e)}/></span>
+                          <span className=' w-[10%]  text-[14.6px] h-6 relative '> <span className=' hover:opacity-75 w-fit flex items-center pt-1 w-1/4 cursor-pointer' onClick={() => { actionIndex[indx] === true ? handleActionsClose(indx) : handleActions(indx, itm?.id) }}><BsThreeDotsVertical /></span>
+                            {
+                              actionIndex[indx] === true ?
+                                <>  <span className=' border select-none rounded-full  lg:left-[20px] w-[115px] divide-x-2  2xl:left-[20px]  gap-1  py-1 px-1 shadow  bottom-0 bg-white absolute flex  items-center justify-between'>
+                                  <span onClick={() => handleEdit()} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><RiEdit2Fill size={18} /></span>
+                                  <span onClick={() => handleDelete(indx)} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><AiFillDelete size={17} /></span>
+                                  <span onClick={() => handleView()} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><IoMdEye size={18} /></span>
+                                </span>
+                                </>
+                                : ""
+                            }
+                          </span>
+                        </div>
+                      })
+                }
+              </div>
+            </div>
+            <div className='   md:hidden table rounded '>
+              <div className=' flex flex-col md:flex-row items-start gap-1  '>
+                {
+                  listData?.map((itm, indx) => {
+                    return <div key={indx} className=' w-full  items-start bg-white select-none sm:flex-col border-slate-400 flex-col md:flex-row  gap-3 border-2   rounded-md  px-2 py-3'>
+                      <span className=' w-full text-[13.4px]  flex gap-14 '><span className=' font-semibold'> Ngo name</span>  {itm?.name} </span>
+                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Ngo email : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.accessToken}</span> </span>
+                      {/* <span className=' w-full  text-[13.4px] flex gap-10'><span className=' font-semibold'>Api store Key :</span> {itm.apiKey}</span> */}
+                      {/* <span className=' w-full  text-[13.4px] flex gap-10'><span className=' font-semibold'>Api store pass </span>{itm.apiPassword}</span> */}
+                      <span className=' w-full  text-[13.4px] gap-20 relative  flex'> <span className=' font-semibold'>Actions  </span> <span className=' pt-1 cursor-pointer' onClick={() => { actionIndex[indx] === true ? handleActionsClose(indx) : handleActions(indx, itm?.id) }}><BsThreeDotsVertical /></span>
+                        {
+                          actionIndex[indx] === true ?
+                            <>  <span className=' select-none rounded-full lg:right-[80px] w-[130px] divide-x-2 2xl:right-[100px]  gap-1  py-1 px-2 shadow  right-5 bottom-0 bg-white absolute flex  items-center justify-between'>
+                              <span className=' cursor-pointer w-full flex items-center justify-center'><RiEdit2Fill size={17} /></span>
+                              {/* <span onClick={() => handleDelete(indx)} className=' cursor-pointer w-full flex items-center justify-center'><AiFillDelete size={16} /></span> */}
+                              <span onClick={() => handleView()} className=' cursor-pointer w-full flex items-center justify-center'><IoMdEye size={17} /></span>
+                            </span>
+                            </>
+                            : ""
+                        }
+                      </span>
+                    </div>
+                  })
+                }
+              </div>
+            </div>
+          </div>
+          <div className=' w-full justify-end flex py-2 self-end'>
+            <Pagination
+              shape="rounded"
+              variant="outlined"
+              color="standard"
+              page={Page}
+              count={count}
+              onChange={handlePageChange}
+            // renderItem={(item) => <PaginationItem {...item}   className=" shadow-md" />}
+            />
+          </div>
+        </div>
+      </div>
+
+
+    </>
   )
 }
 
