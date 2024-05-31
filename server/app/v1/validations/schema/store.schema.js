@@ -1,10 +1,11 @@
 const Joi = require("joi");
 
-exports.addStoreSchema = Joi.object({
+exports.addNopSchema = Joi.object({
     name: Joi.string().required(),
-    accessToken: Joi.string().required(),
-    apiKey: Joi.string().required(),
-    apiPassword: Joi.string().required(),
-    isActive: Joi.boolean().optional()
+    email: Joi.string().email().required(),
+    address: Joi.string().required(),
+    password: Joi.string().required(),
+    isActive: Joi.boolean().optional(),
+    number: Joi.string().required(),
 });
 

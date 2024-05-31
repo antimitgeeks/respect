@@ -10,6 +10,7 @@ module.exports.SuccessMessage = {
   UPDATE: "Update Success.",
   DELETE: "Delete Success.",
   UPLOADED: "Uploaded Success.",
+  SAVED: "Saved Success.",
 };
 //Error messages
 module.exports.ErrorMessage = {

@@ -17,7 +17,7 @@ router.put('/:id', authValidation.id, validation.addStore, controllers.storeUpda
 router.delete('/:id', authValidation.id, controllers.storeDelete);
 
 // **********************************************UPLOAD FILES****************************************************************
-router.put('/:id/upload-file', auth.authenticate, upload.single("file", 1), controllers.uploadedFiles);
+// router.put('/:id/upload-file', auth.authenticate, upload.single("file", 1), controllers.uploadedFiles);
 router.post('/:id/details', authValidation.list, auth.authenticate, controllers.filesByShoreId);
 
 module.exports = router;

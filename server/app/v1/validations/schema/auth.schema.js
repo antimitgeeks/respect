@@ -4,7 +4,8 @@ const emailSchema = Joi.string().email().required()
 
 exports.loginSchema = Joi.object({
     email: emailSchema.required(),
-    password: Joi.string().required()
+    password: Joi.string().required(),
+    role: Joi.string().optional(),
 });
 
 exports.registerSchema = Joi.object({

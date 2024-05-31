@@ -99,7 +99,6 @@ exports.deleteByName = async (name) => {
     return true;
 }
 
-console.info('***************************************************Upload Customer By Id Api************************************************');
 
 exports.getCustomerTableModel = (storeName) => {
     return sequelize.define(`${storeName}_customers`, customerSchema, {});

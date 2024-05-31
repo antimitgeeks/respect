@@ -28,9 +28,11 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
+// db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
 db.users = require("./users.model.js")(sequelize, Sequelize);
-db.stores = require("./stores.model.js")(sequelize, Sequelize);
-db.uploadedFiles = require("./uploaded.files.model.js")(sequelize, Sequelize);
+// db.stores = require("./stores.model.js")(sequelize, Sequelize);
+// db.uploadedFiles = require("./uploaded.files.model.js")(sequelize, Sequelize);
+db.Npos = require("./npos.model.js")(sequelize, Sequelize);
+db.NpoPages = require("./npoPages.model.js")(sequelize, Sequelize);
 
 module.exports = db;

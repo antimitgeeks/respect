@@ -8,27 +8,43 @@ const emailTemplates = require('../utils/emailTemplate.js');
 
 const db = require("../models");
 const Users = db.users;
+const Npos = db.Npos;
 
 
 // login service 
 exports.login = async (details) => {
-    // check email exist or not 
-    const user = await Users.findOne({ where: { email: details.email } });
-    if (!user) {
-        return { status: false, message: `User ${ErrorMessage.NOT_FOUND}` };
+    // check email password for Npo
+    if (details.role === 'npo') {
+        const npoDetails = await Npos.findOne({ where: { email: details.email, password: details.password } });
+        if (!npoDetails) {
+            return { status: false, message: `${ErrorMessage.INVALID_CREDENTIAL}` };
+        }
+        // create jwt token for npo
+        const token = jwt.sign(
+            { id: npoDetails.id, email: npoDetails.email, role: details.role },
+            process.env.JWT_SECRET_KEY,
+            { expiresIn: process.env.JWT_EXPIRE_TIME }
+        );
+        return { status: true, message: { accessToken: token } };
+    } else {
+        // check email exist or not for admin 
+        const user = await Users.findOne({ where: { email: details.email } });
+        if (!user) {
+            return { status: false, message: `User ${ErrorMessage.NOT_FOUND}` };
+        }
+        // Compare password
+        const isPasswordValid = await bcrypt.compare(details.password, user.password);
+        if (!isPasswordValid) {
+            return { status: false, message: `${ErrorMessage.INVALID_CREDENTIAL}` };
+        }
+        // create jwt token for admin
+        const token = jwt.sign(
+            { id: user.id, email: user.email, role: user.role },
+            process.env.JWT_SECRET_KEY,
+            { expiresIn: process.env.JWT_EXPIRE_TIME }
+        );
+        return { status: true, message: { accessToken: token } };
     }
-    // Compare password
-    const isPasswordValid = await bcrypt.compare(details.password, user.password);
-    if (!isPasswordValid) {
-        return { status: false, message: `${ErrorMessage.INVALID_CREDENTIAL}` };
-    }
-    // create jwt token
-    const token = jwt.sign(
-        { id: user.id, email: user.email, role: user.role },
-        process.env.JWT_SECRET_KEY,
-        { expiresIn: process.env.JWT_EXPIRE_TIME }
-    );
-    return { status: true, message: { accessToken: token } };
 }
 
 //  register service
