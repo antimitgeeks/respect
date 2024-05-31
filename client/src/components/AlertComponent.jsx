@@ -25,6 +25,7 @@ function AlertComponent(
                             >
                                 Yes 
                             </button>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/xcJtL7QggTI?si=YT07N4Sd5nYaCAfV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                             <button onClick={onClose}  className=' py-[3px] px-3 bg-slate-600 text-[14px] rounded text-white hover:opacity-75'>No</button>
                         </div>
                     </div>

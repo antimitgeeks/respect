@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import DialogComponent from '../../../components/DialogComponent';
+import VideoModal from './VideoModal';
 
 function NpoHome() {
     const [FinalData, setFinalData] = useState();
     const [logoUrl, setLogoUrl] = useState();
     const [bannerUrl, setBannerUrl] = useState();
-    const [iamgeTextUrl, setImageTextUrl] = useState()
+    const [imageTextUrl, setImageTextUrl] = useState();
+    const [imageText, setImageText] = useState('');
+    const [videoModalData, setVideoModalData] = useState('')
+    const [richHeading, setRichHeading] = useState('')
+    const [richBody, setBody] = useState('')
+
+    const [videoModalOpen, setVideoModalOpen] = useState(false)
 
     const handleLogoInput = (ev) => {
 
@@ -23,12 +31,39 @@ function NpoHome() {
         setBannerUrl(newLogoUrl);
     };
 
-    const handleImageWithText = (ev) => {
-        const file = ev?.taget?.files[0];
-        const newLogoUrl = URL?.createObjectURL(file)
+    const handleImagewithText = (ev) => {
 
-        setImageTextUrl(newLogoUrl)
+        const file = ev?.target?.files[0];
+        const newLogoUrl = URL?.createObjectURL(file);
+
+        setImageTextUrl(newLogoUrl);
+    };
+    const handleImageTextInput = (ev) => {
+
+        const val = ev?.target?.value;
+
+        setImageText(val);
+    };
+
+    const handleVideoModalClose = (data) => {
+
+        if (data?.includes('embed')) {
+            setVideoModalData(data)
+        }
+        else {
+
+            const getYouTubeEmbedUrl = (url) => {
+                const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+                const match = url.match(youtubeRegex);
+                return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+            };
+            const youtubeEmbedUrl = getYouTubeEmbedUrl(data);
+            setVideoModalData(youtubeEmbedUrl)
+        }
+
+        setVideoModalOpen(false)
     }
+
 
     return (
         <div className='h-full   overflow-y-scroll w-full flex flex-col'>
@@ -65,28 +100,29 @@ function NpoHome() {
                                         <label htmlFor='bannerInput' className=' m-0 p-2 rounded cursor-pointer  bg-slate-400 '>Banner image</label>
                                     </div>
                                 </div>
-
                         }
                     </div>
                     <div className=' w-full justify-between flex '>
                         <div className=' h-[310px] border-r-4 self-stretch items-center justify-center flex w-full bg-slate-300'>
                             {
-                                iamgeTextUrl
+                                imageTextUrl && imageTextUrl?.length > 0
+                                    ?
+                                    <img className=' w-full h-full object-cover' src={imageTextUrl} alt="" />
+                                    :
+                                    <div className=' w-full py-1  focus:border-2 h-full focus:border-black focus:border-solid border-dashed border-slate-400 border-2  flex items-center justify-center'>
+                                        <div className=' rounded  focus:border-2 px-[1px] py-[1px] focus:border-black focus:border-solid border-dashed border-slate-500 border-2'>
+                                            <input onInput={(e) => handleImagewithText(e)} id='imageWithText' type="file" accept='image/*' className=' w-0 hidden' />
+                                            <label htmlFor='imageWithText' className=' m-0 bg-slate-400 p-2 rounded flex items-center justify-center  w-[118px] cursor-pointer'> Image</label>
+                                        </div>
+                                    </div>
                             }
-                            {/* <img className=' w-full h-full object-cover' src="https://images.unsplash.com/photo-1535090467336-9501f96eef89?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bmdvfGVufDB8fDB8fHww" alt="" /> */}
-                            <div className=' w-full py-1  focus:border-2 h-full focus:border-black focus:border-solid border-dashed border-slate-400 border-2  flex items-center justify-center'>
-                                <div className=' rounded  focus:border-2 px-[1px] py-[1px] focus:border-black focus:border-solid border-dashed border-slate-500 border-2'>
-                                    <input onChange={(e) => handleImageWithText(e)} id='imageWithText' type="file" accept='image/*' className=' w-0 hidden' />
-                                    <label htmlFor='imageWithText' className=' m-0 bg-slate-400 p-2 rounded flex items-center justify-center  w-[118px] cursor-pointer'> Image</label>
-                                </div>
-                            </div>
                         </div>
                         <div className=' self-stretch flex-col justify-center  items-center flex gap-2 w-full bg-slate-300'>
                             <div className=' px-3 py-1 w-full flex flex-col gap-2 items-center'>
                                 {/* <span>HEAD</span> */}
                                 <span className=' flex items-center  h-full py-2 justify-center w-full'>
 
-                                    <textarea type="text" placeholder='Text' className=' py-2  min-h-[250px]  m-auto w-full h-full flex bg-transparent items-center justify-center  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2  px-1 outline-none' />
+                                    <textarea onInput={(e) => handleImageTextInput(e)} type="text" placeholder='Text' className=' py-2  min-h-[250px]  m-auto w-full h-full flex bg-transparent items-center justify-center  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2  px-1 outline-none' />
                                 </span>
                                 {/* <span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis beatae libero iste, ad, dicta dolorum enim neque id quod qui itaque possimus.</span> */}
                             </div>
@@ -94,19 +130,28 @@ function NpoHome() {
                     </div>
                     <div className=' w-full  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center   flex  bg-slate-300 h-[400px]'>
 
-                        {/* <iframe className=' w-full h-full' src="https://www.youtube.com/embed/MfGoZCbdZ5g?si=W8VB_JcFTk-4WhRF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
-                        <div className=' focus:border-2 rounded focus:border-black focus:border-solid border-dashed border-slate-500 border-2'>
+                        {
+                            videoModalData?.length > 0 && videoModalData
+                                ?
+                                <iframe className=' w-full h-full' src={videoModalData} title="YouTube video player" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" loop allow="accelerometer; loop; autoplay; fullscreen; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                :
 
-                            <label className=' m-0 border-2 p-2 w-[118px] rounded cursor-pointer  bg-slate-400 '>Video section</label>
-                        </div>
+                                <div className=' focus:border-2 rounded focus:border-black focus:border-solid border-dashed border-slate-500 border-2'>
+                                    <label onClick={() => setVideoModalOpen(true)} className=' m-0 border-2 p-2 rounded cursor-pointer  bg-slate-400 '>Video section</label>
+                                </div>
 
+                        }
+
+                        <DialogComponent open={videoModalOpen} maxWidth={'sm'}>
+                            <VideoModal close={handleVideoModalClose} />
+                        </DialogComponent>
                     </div>
                     <div className=' w-full bg-slate-300 px-2 py-4 flex items-center justify-center'>
                         <div className=' w-full flex items-center justify-center flex-col gap-3'>
                             {/* <span>Heading</span> */}
                             <span className=' w-[80%]'>
 
-                                <input type="text" className=' focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-1 outline-none bg-inherit ' placeholder='Heading' />
+                                <input onInput={(e)=>setRichHeading(e.target.value.trim())} type="text" className=' py-1 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-1 outline-none bg-inherit ' placeholder='Heading' />
                             </span>
                             {/* <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum est libero dicta fugiat voluptatem mollitia officia illum quae id debitis! Enim error ad aut quidem, atque aliquam ratione nesciunt est?</span> */}
                             {/* <textarea name="" id=""></textarea> */}
