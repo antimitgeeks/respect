@@ -34,7 +34,8 @@ exports.addNpo = async (details) => {
 exports.npoList = async (params) => {
     const nposList = await Npos.findAndCountAll({
         limit: params.limit,
-        offset: params.offset
+        offset: params.offset,
+        order: [['createdAt', 'DESC']]
     });
     return nposList;
 }
