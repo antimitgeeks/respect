@@ -13,7 +13,7 @@ function AlertComponent(
                 <div className='  bg-white  shadow rounded  py-2 px-1 w-full'>
                     <div className=' pt-3 pb-1 px-3  flex items-center justify-center gap-7 flex-col'>
 
-                        <h1 className=' text-[20px] font-semibold'>Are you sure to Delete ? </h1>
+                        <h1 className=' text-[15px] font-semibold'>Are you sure to Delete ? </h1>
                         <div className=' w-full flex justify-evenly'>
                             <button
                                 onClick={() => {

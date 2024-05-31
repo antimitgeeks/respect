@@ -39,7 +39,7 @@ function Home() {
   const { data: ListData, isLoading: isListLoading, isFetching: isListFetching } = useAllNpoListQuery({
     limit: DataPerPage,
     offset: offset
-  })
+  }) 
   const handleModalOpen = () => {
     setModalOpen(true)
   }
@@ -110,10 +110,9 @@ function Home() {
     AlertComponent({ handleDeleteYes })
   }
 
-  const handleView = () => {
+  const handleView = (id) => {
     // setViewOpen(!viewOpen)
-    // navigate(`${selectedIndex}`)
-
+    navigate(`npo/details/${id}`)
   }
 
 
@@ -124,19 +123,18 @@ function Home() {
     }
   }
 
-  const handleSwitchToggle=(data,e)=>
-    {
-      console.log(data.id)
-      let customizedData ={
-        name:data?.name,
-        email:data?.email,
-        address:data?.address,
-        number:data?.number,
-        password:data?.password,
-        isActive:e?.target.checked
-      }
-      console.log(customizedData)
+  const handleSwitchToggle = (data, e) => {
+    console.log(data.id)
+    let customizedData = {
+      name: data?.name,
+      email: data?.email,
+      address: data?.address,
+      number: data?.number,
+      password: data?.password,
+      isActive: e?.target.checked
     }
+    console.log(customizedData)
+  }
 
 
   return (
@@ -181,14 +179,14 @@ function Home() {
                           <span className=' w-[23%]  text-[14.6px] flex items-center   h-6 pl-2 lg:pl-4  '> <span className=' '>{itm?.name}</span> </span>
                           <span className='  w-[22%] noScroll flex self-center h-6 md:h-7 py-0  text-[14.6px] '>{itm?.email}</span>
                           <span className=' w-[24%] pl-3  text-[13.6px] h-6'>{itm?.number}</span>
-                          <span className=' w-[22%]  text-[13.6px] h-6'><Switch onChange={(e)=>handleSwitchToggle(itm,e)}/></span>
+                          <span className=' w-[22%]  text-[13.6px] h-6'><Switch onChange={(e) => handleSwitchToggle(itm, e)} /></span>
                           <span className=' w-[10%]  text-[14.6px] h-6 relative '> <span className=' hover:opacity-75 w-fit flex items-center pt-1 w-1/4 cursor-pointer' onClick={() => { actionIndex[indx] === true ? handleActionsClose(indx) : handleActions(indx, itm?.id) }}><BsThreeDotsVertical /></span>
                             {
                               actionIndex[indx] === true ?
                                 <>  <span className=' border select-none rounded-full  lg:left-[20px] w-[115px] divide-x-2  2xl:left-[20px]  gap-1  py-1 px-1 shadow  bottom-0 bg-white absolute flex  items-center justify-between'>
                                   <span onClick={() => handleEdit()} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><RiEdit2Fill size={18} /></span>
                                   <span onClick={() => handleDelete(indx)} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><AiFillDelete size={17} /></span>
-                                  <span onClick={() => handleView()} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><IoMdEye size={18} /></span>
+                                  <span onClick={() => handleView(itm.id)} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><IoMdEye size={18} /></span>
                                 </span>
                                 </>
                                 : ""

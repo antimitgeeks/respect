@@ -10,14 +10,15 @@ import Cookies from 'js-cookie'
 import ForgetPassword from './Pages/ForgetPassword/ForgetPassword';
 import Report from './Pages/Reports/Report';
 import NpoLogin from './Pages/Npo Pages/NpoLogin';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import NpoHome from './Pages/Npo Pages/NpoHome/NpoHome';
+import NpoView from './Pages/Npo Pages/NppView/NpoView';
 
 
 function Routing() {
     const [authenticateLogin, setAthenticateLogin] = useState(true);
-    const [decodedToken,setDecodedToken]= useState();
-    const [role,setRole]= useState('admin')
+    const [decodedToken, setDecodedToken] = useState();
+    const [role, setRole] = useState('admin')
 
     const userToken = Cookies.get("isLogged");
     //////// Checking if user is logged or not ////////////  
@@ -37,12 +38,11 @@ function Routing() {
         }
     }, [userToken]);
 
-    useEffect(()=>
-    {
+    useEffect(() => {
         console.log(decodedToken?.role)
         setRole(decodedToken?.role)
 
-    },[decodedToken,userToken])
+    }, [decodedToken, userToken])
 
 
     return (
@@ -53,15 +53,15 @@ function Routing() {
                 <Route path="/forgot-password/:id" element={<ForgetPassword />} />
                 <Route path="/reset-password" element={<EmailAuth />} />
                 <Route path="*" element={<Login auth={setAthenticateLogin} />} />
-                 { 
-                     authenticateLogin ?
+                {
+                    authenticateLogin ?
                         <Route path="/dashboard" element={<Dashboard />} >
-                            <Route path='' element={ role =='Admin'?<Home />:<NpoHome/>} />
+                            <Route path='' element={role == 'Admin' ? <Home /> : <NpoHome />} />
                             <Route path='reports' element={<Report />} />
-                        </Route> 
-                          : ""
-              }  
-
+                            <Route path="npo/details/:id" element={<NpoView />} />
+                        </Route>
+                        : ""
+                }
             </Routes>
         </div>
     )
