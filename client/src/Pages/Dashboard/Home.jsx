@@ -41,7 +41,7 @@ function Home() {
   const { data: ListData, isLoading: isListLoading, isFetching: isListFetching } = useAllNpoListQuery({
     limit: DataPerPage,
     offset: offset
-  })
+  }) 
   const handleModalOpen = () => {
     setModalOpen(true)
   }
@@ -113,10 +113,9 @@ function Home() {
     AlertComponent({ heading:"Are you sure to Delete ?", handleDeleteYes })
   }
 
-  const handleView = () => {
+  const handleView = (id) => {
     // setViewOpen(!viewOpen)
-    // navigate(`${selectedIndex}`)
-
+    navigate(`npo/details/${id}`)
   }
 
 
@@ -128,7 +127,6 @@ function Home() {
   }
 
   const handleSwitchToggle = (data, e) => {
-    // confirmAlert()
     console.log(data.id)
     let customizedData = {
       name: data?.name,
@@ -211,7 +209,7 @@ function Home() {
                                 <>  <span className=' border select-none rounded-full  lg:left-[20px] w-[115px] divide-x-2  2xl:left-[20px]  gap-1  py-1 px-1 shadow  bottom-0 bg-white absolute flex  items-center justify-between'>
                                   <span onClick={() => handleEdit()} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><RiEdit2Fill size={18} /></span>
                                   <span onClick={() => handleDelete(indx)} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><AiFillDelete size={17} /></span>
-                                  <span onClick={() => handleView()} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><IoMdEye size={18} /></span>
+                                  <span onClick={() => handleView(itm.id)} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><IoMdEye size={18} /></span>
                                 </span>
                                 </>
                                 : ""
