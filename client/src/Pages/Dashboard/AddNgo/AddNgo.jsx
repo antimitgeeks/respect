@@ -8,7 +8,7 @@ import { IoEye, IoEyeOff } from 'react-icons/io5';
 import Cookies from 'js-cookie'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { toast } from 'react-toastify';
-import { useCreateNpoMutation} from '../../../services/NpoService';
+import { useCreateNpoMutation } from '../../../services/NpoService';
 
 
 function AddNgo(
@@ -19,7 +19,7 @@ function AddNgo(
 
 
     // const [showPassword, setShowPassword] = useState("password");
-    const [CreateNpo]= useCreateNpoMutation();
+    const [CreateNpo] = useCreateNpoMutation();
     const [loading, setLoading] = useState(false)
 
     /* validation schema */
@@ -27,42 +27,38 @@ function AddNgo(
 
         name: yup.string().strict().matches(/^[a-zA-Z 0-9]+$/, "Special characters not allowed").required('name is required').trim("Invalid name"),
         email: yup.string().strict().email('Enter Valid email').required('email is required').trim("Invalid email"),
-        address: yup.string().required('address is required').trim("Enter valid address").strict(),
-        password: yup.string().required('password is required').min(6,"minimum 6 characters required").trim("Invalid password").strict(),
-        number: yup.string().required('number is required').matches(/^[0-9]+$/,"Invalid number").min(10,"Invalid number").max(10,"Invalid number").strict().trim("Invalid number")
+        // address: yup.string().required('address is required').trim("Enter valid address").strict(),
+        password: yup.string().required('password is required').min(6, "minimum 6 characters required").trim("Invalid password").strict(),
+        number: yup.string().required('number is required').matches(/^[0-9]+$/, "Invalid number").min(10, "Invalid number").max(10, "Invalid number").strict().trim("Invalid number")
     });
 
     /* initial values */
     const initialValues = {
         name: '',
         email: '',
-        address: '',
-        number:'',
+        // address: '',
+        number: '',
         password: ''
     };
 
     /* handle form submit */
-    const handleSubmit = (data,{resetForm}) => {
+    const handleSubmit = (data, { resetForm }) => {
 
         // localStorage.setItem('ngolist', JSON.stringify(updatedData));
         console.log(data);
-        CreateNpo({data:data})
-        .then((res)=>
-        {
-            if(res.error)
-                {
+        CreateNpo({ data: data })
+            .then((res) => {
+                if (res.error) {
                     toast.error(res?.error?.data?.message)
                 }
-            else
-            {
-                close()
-                toast.success(res.data.message)
-            }
-        })
-        .catch((err)=>
-        {
-            console.log(err)
-        })
+                else {
+                    close()
+                    toast.success(res.data.message)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
 
     };
 
@@ -104,19 +100,19 @@ function AddNgo(
                                     onChange={settingsProps.handleChange}
                                     value={settingsProps.values.email}
                                 />
-                                <InputComponent
+                                {/* <InputComponent
                                     required
                                     label={'Address'}
                                     placeholder={'Enter ngo Address'}
                                     name={'address'}
                                     onChange={settingsProps.handleChange}
                                     value={settingsProps.values.address}
-                                />
+                                /> */}
                                 <div className=' relative flex  items-center'>
 
                                     <InputComponent
                                         required
-                                        type={'text'}
+                                        type={'password'}
                                         label={'Password'}
                                         placeholder={'Enter ngo password'}
                                         name={'password'}
@@ -132,8 +128,8 @@ function AddNgo(
 
                                         }
                                     </span> */}
-                                    </div>
-                                      <InputComponent
+                                </div>
+                                <InputComponent
                                     required
                                     label={'Number'}
                                     placeholder={'Enter ngo number'}

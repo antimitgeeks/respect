@@ -26,9 +26,9 @@ module.exports = (sequelize, Sequelize) => {
         password: {
             type: Sequelize.STRING,
         },
-        address: {
-            type: Sequelize.STRING,
-        },
+        // address: {
+        //     type: Sequelize.STRING,
+        // },
         number: {
             type: Sequelize.STRING,
         },
@@ -37,7 +37,7 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: true
         },
         role: {
-            type: Sequelize.BOOLEAN,
+            type: Sequelize.STRING,
             defaultValue: 'npo'
         }
     });

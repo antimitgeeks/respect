@@ -20,3 +20,8 @@ exports.addPage = async (pageJson, npoId) => {
     }
 }
 
+// return npo page details by id
+exports.getPage = async (npoId) => {
+    const npoPageDetails = await NpoPages.findOne({ where: { npoId } });
+    return npoPageDetails;
+}
