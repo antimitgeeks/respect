@@ -98,7 +98,7 @@ function Dashboard() {
       <div className=' h-12 border-b-2  relative px-2 py-0 flex justify-end items-center  w-full bg-white'>
 
         <span className='w-full  '>
-          <span onClick={() => navigate('/dashboard')} className='text-lg cursor-pointer text-white select-none italic pl-1 flex w-full items-center'><img className=' object-cover w-32' src="https://53bc37-e5.myshopify.com/cdn/shop/files/Screenshot_2024-05-07_at_7.14.21_PM.png?v=1715134582" alt="" /></span>
+          <span onClick={() => navigate('/dashboard')} className='text-lg w-fit cursor-pointer text-white select-none italic pl-1 flex  items-center'><img className=' object-cover w-32' src="https://53bc37-e5.myshopify.com/cdn/shop/files/Screenshot_2024-05-07_at_7.14.21_PM.png?v=1715134582" alt="" /></span>
         </span>
 
         <span onClick={() => handleProfileToggle()} className=' select-none cursor-pointer flex items-center justify-center text-white w-8 h-8 bg-slate-400 rounded-full  italic  font-semibold'>
@@ -130,12 +130,12 @@ function Dashboard() {
               {
                 role == 'Admin' ?
                   <>
-                    <span className={`  ${ActivePath.includes('dashboard') ? " bg-white  text-black" : " bg-white"} rounded-lg cursor-pointer  border    py-2 flex gap-2 items-center pl-4 pr-12 `} onClick={() => { navigate('') }}> <IoHomeOutline />{sideBarToggle ? <span className='  m-0 p-0'>Home</span> : ''} </span>
-                    <span className={`  ${ActivePath.includes('reports') ? " bg-white  text-black" : " bg-white"} cursor-pointer  border  rounded-lg  py-2 flex gap-2 items-center pl-4 pr-12 `} onClick={() => { navigate('reports') }}> <LiaClipboardListSolid />{sideBarToggle ? <span className='  m-0 p-0'>Reports</span> : ''} </span>
+                    <span className={`  ${ActivePath.includes('dashboard') ? " bg-white  text-black" : " bg-slate-300"} rounded-lg cursor-pointer  border    py-2 flex gap-2 items-center pl-4 pr-12 `} onClick={() => { navigate('') }}> <IoHomeOutline />{sideBarToggle ? <span className='  m-0 p-0'>Home</span> : ''} </span>
+                    <span className={`  ${ActivePath.includes('reports') ? " bg-white  text-black" : " bg-slate-300"} cursor-pointer  border  rounded-lg  py-2 flex gap-2 items-center pl-4 pr-12 `} onClick={() => { navigate('reports') }}> <LiaClipboardListSolid />{sideBarToggle ? <span className='  m-0 p-0'>Reports</span> : ''} </span>
                   </>
                   :
                   <>
-                    <span className={`  ${ActivePath.includes('dashboard') ? " bg-white  text-black" : " bg-white"} rounded-lg cursor-pointer  border    py-2 flex gap-2 items-center pl-4 pr-12 `} onClick={() => { navigate('') }}> <IoHomeOutline />{sideBarToggle ? <span className='  m-0 p-0'>Page</span> : ''} </span>
+                    <span className={`  ${ActivePath.includes('dashboard') ? " bg-white  text-black" : " bg-slate-300"} rounded-lg cursor-pointer  border    py-2 flex gap-2 items-center pl-4 pr-12 `} onClick={() => { navigate('') }}> <IoHomeOutline />{sideBarToggle ? <span className='  m-0 p-0'>Page</span> : ''} </span>
                   </>
 
               }

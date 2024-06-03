@@ -53,15 +53,15 @@ function Routing() {
                 <Route path="/forgot-password/:id" element={<ForgetPassword />} />
                 <Route path="/reset-password" element={<EmailAuth />} />
                 <Route path="*" element={<Login auth={setAthenticateLogin} />} />
-                {
-                    authenticateLogin ?
+                {/* {
+                    authenticateLogin ? */}
                         <Route path="/dashboard" element={<Dashboard />} >
                             <Route path='' element={role == 'Admin' ? <Home /> : <NpoHome />} />
                             <Route path='reports' element={<Report />} />
                             <Route path="npo/details/:id" element={<NpoView />} />
                         </Route>
                         : ""
-                }
+                {/* } */}
             </Routes>
         </div>
     )
