@@ -13,6 +13,7 @@ import NpoLogin from './Pages/Npo Pages/NpoLogin';
 import { jwtDecode } from 'jwt-decode';
 import NpoHome from './Pages/Npo Pages/NpoHome/NpoHome';
 import NpoView from './Pages/Npo Pages/NppView/NpoView';
+import NpoPreview from './Pages/Npo Pages/NpoPagePreview/NpoPreview';
 
 
 function Routing() {
@@ -53,6 +54,7 @@ function Routing() {
                 <Route path="/forgot-password/:id" element={<ForgetPassword />} />
                 <Route path="/reset-password" element={<EmailAuth />} />
                 <Route path="*" element={<Login auth={setAthenticateLogin} />} />
+                <Route path="page/preview" element={<NpoPreview/>} />
                 {/* {
                     authenticateLogin ? */}
                         <Route path="/dashboard" element={<Dashboard />} >

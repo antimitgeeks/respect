@@ -14,26 +14,28 @@ import facebook from '../../../Assets/Facebook_Logo_2023.png'
 import ytLogo from '../../../Assets/Youtube_logo.png'
 import LinksModal from './LinksModal';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function NpoHome() {
     const NpoReduxData = useSelector((state) => state.NpoDataSlice);
     const [FinalData, setFinalData] = useState();
-    const [logoUrl, setLogoUrl] = useState('');
+    const [logoUrl, setLogoUrl] = useState( NpoReduxData?.data?.logoUrl ||'');
     const [bannerUrl, setBannerUrl] = useState(NpoReduxData?.data?.bannerUrl || '');
-    const [imageTextUrl, setImageTextUrl] = useState('');
-    const [imageText, setImageText] = useState('');
-    const [imageHeading, setImageHeading] = useState('');
-    const [videoModalData, setVideoModalData] = useState('')
-    const [richHeading, setRichHeading] = useState('')
-    const [richBody, setRichBody] = useState('');
-    const [linksData, setLinksData] = useState();
-    const [emailData, setEmailData] = useState('');
-    const [systmVideoData, setSystmVideoData] = useState('')
+    const [imageTextUrl, setImageTextUrl] = useState(NpoReduxData?.imageTextUrl ||'');
+    const [imageText, setImageText] = useState(NpoReduxData?.imageText ||'');
+    const [imageHeading, setImageHeading] = useState( NpoReduxData?.imageHeading ||'');
+    const [videoModalData, setVideoModalData] = useState(NpoReduxData?.videoModalData ||'')
+    const [richHeading, setRichHeading] = useState(NpoReduxData?.richHeading||'')
+    const [richBody, setRichBody] = useState(NpoReduxData?.richBody||'');
+    const [linksData, setLinksData] = useState(NpoReduxData?.linksData);
+    const [emailData, setEmailData] = useState(NpoReduxData?.emailData||'');
+    const [systmVideoData, setSystmVideoData] = useState( NpoReduxData?.systmVideoData||'')
     const dispatch = useDispatch();
 
     const [videoModalOpen, setVideoModalOpen] = useState(false);
     const [linksModalOpen, setLinksModalOpen] = useState(false);
     console.log(NpoReduxData.data);
+    const navigate=useNavigate()
 
     const handleLogoInput = (ev) => {
 
@@ -99,10 +101,10 @@ function NpoHome() {
             bannerUrl: bannerUrl,
             imageTextUrl: imageTextUrl,
             imageText: imageText,
-            imageHeading:imageHeading,
-            videoData: videoModalData,
+            imageHeading: imageHeading,
+            videoData: systmVideoData?systmVideoData: videoModalData,
             richBody: richBody,
-            emailData:emailData,
+            emailData: emailData,
             richHeading: richHeading,
             linksData: {
                 instagram: linksData?.instagram || '',
@@ -115,7 +117,7 @@ function NpoHome() {
 
         }
         if (saveData.logoUrl.trim() == '' || saveData.bannerUrl.trim() == '' || saveData.imageTextUrl.trim() == '' || saveData.imageText.trim() == ''
-            || saveData.videoData.trim() == '' || saveData.richHeading.trim() == '' || saveData.richBody.trim() == '') {
+            || saveData.videoData.trim() == '' || saveData.richHeading.trim() == '' || saveData.richBody.trim() == '' || saveData.emailData.trim() == '') {
             toast.error("Fill all the details first")
         }
         else {
@@ -151,6 +153,9 @@ function NpoHome() {
         <div className='h-full   overflow-y-scroll w-full flex flex-col'>
 
             <div className=' w-full justify-end gap-2 flex px-12 pt-3'>
+                <span onClick={() => navigate('/page/preview')} className=' border cursor-pointer bg-slate-400 rounded hover:opacity-80 text-white px-3 py-2'>
+                    Preview Page
+                </span>
                 <span onClick={() => handleClearAll()} className=' border cursor-pointer bg-slate-400 rounded hover:opacity-80 text-white px-3 py-2'>
                     Clear All
                 </span>
@@ -218,11 +223,11 @@ function NpoHome() {
                                         &&
                                         <span onClick={() => setImageHeading('')} className=' cursor-pointer text-red-500 font-semibold absolute right-[-4px] top-[-2px]'>X</span>
                                     } */}
-                                    
+
                                     <div className=' relative w-full'>
 
-                                    <textarea onInput={(e) => handleImageTextInput(e)} value={imageText} type="text" placeholder='Text' className=' py-2  min-h-[250px]  m-auto w-full h-full flex bg-transparent items-center justify-center  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2  px-1 outline-none' />
-                                    {/* {
+                                        <textarea onInput={(e) => handleImageTextInput(e)} value={imageText} type="text" placeholder='Text' className=' py-2  min-h-[250px]  m-auto w-full h-full flex bg-transparent items-center justify-center  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2  px-1 outline-none' />
+                                        {/* {
                                         imageText && imageText.length > 0
                                         &&
                                         <span onClick={() => setImageText('')} className=' cursor-pointer text-red-500 font-semibold absolute right-[-4px] top-[-10px]'>X</span>
