@@ -131,12 +131,12 @@ function LinksModal({ close }) {
                 </div>
                 <hr />
                 <div className=' flex items-center gap-8 mt-3'>
-                    <span className=' font-semibold'>
+                    {/* <span className=' font-semibold'>
                         Background color
                     </span>
                     <span>
                         <input value={linksData?.backgroundColor} onChange={handleInputChange} name='backgroundColor' type="color" />
-                    </span>
+                    </span> */}
                 </div>
                 <div className='w-full flex justify-end pt-2'>
                     <span onClick={handleSave} className='bg-slate-300 py-2 px-4 cursor-pointer'>Save</span>
