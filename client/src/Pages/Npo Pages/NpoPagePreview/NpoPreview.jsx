@@ -7,9 +7,22 @@ import ytLogo from '../../../Assets/Youtube_logo.png'
 function NpoPreview() {
 
     const npoPageData = useSelector((state) => state.NpoDataSlice.data);
-    console.log(npoPageData)
+    console.log(npoPageData);
+
+
+    const handleRedirectEmail = (email) => {
+        const emailServiceUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`; // Replace with your email service URL
+        window.open(emailServiceUrl, '_blank');
+    }
+
+    const handleCall = (number) => {
+        number.preventDefault()
+        window.open(`tel:${number}`, '_blank');
+    }
+
+
     return (
-        <div className=' flex flex-col gap-2 pb-5   w-full h-full'>
+        <div className=' flex flex-col gap-2 pb-3   w-full h-full'>
             <div className=' relative w-full  '>
                 <div className=' py-3 px-3 w-full absolute'>
                     <img className=' w-[70px] h-[70px] rounded-full' src={npoPageData?.logoUrl} alt="" />
@@ -37,7 +50,7 @@ function NpoPreview() {
             <hr className=' bg-slate-400' />
             <div className=' w-full flex items-center justify-center px-5 py-4 '>
                 <div className=' flex flex-col items-center gap-10'>
-                    <span className=' border-b-2 font-semibold text-2xl'>
+                    <span className=' font-semibold text-2xl capitalize'>
                         {npoPageData?.richHeading}
                     </span>
                     <span>
@@ -52,35 +65,43 @@ function NpoPreview() {
                         <span className=' font-semibold text-lg capitalize'>
                             Reach us through Our Email :
                         </span>
-                        <span className=' font-semibold text-lg '>{npoPageData?.emailData}</span>
+                        <span onClick={() => handleRedirectEmail(npoPageData?.emailData)} className=' font-semibold text-lg hover:opacity-80 cursor-pointer '><u>{npoPageData?.emailData}</u></span>
                     </div>
                 </div>
                 <hr />
                 <div className=' w-full flex justify-between px-3 py-2'>
-                    <div className=' flex gap-2'>
-                        <span className=' cursor-pointer'><a href={npoPageData?.linksData?.contactUs?.link}> <u>Contact Us</u></a></span>
-                        <span className=' cursor-pointer'><a href={npoPageData?.linksData?.websiteLink?.link}> <u>Visit Us</u></a></span>
+                    <div className=' flex flex-col gap-2'>
+                        {
+                            npoPageData?.linksData?.contactUs?.show != false
+                            &&
+                            <span onClick={() => handleCall(npoPageData?.linksData?.contactUs?.link)} className=' cursor-pointer'><a href={npoPageData?.linksData?.contactUs?.link}> <u>Contact Us : {npoPageData?.linksData?.contactUs?.link}</u></a></span>
+                        }
+                        {
+                            npoPageData?.linksData?.websiteLink?.show != false
+                            &&
+                            <span className=' cursor-pointer'><a href={npoPageData?.linksData?.websiteLink?.link}> <u>Visit Us : {npoPageData?.linksData?.websiteLink?.link}</u></a></span>
+                        }
                     </div>
                     <div className=' flex gap-3 items-center h-6'>
                         {
-                            npoPageData?.linksData?.instagram?.show!=false
+                            npoPageData?.linksData?.instagram?.show != false
                             &&
                             <a href={npoPageData?.linksData?.instagram?.link || "https://www.instagram.com/"} target='_blank'>
-                                <img className=' w-[50px] h-[48px]' src={insta} alt="" />
+                                <img className=' w-[53px] h-[50px]' src={insta} alt="" />
                             </a>
                         }
                         {
-                            npoPageData?.linksData?.facebook?.show!=false
+                            npoPageData?.linksData?.facebook?.show != false
                             &&
                             <a href={npoPageData?.linksData?.facebook?.link || "https://www.instagram.com/"} target='_blank'>
                                 <img className=' w-fit h-[39px]' src={facebook} alt="" />
                             </a>
                         }
-                         {
-                            npoPageData?.linksData?.youtube?.show!=false
+                        {
+                            npoPageData?.linksData?.youtube?.show != false
                             &&
                             <a href={npoPageData?.linksData?.youtube?.link || "https://www.instagram.com/"} target='_blank'>
-                                <img className=' w-fit h-[36px]' src={ytLogo} alt="" />
+                                <img className=' w-fit h-[35.5px]' src={ytLogo} alt="" />
                             </a>
                         }
                     </div>

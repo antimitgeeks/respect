@@ -22,24 +22,51 @@ import { useAddPageMutation, useGetPageByIdQuery } from '../../../services/NpoPa
 
 function NpoHome() {
     const NpoReduxData = useSelector((state) => state.NpoDataSlice);
+    const [loading,setLoading]= useState(false);
+    const [FinalData, setFinalData] = useState();
 
     const [decodedToken, setDecodedToken] = useState('');
-    const { data: NpoPagedata } = useGetPageByIdQuery({ Id: decodedToken?.id })
+    const { data: NpoPagedata,isFetching:ispageDataFetching,isLoading:ispageDataLoading } = useGetPageByIdQuery({ Id: decodedToken?.id })
 
-    console.log(NpoPagedata);
-    const [FinalData, setFinalData] = useState();
+    useEffect(()=>
+    {
+        if(ispageDataFetching || ispageDataLoading)
+            {
+                setLoading(true)
+            }
+        else
+        {
+            setLoading(false);
+            setFinalData(JSON.parse(NpoPagedata?.result?.pageJson))
+        }
+    },[NpoPagedata,ispageDataFetching,ispageDataLoading])
+
+    console.log(FinalData);
+
+    const [imageHeading, setImageHeading] = useState(FinalData?.imageHeading || '');
+    useEffect(()=>
+    {
+        setImageHeading(FinalData?.imageHeading)
+        setImageText(FinalData?.imageText);
+        setVideoModalData(FinalData?.videoData);
+        setRichHeading(FinalData?.richHeading);
+        setRichBody(FinalData?.richBody);
+        setEmailData(FinalData?.emailData);
+
+    }
+    ,[FinalData])
     const [logoUrl, setLogoUrl] = useState(NpoReduxData?.data?.logoUrl || '');
     const [bannerUrl, setBannerUrl] = useState(NpoReduxData?.data?.bannerUrl || '');
     const [imageTextUrl, setImageTextUrl] = useState(NpoReduxData?.data.imageTextUrl || '');
     const [imageText, setImageText] = useState(NpoReduxData?.data.imageText || '');
-    const [imageHeading, setImageHeading] = useState(NpoReduxData?.data.imageHeading || '');
-    const [videoModalData, setVideoModalData] = useState(NpoReduxData?.data.videoData || '')
+    const [videoModalData, setVideoModalData] = useState(FinalData?.imageText || '')
     const [richHeading, setRichHeading] = useState(NpoReduxData?.data.richHeading || '')
     const [richBody, setRichBody] = useState(NpoReduxData?.data.richBody || '');
-    const [linksData, setLinksData] = useState(NpoReduxData?.data.linksData);
+    const [linksData, setLinksData] = useState('');
     const [emailData, setEmailData] = useState(NpoReduxData?.data.emailData || '');
     const [systmVideoData, setSystmVideoData] = useState(NpoReduxData?.data.systmVideoData || '')
     const cookieData = Cookies.get('NpoAuthLogin');
+
     const [AddPage] = useAddPageMutation();
 
 
@@ -147,10 +174,12 @@ function NpoHome() {
 
                 },
                 contactUs: {
-                    link: linksData?.contactUs
+                    link: linksData?.contactUs,
+                    show:linksData?.contactSwitch
                 },
                 websiteLink: {
-                    link: linksData?.websiteLink
+                    link: linksData?.websiteLink,
+                    show:linksData?.websiteSwitch
                 }
             }
         }
@@ -164,7 +193,7 @@ function NpoHome() {
                 .then((res) => {
                     console.log(res);
                     if (res.error) {
-                        toast('Error')
+                        toast.error('An Error Occured')
                     }
                     else {
                         dispatch(setNpoData(DataForApi))
@@ -252,6 +281,10 @@ function NpoHome() {
             toast.error('Page details incomplete')
     }
 
+    const handleCall = (number) => {
+        window.open(`tel:${number}`, '_blank');
+      }
+
     return (
         <div className='h-full   overflow-y-scroll w-full flex flex-col'>
 
@@ -274,7 +307,7 @@ function NpoHome() {
                                 logoUrl ?
                                     <div className=' z-[1000] relative w-full h-full'>
                                         <img className='  border-4 border-black w-[70px] h-[70px]  rounded-full' src={logoUrl} alt="" />
-                                        <span onClick={() => setLogoUrl('')} className=' absolute top-[-2px] right-[-5px] text-black bg-white p-[1.5px] flex items-center justify-center cursor-pointer font-semibold  m-0'><FaRegEdit /></span>
+                                        <span onClick={() => setLogoUrl('')} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-transparent p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></span>
                                     </div>
                                     :
                                     <div className=' cursor-pointer p-[1px]  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-500 border-2  rounded-full'> <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
@@ -288,7 +321,7 @@ function NpoHome() {
                                 ?
                                 <div className=' z-0  w-full '>
                                     <img className=' w-full object-cover h-[440px]' src={bannerUrl} alt="" />
-                                    <span onClick={() => setBannerUrl('')} className=' cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-white right-[-7px]'><FaRegEdit /></span>
+                                    <span onClick={() => setBannerUrl('')} className=' cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-transparent  right-[-7px]'><FaRegEdit /></span>
                                 </div>
                                 :
                                 <div className=' flex  focus:border-2 p-1  focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center bg-slate-300 w-full h-[435px]'>
@@ -306,7 +339,7 @@ function NpoHome() {
                                     ?
                                     <div className='  h-full w-full'>
                                         <img className=' w-full h-full object-fill' src={imageTextUrl} alt="" />
-                                        <span onClick={() => setImageTextUrl('')} className=' text-black  font-bold bg-white p-[1px] right-[-4px] top-[-10px] cursor-pointer absolute'><FaRegEdit /></span>
+                                        <span onClick={() => setImageTextUrl('')} className=' text-black  font-bold bg-transparent p-[1px] right-[-4px] top-[-10px] cursor-pointer absolute'><FaRegEdit /></span>
                                     </div>
                                     :
                                     <div className=' w-full py-1  focus:border-2 h-full focus:border-black focus:border-solid border-dashed border-slate-400 border-2  flex items-center justify-center'>
@@ -352,7 +385,8 @@ function NpoHome() {
                                             <source src={systmVideoData} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video>
-                                        <span onClick={() => { setSystmVideoData('') }} className=' absolute cursor-pointer top-[-12px] right-[-6px] font-semibold text-red-500 text-lg'>X</span>
+                                        <span onClick={() => { setSystmVideoData('') }} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-transparent p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit/></span>
+
 
                                     </div>
                                 </>
@@ -361,7 +395,7 @@ function NpoHome() {
                                     ?
                                     <div className=' relative w-full h-full'>
                                         <iframe className=' w-full h-full' src={videoModalData} title="YouTube video player" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" loop allow="accelerometer; loop; autoplay; fullscreen; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                                        <span onClick={() => { setVideoModalData('') }} className=' absolute cursor-pointer top-[-12px] right-[-6px] font-semibold text-red-500 text-lg'>X</span>
+                                        <span onClick={() => { setVideoModalData('') }} className=' absolute cursor-pointer bg-transparent top-[-12px] right-[-9.4px] font-semibold text-black text-lg'><FaRegEdit/></span>
                                     </div>
                                     :
 
@@ -399,13 +433,16 @@ function NpoHome() {
 
                         </div>
                     </div>
-                    <div style={linksData?.backgroundColor ? { backgroundColor: linksData?.backgroundColor } : { backgroundColor: '#CBD5E1' }} className={` w-full flex-col  items-center gap-4 flex px-3 py-6 `}>
+                    <div style={linksData?.backgroundColor ? { backgroundColor: linksData?.backgroundColor } : { backgroundColor: '#CBD5E1' }} className={` w-full flex-col  items-center gap-4 flex px-3 pb-4 pt-2 `}>
                         <div className=' w-full'>
+                                    <span className='  w-full flex justify-end font-semibold'><span className='  cursor-pointer'  onClick={() => setLinksModalOpen(true)}>EDIT</span></span>
                             <span className=' w-[100%] flex items-center justify-center'>
-                                <div className='relative gap-2 flex items-center justify-center  flex-col w-1/3'>
+                                <div className='relative gap-2 flex items-center justify-center  w-1/3'>
+                                    <div className=' flex flex-col gap-1 w-full items-center'>
 
-                                    <span>Subscribe to our emails</span>
-                                    <input value={emailData} onInput={(e) => setEmailData(e.target.value)} type="text" className=' py-2 focus:border-2  focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit ' placeholder='Enter your email' />
+                                    <span>Reach Us Through Our Email : </span>
+                                    <input value={emailData} onInput={(e) => setEmailData(e.target.value)} type="text" className=' py-2 focus:border-2  focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit ' placeholder='Enter  email' />
+                                    </div>
                                     {/* {
                                         emailData && emailData?.length > 0
                                         &&
@@ -413,49 +450,49 @@ function NpoHome() {
                                     } */}
                                 </div>
                             </span>
-                            <span className='  w-full flex justify-end cursor-pointer font-semibold' onClick={() => setLinksModalOpen(true)}>EDIT</span>
                         </div>
                         <div className=' w-full items-center flex justify-between'>
-                            <div className=' flex  gap-4'>
-                                <a className='' href={linksData?.contactUs || "#"}>
-                                    <u>
-                                        Contact Us
-                                    </u>
-                                </a>
+                            <div className=' flex flex-col  gap-3'>
+
+                                <span className='' onClick={()=>handleCall(linksData?.contactUs)} >
+                                    <span>
+                                        Contact Us : {linksData?.contactUs}
+                                    </span>
+                                </span>
                                 <a className='' href={linksData?.websiteLink || "#"}>
-                                    <u>
-                                        Website Link
-                                    </u>
+                                    <span>
+                                        Website Link : {linksData?.websiteLink}
+                                    </span>
                                 </a>
                             </div>
-                            <div className=' border-b h-12 flex items-center justify-center gap-1'>
-                                {
+                            <div className=' border-b h-11 mt-3 flex items-center justify-center gap-2'>
+                                {/* {
                                     linksData?.instaSwitch != false
                                     &&
+                                    } */}
                                     <a href={linksData?.instagram || "https://www.instagram.com/"} target='_blank'>
                                         <img className=' w-[42px] h-[41px]' src={insta} alt="" />
                                     </a>
-                                }
-                                {
+                                {/* {
                                     linksData?.facebookSwitch != false
-                                    &&
+                                }
+                                    && */}
                                     <a href={linksData?.facebook || "https://www.facebook.com/"} target='_blank'>
                                         <img className=' w-fit h-[28px]' src={facebook} alt="" />
                                     </a>
-                                }
-                                {
+                                {/* {
                                     linksData?.youtubeSwitch != false
                                     &&
+                                    } */}
                                     <a href={linksData?.youtube || "https://www.youtube.com/"} target='_blank'>
                                         <img className=' w-fit h-[28px]' src={ytLogo} alt="" />
                                     </a>
-                                }
                             </div>
 
                         </div>
                     </div>
                     <DialogComponent open={linksModalOpen} maxWidth={'md'}>
-                        <LinksModal close={handleLinksModalClose} />
+                        <LinksModal data={FinalData} close={handleLinksModalClose} />
                     </DialogComponent>
                 </div>
                 {/* <div className=' w-1/3'>

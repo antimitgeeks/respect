@@ -9,8 +9,8 @@ const NpoPageService = CreateApi.injectEndpoints(
                         providesTags:['npopage'],
                         query:({Id})=>(
                             {
-                                url:`/npos/page/${Id}`,
-                                method:"GET"
+                                url:`/npos/page-details/${Id}`,
+                                method:"POST"
                             }
                         )
                     }
@@ -29,6 +29,7 @@ const NpoPageService = CreateApi.injectEndpoints(
                 ),
                 UploadFile:builder.mutation(
                     {
+                        invalidatesTags:['npopage'],
                         query:({Id,data})=>(
                             {
                                 url:`/npos/page/${Id}`,
