@@ -161,25 +161,25 @@ function NpoHome() {
             richHeading: richHeading,
             linksData: {
                 instagram: {
-                    link: linksData?.instagram,
-                    show: linksData?.instaSwitch
+                    link: linksData?.instagram || FinalData?.linksData?.instagram?.link,
+                    show: linksData?.instaSwitch || FinalData?.linksData?.instagram?.show
                 },
                 facebook: {
-                    link: linksData?.facebook,
-                    show: linksData?.facebookSwitch
+                    link: linksData?.facebook || FinalData?.linksData?.facebook?.link,
+                    show: linksData?.facebookSwitch || FinalData?.linksData?.facebook?.show
                 },
                 youtube: {
-                    link: linksData?.youtube,
-                    show: linksData?.youtubeSwitch
+                    link: linksData?.youtube || FinalData?.linksData?.youtube?.link,
+                    show: linksData?.youtubeSwitch||  FinalData?.linksData?.youtube?.show
 
                 },
                 contactUs: {
-                    link: linksData?.contactUs,
-                    show:linksData?.contactSwitch
+                    link: linksData?.contactUs || FinalData?.linksData?.contactUs?.link,
+                    show:linksData?.contactSwitch ||  FinalData?.linksData?.contactUs?.show
                 },
                 websiteLink: {
-                    link: linksData?.websiteLink,
-                    show:linksData?.websiteSwitch
+                    link: linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link,
+                    show:linksData?.websiteSwitch || FinalData?.linksData?.websiteLink?.show
                 }
             }
         }
