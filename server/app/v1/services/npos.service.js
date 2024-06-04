@@ -1,5 +1,7 @@
 const { DataTypes, where } = require('sequelize');
 const customerSchema = require("../models/schemas/customer.schema.js")
+const path = require("path")
+const fs = require("fs")
 
 const db = require("../models/index.js");
 const sequelize = db.sequelize;
@@ -26,8 +28,15 @@ exports.getPage = async (npoId) => {
     return npoPageDetails;
 }
 
-// upload npo page image
-exports.uploadImage = async (id, file, type) => {
-    console.log(id, file, type, '--------------------------------1');
-    return 'npoPageDetails';
+// return npo page image by id
+exports.getPageImage = async (id, type) => {
+    let filePath = path.join(__dirname, `../utils/images/${id}/${type}`);
+    fs.readFile(filePath, function (err, content) {
+        if (err) {
+            console.error(err);
+            return res.sendStatus(500);
+        }
+        res.end(content); // Serve the image
+    });
+    return filePath;
 }

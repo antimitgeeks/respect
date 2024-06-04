@@ -3,6 +3,8 @@ const service = require("../services/npos.service.js");
 const { sendResponse } = require("../utils/sendResponse.js");
 const { SuccessMessage, ErrorMessage } = require("../constants/messages.js");
 const statusCode = require("../constants/statusCodes.js");
+const path = require("path")
+const fs = require("fs")
 
 // add npo page controller
 exports.addPage = async (req, res) => {
@@ -37,27 +39,34 @@ exports.getPage = async (req, res) => {
     }
 };
 
-// npo page image upload controller
-exports.uploadImage = async (req, res) => {
-    console.info('***************************************************Npo Page Image Upload By Id Api************************************************');
+// npo page image controller
+exports.getPageImage = async (req, res) => {
+    console.info('***************************************************Npo Page Image By Id Api************************************************');
     try {
         const id = req.params.id;
-        const file = req.file;
-        const type = req.body.type;
-        // check image exist or not
-        if (!file) {
-            sendResponse(res, statusCode.BAD_REQUEST, false, `Npo Page ${ErrorMessage.FILE_REQUIRED}`);
+        const type = req.query.type;
+        // let filePath = path.join(__dirname, `../utils/images/${id}/${type}`);
+        const imageDir = path.join(__dirname, '../utils', 'images', id);
+        if (!fs.existsSync(imageDir)) {
+            return res.status(404).send('Image not found');
         }
-        // check npo exist or not 
-        const exist = await service.getPage(id);
-        if (!exist) {
-            return sendResponse(res, statusCode.NOT_FOUND, false, `Npo Page ${SuccessMessage.NOT_FOUND}`);
-        }
-        const result = await service.uploadImage(id, file, type);
-        return sendResponse(res, statusCode.OK, true, `Npo Page Image ${SuccessMessage.UPLOADED}`, result);
+        fs.readdir(imageDir, (err, files) => {
+            if (err || files.length === 0) {
+                return res.status(404).send('Image not found');
+            }
+
+            const file = files.find(f => path.basename(f, path.extname(f)) === type);
+            if (!file) {
+                return res.status(404).send('Image not found');
+            }
+            const imagePath = path.join(imageDir, file);
+            res.sendFile(path.resolve(imagePath));
+        });
+        // return sendResponse(res, statusCode.OK, true, `Npo Page Image ${SuccessMessage.FETCH}`, result);
     } catch (error) {
-        console.error('Error in Npo page image upload by id api : ', error);
+        console.error('Error in Npo page by id api : ', error);
         return sendResponse(res, statusCode.INTERNAL_SERVER_ERROR, false, ErrorMessage.INTERNAL_SERVER_ERROR, error?.errors);
     }
 };
+
 
