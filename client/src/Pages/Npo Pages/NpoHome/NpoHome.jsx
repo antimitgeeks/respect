@@ -37,7 +37,7 @@ function NpoHome() {
         else
         {
             setLoading(false);
-            setFinalData(JSON.parse(NpoPagedata?.result?.pageJson))
+            setFinalData(NpoPagedata?.result?.pageJson?JSON.parse(NpoPagedata?.result?.pageJson):null)
         }
     },[NpoPagedata,ispageDataFetching,ispageDataLoading])
 
@@ -62,7 +62,7 @@ function NpoHome() {
     const [videoModalData, setVideoModalData] = useState(FinalData?.imageText || '')
     const [richHeading, setRichHeading] = useState(NpoReduxData?.data.richHeading || '')
     const [richBody, setRichBody] = useState(NpoReduxData?.data.richBody || '');
-    const [linksData, setLinksData] = useState('');
+    const [linksData, setLinksData] = useState();
     const [emailData, setEmailData] = useState(NpoReduxData?.data.emailData || '');
     const [systmVideoData, setSystmVideoData] = useState(NpoReduxData?.data.systmVideoData || '')
     const cookieData = Cookies.get('NpoAuthLogin');
@@ -307,7 +307,7 @@ function NpoHome() {
                                 logoUrl ?
                                     <div className=' z-[1000] relative w-full h-full'>
                                         <img className='  border-4 border-black w-[70px] h-[70px]  rounded-full' src={logoUrl} alt="" />
-                                        <span onClick={() => setLogoUrl('')} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-transparent p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></span>
+                                        <span onClick={() => setLogoUrl('')} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></span>
                                     </div>
                                     :
                                     <div className=' cursor-pointer p-[1px]  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-500 border-2  rounded-full'> <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
@@ -321,7 +321,7 @@ function NpoHome() {
                                 ?
                                 <div className=' z-0  w-full '>
                                     <img className=' w-full object-cover h-[440px]' src={bannerUrl} alt="" />
-                                    <span onClick={() => setBannerUrl('')} className=' cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-transparent  right-[-7px]'><FaRegEdit /></span>
+                                    <span onClick={() => setBannerUrl('')} className=' cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></span>
                                 </div>
                                 :
                                 <div className=' flex  focus:border-2 p-1  focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center bg-slate-300 w-full h-[435px]'>
@@ -339,7 +339,7 @@ function NpoHome() {
                                     ?
                                     <div className='  h-full w-full'>
                                         <img className=' w-full h-full object-fill' src={imageTextUrl} alt="" />
-                                        <span onClick={() => setImageTextUrl('')} className=' text-black  font-bold bg-transparent p-[1px] right-[-4px] top-[-10px] cursor-pointer absolute'><FaRegEdit /></span>
+                                        <span onClick={() => setImageTextUrl('')} className=' text-black  font-bold bg-slate-200 p-[1px] right-[-4px] top-[-10px] cursor-pointer absolute'><FaRegEdit /></span>
                                     </div>
                                     :
                                     <div className=' w-full py-1  focus:border-2 h-full focus:border-black focus:border-solid border-dashed border-slate-400 border-2  flex items-center justify-center'>
@@ -374,18 +374,18 @@ function NpoHome() {
                             </div>
                         </div>
                     </div>
-                    <div className=' w-full py-2  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center   flex  bg-slate-300 h-[450px]'>
+                    <div className=' w-full py-0  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center   flex  bg-slate-300 h-[450px]'>
 
                         {
                             systmVideoData && systmVideoData?.length > 0
                                 ?
                                 <>
-                                    <div className='w-full relative flex justify-center py-1'>
-                                        <video className=' w-full py-2 h-[440px]' controls>
+                                    <div className='w-full relative flex justify-center py-0'>
+                                        <video className=' w-full py-0 h-[440px]' controls>
                                             <source src={systmVideoData} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video>
-                                        <span onClick={() => { setSystmVideoData('') }} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-transparent p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit/></span>
+                                        <span onClick={() => { setSystmVideoData('') }} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit/></span>
 
 
                                     </div>
@@ -395,7 +395,7 @@ function NpoHome() {
                                     ?
                                     <div className=' relative w-full h-full'>
                                         <iframe className=' w-full h-full' src={videoModalData} title="YouTube video player" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" loop allow="accelerometer; loop; autoplay; fullscreen; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                                        <span onClick={() => { setVideoModalData('') }} className=' absolute cursor-pointer bg-transparent top-[-12px] right-[-9.4px] font-semibold text-black text-lg'><FaRegEdit/></span>
+                                        <span onClick={() => { setVideoModalData('') }} className=' absolute cursor-pointer bg-slate-200 top-[-12px] right-[-9.4px] font-semibold text-black text-lg'><FaRegEdit/></span>
                                     </div>
                                     :
 
@@ -456,12 +456,12 @@ function NpoHome() {
 
                                 <span className='' onClick={()=>handleCall(linksData?.contactUs)} >
                                     <span>
-                                        Contact Us : {linksData?.contactUs}
+                                        Contact Us : {linksData?.contactUs ||FinalData?.linksData?.contactUs?.link}
                                     </span>
                                 </span>
                                 <a className='' href={linksData?.websiteLink || "#"}>
                                     <span>
-                                        Website Link : {linksData?.websiteLink}
+                                        Website Link : { linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link}
                                     </span>
                                 </a>
                             </div>

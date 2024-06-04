@@ -8,11 +8,11 @@ function LinksModal({ close,data }) {
     const NpoReduxData = useSelector((state) => state.NpoDataSlice.linksData);
 
     const [linksData, setLinksData] = useState({
-        instagram: data?.linksData?.instagram?.link || '',
-        facebook: data?.linksData?.facebook?.link|| '',
-        youtube: data?.linksData?.youtube?.link || '',
-        contactUs:data?.linksData?.contactUs?.link || '',
-        websiteLink: data?.linksData?.websiteLink?.link || '',
+        instagram:NpoReduxData?.instagram || data?.linksData?.instagram?.link || '',
+        facebook: NpoReduxData?.facebook || data?.linksData?.facebook?.link|| '',
+        youtube: NpoReduxData?.youtube ||data?.linksData?.youtube?.link ||  '',
+        contactUs: NpoReduxData?.contactUs||data?.linksData?.contactUs?.link ||  '',
+        websiteLink:  NpoReduxData?.websiteLink ||data?.linksData?.websiteLink?.link || '',
         // backgroundColor: NpoReduxData?.backgroundColor || '#CBD5E1',
         instaSwitch: data?.linksData?.instagram?.show == false ? false : true,
         facebookSwitch: data?.linksData?.facebook?.show == false ? false : true,
@@ -36,11 +36,11 @@ function LinksModal({ close,data }) {
     };
 
     const validationSchema = Yup.object().shape({
-        instagram: Yup.string().required('Instagram link is required'),
-        facebook: Yup.string().required('Facebook link is required'),
-        youtube: Yup.string().required('YouTube link is required'),
-        contactUs: Yup.string().matches(/^[0-9]+$/,"Invalid number").min(10,"Invalid number").max(10,"Invalid number").required('Contact number is required'),
-        websiteLink: Yup.string().matches(/^[a-z A-Z `~!@#$%^&*(_+/:,.|)]+$/,"Invalid link").required('Website link is required')
+        instagram: Yup.string(),
+        facebook: Yup.string(),
+        youtube: Yup.string(),
+        contactUs: Yup.string().matches(/^[0-9]+$/,"Invalid number").min(10,"Invalid number").max(10,"Invalid number"),
+        websiteLink: Yup.string().matches(/^[a-z A-Z `~!@#$%^&*(_+/:,.|)]+$/,"Invalid link")
     });
 
     const handleSave = () => {
