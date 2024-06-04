@@ -14,6 +14,7 @@ import { jwtDecode } from 'jwt-decode';
 import NpoHome from './Pages/Npo Pages/NpoHome/NpoHome';
 import NpoView from './Pages/Npo Pages/NppView/NpoView';
 import NpoPreview from './Pages/Npo Pages/NpoPagePreview/NpoPreview';
+import WelcomePage from './Pages/WelcomePage';
 
 
 function Routing() {
@@ -49,14 +50,15 @@ function Routing() {
     return (
         <div>
             <Routes>
-                <Route path="/" element={<Login auth={setAthenticateLogin} />} />
-                <Route path="/npo" element={<NpoLogin auth={setAthenticateLogin} />} />
+                <Route path="" element={<WelcomePage/>} />
+                <Route path="login/admin" element={<Login auth={setAthenticateLogin} />} />
+                <Route path="login/npo" element={<NpoLogin auth={setAthenticateLogin} />} />
                 <Route path="/forgot-password/:id" element={<ForgetPassword />} />
                 <Route path="/reset-password" element={<EmailAuth />} />
                 <Route path="*" element={<Login auth={setAthenticateLogin} />} />
-                <Route path="page/preview" element={<NpoPreview/>} />
-                 {
-                    authenticateLogin ? 
+                <Route path="page/preview" element={<NpoPreview />} />
+                {
+                    authenticateLogin ?
                         <Route path="/dashboard" element={<Dashboard />} >
                             <Route path='' element={role == 'Admin' ? <Home /> : <NpoHome />} />
                             <Route path='reports' element={<Report />} />
