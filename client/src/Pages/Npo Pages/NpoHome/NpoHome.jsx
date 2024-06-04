@@ -9,33 +9,58 @@ import { MdCancel } from "react-icons/md";
 import { MdCancelPresentation } from "react-icons/md";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { LuDelete } from "react-icons/lu";
+import { FaRegEdit } from "react-icons/fa";
 import insta from '../../../Assets/insta.png'
 import facebook from '../../../Assets/Facebook_Logo_2023.png'
 import ytLogo from '../../../Assets/Youtube_logo.png'
 import LinksModal from './LinksModal';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie'
+import { jwtDecode } from 'jwt-decode';
+import { useAddPageMutation, useGetPageByIdQuery } from '../../../services/NpoPageService';
 
 function NpoHome() {
     const NpoReduxData = useSelector((state) => state.NpoDataSlice);
+
+    const [decodedToken, setDecodedToken] = useState('');
+    const { data: NpoPagedata } = useGetPageByIdQuery({ Id: decodedToken?.id })
+
+    console.log(NpoPagedata);
     const [FinalData, setFinalData] = useState();
-    const [logoUrl, setLogoUrl] = useState( NpoReduxData?.data?.logoUrl ||'');
+    const [logoUrl, setLogoUrl] = useState(NpoReduxData?.data?.logoUrl || '');
     const [bannerUrl, setBannerUrl] = useState(NpoReduxData?.data?.bannerUrl || '');
-    const [imageTextUrl, setImageTextUrl] = useState(NpoReduxData?.imageTextUrl ||'');
-    const [imageText, setImageText] = useState(NpoReduxData?.imageText ||'');
-    const [imageHeading, setImageHeading] = useState( NpoReduxData?.imageHeading ||'');
-    const [videoModalData, setVideoModalData] = useState(NpoReduxData?.videoModalData ||'')
-    const [richHeading, setRichHeading] = useState(NpoReduxData?.richHeading||'')
-    const [richBody, setRichBody] = useState(NpoReduxData?.richBody||'');
-    const [linksData, setLinksData] = useState(NpoReduxData?.linksData);
-    const [emailData, setEmailData] = useState(NpoReduxData?.emailData||'');
-    const [systmVideoData, setSystmVideoData] = useState( NpoReduxData?.systmVideoData||'')
+    const [imageTextUrl, setImageTextUrl] = useState(NpoReduxData?.data.imageTextUrl || '');
+    const [imageText, setImageText] = useState(NpoReduxData?.data.imageText || '');
+    const [imageHeading, setImageHeading] = useState(NpoReduxData?.data.imageHeading || '');
+    const [videoModalData, setVideoModalData] = useState(NpoReduxData?.data.videoData || '')
+    const [richHeading, setRichHeading] = useState(NpoReduxData?.data.richHeading || '')
+    const [richBody, setRichBody] = useState(NpoReduxData?.data.richBody || '');
+    const [linksData, setLinksData] = useState(NpoReduxData?.data.linksData);
+    const [emailData, setEmailData] = useState(NpoReduxData?.data.emailData || '');
+    const [systmVideoData, setSystmVideoData] = useState(NpoReduxData?.data.systmVideoData || '')
+    const cookieData = Cookies.get('NpoAuthLogin');
+    const [AddPage] = useAddPageMutation();
+
+
+
+    useEffect(() => {
+        if (cookieData?.length > 0) {
+            const DecodedData = jwtDecode(cookieData);
+            setDecodedToken(DecodedData);
+        }
+    }, [cookieData]);
+
+    useEffect(() => {
+        console.log(decodedToken)
+    }, [decodedToken])
+
     const dispatch = useDispatch();
 
     const [videoModalOpen, setVideoModalOpen] = useState(false);
     const [linksModalOpen, setLinksModalOpen] = useState(false);
     console.log(NpoReduxData.data);
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     const handleLogoInput = (ev) => {
 
@@ -96,35 +121,105 @@ function NpoHome() {
     }
 
     const handleSave = () => {
-        let saveData = {
+
+        let DataForApi = {
             logoUrl: logoUrl,
             bannerUrl: bannerUrl,
             imageTextUrl: imageTextUrl,
             imageText: imageText,
             imageHeading: imageHeading,
-            videoData: systmVideoData?systmVideoData: videoModalData,
+            videoData: systmVideoData ? systmVideoData : videoModalData,
             richBody: richBody,
             emailData: emailData,
             richHeading: richHeading,
             linksData: {
-                instagram: linksData?.instagram || '',
-                facebook: linksData?.facebook || '',
-                youtube: linksData?.youtube || '',
-                instaSwitch: linksData?.instaSwitch || false,
-                facebookSwitch: linksData?.facebookSwitch || false,
-                youtubeSwitch: linksData?.youtubeSwitch || false
-            }
+                instagram: {
+                    link: linksData?.instagram,
+                    show: linksData?.instaSwitch
+                },
+                facebook: {
+                    link: linksData?.facebook,
+                    show: linksData?.facebookSwitch
+                },
+                youtube: {
+                    link: linksData?.youtube,
+                    show: linksData?.youtubeSwitch
 
+                },
+                contactUs: {
+                    link: linksData?.contactUs
+                },
+                websiteLink: {
+                    link: linksData?.websiteLink
+                }
+            }
         }
-        if (saveData.logoUrl.trim() == '' || saveData.bannerUrl.trim() == '' || saveData.imageTextUrl.trim() == '' || saveData.imageText.trim() == ''
-            || saveData.videoData.trim() == '' || saveData.richHeading.trim() == '' || saveData.richBody.trim() == '' || saveData.emailData.trim() == '') {
+
+        if (DataForApi.logoUrl.trim() == '' || DataForApi.bannerUrl.trim() == '' || DataForApi.imageTextUrl.trim() == '' || DataForApi.imageText.trim() == ''
+            || DataForApi.videoData.trim() == '' || DataForApi.richHeading.trim() == '' || DataForApi.richBody.trim() == '' || DataForApi.emailData.trim() == '') {
             toast.error("Fill all the details first")
         }
         else {
-
-            dispatch(setNpoData(saveData))
-            console.log(saveData)
+            AddPage({ Id: decodedToken?.id, data: DataForApi })
+                .then((res) => {
+                    console.log(res);
+                    if (res.error) {
+                        toast('Error')
+                    }
+                    else {
+                        dispatch(setNpoData(DataForApi))
+                        toast.success(res.data.message)
+                    }
+                })
+                .catch((err) => {
+                    console.log(err, "-----------------")
+                    toast.error("Error")
+                })
+            console.log(DataForApi)
         }
+        // AddPage(DataForApi)
+
+
+        // let saveData = {
+        //     logoUrl: logoUrl,
+        //     bannerUrl: bannerUrl,
+        //     imageTextUrl: imageTextUrl,
+        //     imageText: imageText,
+        //     imageHeading: imageHeading,
+        //     videoData: systmVideoData ? systmVideoData : videoModalData,
+        //     richBody: richBody,
+        //     emailData: emailData,
+        //     richHeading: richHeading,
+        //     linksData: {
+        //         instagram: {
+        //             link: linksData?.instagram,
+        //             show: linksData?.instaSwitch
+        //         },
+        //         facebook: {
+        //             link: linksData?.facebook,
+        //             show: linksData?.facebookSwitch
+        //         },
+        //         youtube: {
+        //             link: linksData?.youtube,
+        //             show: linksData?.youtubeSwitch
+
+        //         },
+        //         contactUs: {
+        //             link: linksData?.contactUs
+        //         },
+        //         websiteLink: {
+        //             link: linksData?.websiteLink
+        //         }
+        //     }
+        // }
+        // if (saveData.logoUrl.trim() == '' || saveData.bannerUrl.trim() == '' || saveData.imageTextUrl.trim() == '' || saveData.imageText.trim() == ''
+        //     || saveData.videoData.trim() == '' || saveData.richHeading.trim() == '' || saveData.richBody.trim() == '' || saveData.emailData.trim() == '') {
+        //     toast.error("Fill all the details first")
+        // }
+        // else {
+
+        //     console.log(saveData)
+        // }
     }
 
     const handleLinksModalClose = (data) => {
@@ -149,11 +244,19 @@ function NpoHome() {
         setVideoModalData('')
     }
 
+    const handlePreviewPage = () => {
+        console.log(NpoReduxData?.data)
+        NpoReduxData?.data != '' ?
+            navigate('/page/preview')
+            :
+            toast.error('Page details incomplete')
+    }
+
     return (
         <div className='h-full   overflow-y-scroll w-full flex flex-col'>
 
             <div className=' w-full justify-end gap-2 flex px-12 pt-3'>
-                <span onClick={() => navigate('/page/preview')} className=' border cursor-pointer bg-slate-400 rounded hover:opacity-80 text-white px-3 py-2'>
+                <span onClick={() => handlePreviewPage()} className=' border cursor-pointer bg-slate-400 rounded hover:opacity-80 text-white px-3 py-2'>
                     Preview Page
                 </span>
                 <span onClick={() => handleClearAll()} className=' border cursor-pointer bg-slate-400 rounded hover:opacity-80 text-white px-3 py-2'>
@@ -171,7 +274,7 @@ function NpoHome() {
                                 logoUrl ?
                                     <div className=' z-[1000] relative w-full h-full'>
                                         <img className='  border-4 border-black w-[70px] h-[70px]  rounded-full' src={logoUrl} alt="" />
-                                        <span onClick={() => setLogoUrl('')} className=' absolute top-[-2px] right-0 text-red-500 cursor-pointer font-semibold  m-0'>X</span>
+                                        <span onClick={() => setLogoUrl('')} className=' absolute top-[-2px] right-[-5px] text-black bg-white p-[1.5px] flex items-center justify-center cursor-pointer font-semibold  m-0'><FaRegEdit /></span>
                                     </div>
                                     :
                                     <div className=' cursor-pointer p-[1px]  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-500 border-2  rounded-full'> <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
@@ -185,7 +288,7 @@ function NpoHome() {
                                 ?
                                 <div className=' z-0  w-full '>
                                     <img className=' w-full object-cover h-[440px]' src={bannerUrl} alt="" />
-                                    <span onClick={() => setBannerUrl('')} className=' cursor-pointer absolute text-red-500 top-[-11px] font-bold right-[-5px]'>X</span>
+                                    <span onClick={() => setBannerUrl('')} className=' cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-white right-[-7px]'><FaRegEdit /></span>
                                 </div>
                                 :
                                 <div className=' flex  focus:border-2 p-1  focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center bg-slate-300 w-full h-[435px]'>
@@ -203,7 +306,7 @@ function NpoHome() {
                                     ?
                                     <div className='  h-full w-full'>
                                         <img className=' w-full h-full object-fill' src={imageTextUrl} alt="" />
-                                        <span onClick={() => setImageTextUrl('')} className=' text-red-500  font-bold right-[-4px] top-[-10px] cursor-pointer absolute'>X</span>
+                                        <span onClick={() => setImageTextUrl('')} className=' text-black  font-bold bg-white p-[1px] right-[-4px] top-[-10px] cursor-pointer absolute'><FaRegEdit /></span>
                                     </div>
                                     :
                                     <div className=' w-full py-1  focus:border-2 h-full focus:border-black focus:border-solid border-dashed border-slate-400 border-2  flex items-center justify-center'>

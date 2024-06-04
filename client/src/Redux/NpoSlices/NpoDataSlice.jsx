@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = { 
-  data:{ },
-  linksData:{}
+  data:'',
+  linksData:''
 }
 
 const NpoDataSlice = createSlice({
