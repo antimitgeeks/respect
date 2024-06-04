@@ -3,15 +3,15 @@ const controllers = require("../controllers/npos.controller.js");
 const router = express.Router();
 const upload = require('../middleware/uploadMiddleware.js')
 // const validation = require("../validations/admin.validation.js");
-// const authValidation = require("../validations/auth.validation.js");
+const authValidation = require("../validations/auth.validation.js");
 const statusCode = require("../constants/statusCodes.js");
 const { SuccessMessage, ErrorMessage } = require("../constants/messages.js");
 const { sendResponse } = require("../utils/sendResponse.js");
 
 
-router.post('/page/:id', controllers.addPage);
-router.post('/page-details/:id', controllers.getPage);
-router.post('/upload/:id', (req, res) => {
+router.post('/page/:id', authValidation.id, controllers.addPage);
+router.post('/page-details/:id', authValidation.id, controllers.getPage);
+router.post('/upload/:id', authValidation.id, authValidation.npoImageType, (req, res) => {
     upload(req, res, (err) => {
         if (err) {
             res.status(400).send(err);
@@ -25,7 +25,7 @@ router.post('/upload/:id', (req, res) => {
         }
     });
 });
-router.post('/image/:id', controllers.getPageImage);
+router.post('/image/:id', authValidation.id, authValidation.npoImageType, controllers.getPageImage);
 
 
 module.exports = router;

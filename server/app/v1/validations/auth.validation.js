@@ -58,3 +58,12 @@ exports.id = async (req, res, next) => {
         next();
     }
 };
+
+exports.npoImageType = async (req, res, next) => {
+    const { error } = schema.npoImageTypeSchema.validate({ type: req.query.type });
+    if (error) {
+        res.status(statusCode.BAD_REQUEST).json({ error: error.details[0].message });
+    } else {
+        next();
+    }
+};
