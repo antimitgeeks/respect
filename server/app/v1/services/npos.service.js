@@ -25,3 +25,9 @@ exports.getPage = async (npoId) => {
     const npoPageDetails = await NpoPages.findOne({ where: { npoId } });
     return npoPageDetails;
 }
+
+// upload npo page image
+exports.uploadImage = async (id, file, type) => {
+    console.log(id, file, type, '--------------------------------1');
+    return 'npoPageDetails';
+}
