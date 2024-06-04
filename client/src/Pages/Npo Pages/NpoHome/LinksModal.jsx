@@ -1,34 +1,33 @@
-import Switch from '@mui/material/Switch';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import Switch from '@mui/material/Switch';
 
-function LinksModal({ close }) {
-
+function LinksModal({ close,data }) {
     const NpoReduxData = useSelector((state) => state.NpoDataSlice.linksData);
 
-
     const [linksData, setLinksData] = useState({
-        instagram: NpoReduxData?.instagram || '',
-        facebook: NpoReduxData?.facebook ||  '',
-        youtube: NpoReduxData?.youtube ||  '',
-        contactUs:NpoReduxData?.contactUs || '',
-        websiteLink:NpoReduxData?.websiteLink || '',
-        backgroundColor:NpoReduxData?.backgroundColor || '#CBD5E1',
-        instaSwitch: NpoReduxData?.instaSwitch ==false?false :true  ,
-        facebookSwitch: NpoReduxData?.facebookSwitch==false?false:true ,
-        youtubeSwitch: NpoReduxData?.youtubeSwitch==false?false:true    });
+        instagram: data?.linksData?.instagram?.link || '',
+        facebook: data?.linksData?.facebook?.link|| '',
+        youtube: data?.linksData?.youtube?.link || '',
+        contactUs:data?.linksData?.contactUs?.link || '',
+        websiteLink: data?.linksData?.websiteLink?.link || '',
+        // backgroundColor: NpoReduxData?.backgroundColor || '#CBD5E1',
+        instaSwitch: data?.linksData?.instagram?.show == false ? false : true,
+        facebookSwitch: data?.linksData?.facebook?.show == false ? false : true,
+        youtubeSwitch: data?.linksData?.youtube?.show == false ? false : true,
+        contactSwitch: data?.linksData?.contact?.show == false ? false : true,
+        websiteSwitch: data?.linksData?.websiteLink?.show == false ? false : true
+    });
 
     const handleInputChange = (e) => {
-        const { name} = e.target;
+        const { name } = e.target;
         let value;
-        if(name=='instagram' || name=='backgroundColor'|| name =='facebook' || name=='youtube' || name=='contactUs' || name=='websiteLink')
-            {
-                value= e.target.value;
-            }
-        else
-        {
-            value = e.target.checked
+        if (name === 'instagram' || name === 'backgroundColor' || name === 'facebook' || name === 'youtube' || name === 'contactUs' || name === 'websiteLink') {
+            value = e.target.value;
+        } else {
+            value = e.target.checked;
         }
         setLinksData((prevData) => ({
             ...prevData,
@@ -36,13 +35,23 @@ function LinksModal({ close }) {
         }));
     };
 
+    const validationSchema = Yup.object().shape({
+        instagram: Yup.string().required('Instagram link is required'),
+        facebook: Yup.string().required('Facebook link is required'),
+        youtube: Yup.string().required('YouTube link is required'),
+        contactUs: Yup.string().matches(/^[0-9]+$/,"Invalid number").min(10,"Invalid number").max(10,"Invalid number").required('Contact number is required'),
+        websiteLink: Yup.string().matches(/^[a-z A-Z `~!@#$%^&*(_+/:,.|)]+$/,"Invalid link").required('Website link is required')
+    });
+
     const handleSave = () => {
-        const { instagram, facebook, youtube } = linksData;
-        if (!instagram.trim().length || !facebook.trim() || !youtube.trim()) {
-            toast.error("All fields cannot be empty");
-        } else {
-            close(linksData);
-        }
+        validationSchema.validate(linksData, { abortEarly: false })
+            .then(() => {
+                close(linksData);
+            })
+            .catch((err) => {
+                console.log(err.errors)
+                toast.error(err.errors[0]);
+            });
     };
 
     return (
@@ -60,63 +69,63 @@ function LinksModal({ close }) {
             </div>
             <div className='flex flex-col gap-4'>
                 <div className='flex gap-[67px] items-center'>
-                    <span className='font-semibold'>{}Instagram</span>
+                    <span className='font-semibold'>Instagram</span>
                     <div className='w-full flex justify-between'>
                         <input
-                            placeholder='Enter instagram link'
+                            placeholder='Enter Instagram link'
                             type="text"
                             name='instagram'
                             value={linksData?.instagram}
                             className='w-2/3 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        <span>{linksData?.instaSwitch ? "Enabled":"Disabled"}: <Switch checked={linksData.instaSwitch} name='instaSwitch' onChange={handleInputChange} /></span>
+                        <span>{linksData?.instaSwitch ? "Enabled" : "Disabled"}: <Switch checked={linksData.instaSwitch} name='instaSwitch' onChange={handleInputChange} /></span>
                     </div>
                 </div>
                 <div className='flex gap-[71px] items-center'>
                     <span className='font-semibold'>Facebook</span>
                     <div className='w-full flex justify-between'>
                         <input
-                            placeholder='Enter facebook link'
+                            placeholder='Enter Facebook link'
                             type="text"
                             name='facebook'
                             value={linksData?.facebook}
                             className='w-2/3 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        <span>{linksData?.facebookSwitch ?"Enabled":"Disabled"}: <Switch name='facebookSwitch' checked={linksData?.facebookSwitch} onChange={handleInputChange} /></span>
+                        <span>{linksData?.facebookSwitch ? "Enabled" : "Disabled"}: <Switch name='facebookSwitch' checked={linksData?.facebookSwitch} onChange={handleInputChange} /></span>
                     </div>
                 </div>
                 <div className='flex gap-20 items-center'>
-                    <span className='font-semibold'>Youtube</span>
+                    <span className='font-semibold'>YouTube</span>
                     <div className='w-full flex justify-between items-center'>
                         <input
-                            placeholder='Enter youtube link'
+                            placeholder='Enter YouTube link'
                             type="text"
                             name='youtube'
                             value={linksData?.youtube}
                             className='w-2/3 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        <span>{linksData?.youtubeSwitch ? "Enabled":"Disabled"}: <Switch name='youtubeSwitch' checked={linksData?.youtubeSwitch} onChange={handleInputChange} /></span>
+                        <span>{linksData?.youtubeSwitch ? "Enabled" : "Disabled"}: <Switch name='youtubeSwitch' checked={linksData?.youtubeSwitch} onChange={handleInputChange} /></span>
                     </div>
                 </div>
                 <div className='flex gap-[82px] items-center'>
                     <span className='font-semibold'>Contact</span>
                     <div className='w-full flex justify-between items-center'>
                         <input
-                            placeholder='Enter contact link'
+                            placeholder='Enter contact number'
                             type="text"
                             name='contactUs'
                             value={linksData?.contactUs}
                             className='w-2/3 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        <span>{ "Enabled"}: <Switch disabled name='contactSwitch' checked={true} /></span>
+                        <span>{linksData?.contactSwitch ? "Enabled" : "Disabled"}: <Switch name='contactSwitch' checked={linksData?.contactSwitch} onChange={handleInputChange} /></span>
                     </div>
                 </div>
                 <div className='flex gap-[62px] items-center'>
-                    <span className='font-semibold w-24'>Site link</span>
+                    <span className='font-semibold w-24'>Website link</span>
                     <div className='w-full flex justify-between items-center'>
                         <input
                             placeholder='Enter website link'
@@ -126,17 +135,17 @@ function LinksModal({ close }) {
                             className='w-2/3 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        <span>{ "Enabled"}: <Switch disabled name='websiteLink' checked={true} /></span>
+                        <span>{linksData?.websiteSwitch ? "Enabled" : "Disabled"}: <Switch name='websiteSwitch' checked={linksData?.websiteSwitch} onChange={handleInputChange} /></span>
                     </div>
                 </div>
                 <hr />
-                <div className=' flex items-center gap-8 mt-3'>
-                    <span className=' font-semibold'>
+                <div className='flex items-center gap-8 mt-3'>
+                    {/* <span className='font-semibold'>
                         Background color
                     </span>
                     <span>
                         <input value={linksData?.backgroundColor} onChange={handleInputChange} name='backgroundColor' type="color" />
-                    </span>
+                    </span> */}
                 </div>
                 <div className='w-full flex justify-end pt-2'>
                     <span onClick={handleSave} className='bg-slate-300 py-2 px-4 cursor-pointer'>Save</span>

@@ -44,7 +44,8 @@ function Login(props) {
             setDecodedToken(DecodedData);
         }
     }, [userToken]);
-
+    
+    console.log(decodedToken)
     useEffect(() => {
         if (isLogged) {
             props.auth(true);
@@ -69,7 +70,6 @@ function Login(props) {
     const handleSubmit = (data) => {
         setLoading(true);
         const loginData = { email: data?.email, password: data?.password };
-        console.log(data)
         LoginUser({ data: loginData })
             .then((res) => {
                 setLoading(false)
