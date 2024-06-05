@@ -65,7 +65,7 @@ function AddNgo(
     return (
         <div className='relative flex p-1 flex-col gap-6'>
             <div className=' flex text-lg font-semibold justify-between'>
-                Register Ngo
+                Register NPO
                 {/* <div> */}
                 <span onClick={() => close()} className=' top-[-20px] absolute items-center justify-center right-[-24px] hover:opacity-80 bg-red-400 text-white cursor-pointer py-[5px] px-[14px] '>X</span>
                 {/* </div> */}
@@ -84,8 +84,8 @@ function AddNgo(
 
                                     <InputComponent
                                         required
-                                        label={'NGO Name'}
-                                        placeholder={'Enter ngo name'}
+                                        label={'NPO Name'}
+                                        placeholder={'Enter npo name'}
                                         name={'name'}
                                         onChange={settingsProps.handleChange}
                                         value={settingsProps.values.name}
@@ -95,7 +95,7 @@ function AddNgo(
                                 <InputComponent
                                     required
                                     label={'Email'}
-                                    placeholder={'Enter ngo email'}
+                                    placeholder={'Enter npo email'}
                                     name={'email'}
                                     onChange={settingsProps.handleChange}
                                     value={settingsProps.values.email}
@@ -114,7 +114,7 @@ function AddNgo(
                                         required
                                         type={'password'}
                                         label={'Password'}
-                                        placeholder={'Enter ngo password'}
+                                        placeholder={'Enter npo password'}
                                         name={'password'}
                                         onChange={settingsProps.handleChange}
                                         value={settingsProps.values.password}
@@ -132,7 +132,7 @@ function AddNgo(
                                 <InputComponent
                                     required
                                     label={'Number'}
-                                    placeholder={'Enter ngo number'}
+                                    placeholder={'Enter npo number'}
                                     name={'number'}
                                     onChange={settingsProps.handleChange}
                                     value={settingsProps.values.number}

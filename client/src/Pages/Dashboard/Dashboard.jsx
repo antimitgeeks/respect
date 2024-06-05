@@ -130,7 +130,7 @@ function Dashboard() {
               {
                 role == 'Admin' ?
                   <>
-                    <span className={`  ${ActivePath.includes('dashboard') ? " bg-white  text-black" : " bg-slate-300"} rounded-lg cursor-pointer  border    py-2 flex gap-2 items-center pl-4 pr-12 `} onClick={() => { navigate('') }}> <IoHomeOutline />{sideBarToggle ? <span className='  m-0 p-0'>Npos</span> : ''} </span>
+                    <span className={`  ${ActivePath.includes('dashboard') ? " bg-white  text-black" : " bg-slate-300"} rounded-lg cursor-pointer  border    py-2 flex gap-2 items-center pl-4 pr-12 `} onClick={() => { navigate('') }}> <IoHomeOutline />{sideBarToggle ? <span className='  m-0 p-0'>NPOS</span> : ''} </span>
                     {/* <span className={`  ${ActivePath.includes('reports') ? " bg-white  text-black" : " bg-slate-300"} cursor-pointer  border  rounded-lg  py-2 flex gap-2 items-center pl-4 pr-12 `} onClick={() => { navigate('reports') }}> <LiaClipboardListSolid />{sideBarToggle ? <span className='  m-0 p-0'>Reports</span> : ''} </span> */}
                   </>
                   :

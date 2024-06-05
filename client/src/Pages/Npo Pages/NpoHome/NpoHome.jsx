@@ -460,7 +460,7 @@ useEffect(()=>
 
                                     <div className=' relative w-full'>
 
-                                        <textarea onInput={(e) => handleImageTextInput(e)} value={imageText} type="text" placeholder='Text' className=' py-2  min-h-[250px]  m-auto w-full h-full flex bg-transparent items-center justify-center  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2  px-1 outline-none' />
+                                        <textarea onInput={(e) => handleImageTextInput(e)} value={imageText} type="text" placeholder='Text' className=' py-2  min-h-[250px]  m-auto w-full h-full flex bg-slate-300 items-center justify-center  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2  px-1 outline-none' />
                                         {/* {
                                         imageText && imageText.length > 0
                                         &&

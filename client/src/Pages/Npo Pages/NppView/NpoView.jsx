@@ -1,40 +1,42 @@
 import React, { useState, useEffect } from 'react'
-import { useAllNpoListQuery } from '../../../services/NpoService';
+import { useGetSingleNpoQuery } from '../../../services/NpoService';
+import { useGetPageByIdQuery } from '../../../services/NpoPageService';
 
 function NpoView() {
 
   const [listData, setListData] = useState();
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0)
+  const [NpoData, setNpoData] = useState()
+  const [showDetails, setShowDetails] = useState(false);
+  const [detailsLoading, setDetailsLoading] = useState(false);
+  const [npoDetails, setNpoDetails] = useState(null);
 
+  const Id = 8
+  const { data: singleData, isFetching: isdataFetching, isLoading: isdataLoading } = useGetSingleNpoQuery({ Id })
 
+  const { data: NpoPagedata, error, isFetching, isLoading } = useGetPageByIdQuery(
+    { Id: NpoData?.id },
+    { skip: !showDetails } // Only fetch when showDetails is true
+  );
 
-  const { data: ListData, isLoading: isListLoading, isFetching: isListFetching } = useAllNpoListQuery({
-    limit: 10,
-    offset: 1
-  }) //
-
-  console.log(ListData, isListLoading, isListFetching, '-------------------api data');
-  const npo = {
-    name: "AIM",
-    email: "contact@aim.org",
-    number: "123-456-7890"
+  const toggleDetails = () => {
+    console.log(NpoPagedata, '-------------------------NpoPagedata');
+    setShowDetails(!showDetails);
   };
 
   useEffect(() => {
-    if (isListLoading || isListFetching) {
+    if (isdataLoading || isdataFetching) {
       setLoading(true)
     }
     else {
-      setListData(ListData?.result?.rows);
-      setCount(Math.ceil(ListData?.result?.count / 5) || 0)
+      setNpoData(singleData?.result);
       setTimeout(() => {
-
         setLoading(false)
       }, 500);
     }
 
-  }, [ListData, isListFetching, isListLoading])
+  }, [singleData, isdataLoading, isdataFetching])
 
   return (
     <>
@@ -42,27 +44,45 @@ function NpoView() {
       <div className=' flex flex-col gap-2 pt-2  '>
         {
           loading ?
-            <div className=' w-full flex flex-col gap-2'>
-              {Array(5).fill(0).map((itm, indx) => {
-                return <div key={indx} className=' border h-[60px] rounded w-full bg-slate-400 animate-pulse'></div>
-              })}
+            <div className=' w-full flex flex-col gap-2 mt-10'>
+              <div className=' border h-[300px] rounded w-full bg-slate-400 animate-pulse'></div>
             </div>
             :
-            listData?.length <= 0 || !listData ?
-              "No data" :
-              <div className="container mx-auto p-4">
-                <h1 className="text-3xl font-bold mb-4">{npo.name} Details</h1>
-                <div className="bg-white rounded-lg p-6">
-                  <p className="text-lg mb-2"><strong>Name:</strong> {npo.name}</p>
-                  <p className="text-lg mb-2"><strong>Email:</strong> {npo.email}</p>
-                  <p className="text-lg"><strong>Number:</strong> {npo.number}</p>
-                </div>
+            <div className="container mx-auto p-4">
+              <h1 className="text-3xl font-bold mb-4">{NpoData?.name} Details</h1>
+              <div className="bg-white rounded-lg p-6">
+                <p className="text-lg mb-2"><strong>Name:</strong> {NpoData?.name}</p>
+                <p className="text-lg mb-2"><strong>Email:</strong> {NpoData?.email}</p>
+                <p className="text-lg"><strong>Number:</strong> {NpoData?.number}</p>
               </div>
+              <button
+                onClick={toggleDetails}
+                className="text-blue-500 underline mt-4 inline-block"
+              >
+                {showDetails ? 'Hide NPO Page Details' : 'View NPO Page Details'}
+              </button>
+              {showDetails && (
+                <div className="mt-4">
+                  {detailsLoading ? (
+                    <div className='w-full flex flex-col gap-2 mt-10'>
+                      <div className='border h-[300px] rounded w-full bg-slate-400 animate-pulse'></div>
+                    </div>
+                  ) : (
+                    <div className="bg-white rounded-lg p-6">
+                      {/* <h2 className="text-2xl font-bold mb-4">{npoDetails?.name} Full Details</h2>
+                      <p className="text-lg mb-2"><strong>Name:</strong> {npoDetails?.name}</p>
+                      <p className="text-lg mb-2"><strong>Email:</strong> {npoDetails?.email}</p>
+                      <p className="text-lg"><strong>Number:</strong> {npoDetails?.number}</p> */}
+                      {/* Add other details as needed */}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
         }
       </div>
     </>
   );
-
 }
 
 export default NpoView;

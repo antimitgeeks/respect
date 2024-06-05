@@ -6,6 +6,7 @@ const routes = require("./app/v1/routes");
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
+const multer = require('multer');
 require('./app/v1/utils/cron.job');
 
 const app = express();

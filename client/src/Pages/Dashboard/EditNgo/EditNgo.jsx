@@ -34,7 +34,7 @@ function EditNgo(
         if (isdataLoading || isdataFetching) {
             setLoading(true)
         }
-        else {
+        else { 
             setNpoData(singleData?.result);
             setTimeout(() => {
                 setLoading(false)
@@ -132,14 +132,14 @@ function EditNgo(
                                                 onChange={settingsProps.handleChange}
                                                 value={settingsProps.values.email}
                                             />
-                                            <InputComponent
+                                            {/* <InputComponent
                                                 required
                                                 label={'Address'}
                                                 placeholder={'Enter ngo Address'}
                                                 name={'address'}
                                                 onChange={settingsProps.handleChange}
                                                 value={settingsProps.values.address}
-                                            />
+                                            /> */}
                                             <div className=' relative flex  items-center'>
 
                                                 <InputComponent

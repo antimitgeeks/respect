@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { NPO_TYPE } = require('../../constants/enum')
 
 const emailSchema = Joi.string().email().required()
 
@@ -34,4 +35,8 @@ exports.listSchema = Joi.object({
 
 exports.idSchema = Joi.object({
     id: Joi.number().required(),
+})
+
+exports.npoImageTypeSchema = Joi.object({
+    type: Joi.valid(NPO_TYPE.LOGO, NPO_TYPE.BANNER, NPO_TYPE.TEXT).required()
 })
