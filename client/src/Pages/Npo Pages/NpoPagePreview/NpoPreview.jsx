@@ -134,7 +134,7 @@ function NpoPreview() {
                 return response?.blob();
             })
             .then(blob => {
-                const imgURL = URL.createObjectURL(blob);
+                const imgURL = blob? URL.createObjectURL(blob):'';
                 setImageTextUrl(imgURL);
                 console.log(blob, "res");
             })

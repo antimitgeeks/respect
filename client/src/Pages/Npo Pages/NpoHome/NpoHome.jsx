@@ -60,11 +60,11 @@ function NpoHome() {
         setLoading(true)
         fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
             .then(response => {
-                if (!response.ok) {
+                if (!response?.ok) {
                     throw new Error('Image not found');
                 }
                 console.log(response);
-                return response.blob();
+                return response?.blob();
             })
             .then(blob => {
                 console.log(blob);
