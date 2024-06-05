@@ -28,7 +28,7 @@ const NpoService = CreateApi.injectEndpoints(
                     }),
                 GetSingleNpo: builder.query(
                     {
-                        invalidatesTags: ["npo"],
+                        providesTags: ["npo","singleNpo"],
                         query: ({ Id }) => (
                             {
                                 url: `/admin/npo/${Id}`,
@@ -38,7 +38,7 @@ const NpoService = CreateApi.injectEndpoints(
                     }),
                 UpdateNpo: builder.mutation(
                     {
-                        invalidatesTags: ["npo"],
+                        invalidatesTags: ["npo","singleNpo"],
                         query: ({ Id, data }) => (
                             {
                                 url: `/admin/npo/${Id}`,

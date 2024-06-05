@@ -15,11 +15,16 @@ function LinksModal({ close,data }) {
         contactUs: NpoReduxData?.contactUs||data?.linksData?.contactUs?.link ||  '',
         websiteLink:  NpoReduxData?.websiteLink ||data?.linksData?.websiteLink?.link || '',
         // backgroundColor: NpoReduxData?.backgroundColor || '#CBD5E1',
-        instaSwitch: NpoReduxData?.instaSwitch==false &&false || data?.linksData?.instagram?.show == false ? false : true,
-        facebookSwitch: data?.linksData?.facebook?.show == false ? false : true,
-        youtubeSwitch: data?.linksData?.youtube?.show == false ? false : true,
-        contactSwitch: data?.linksData?.contact?.show == false ? false : true,
-        websiteSwitch: data?.linksData?.websiteLink?.show == false ? false : true
+        instaSwitch: NpoReduxData?.length != 0? NpoReduxData?.instaSwitch==false ?false:true:data?.linksData?.instagram?.show==false?false:true,
+        facebookSwitch: NpoReduxData?.length != 0? NpoReduxData?.facebookSwitch==false ?false:true:data?.linksData?.facebook?.show ==false?false:true,
+        youtubeSwitch: NpoReduxData?.length!=0? NpoReduxData?.youtubeSwitch==false ?false:true : data?.linksData?.youtube?.show ==false?false:true,
+        contactSwitch:NpoReduxData?.length!=0? NpoReduxData?.contactSwitch==false ?false:true:data?.linksData?.contactUs?.show==false?false:true,
+        websiteSwitch: NpoReduxData?.length!=0? NpoReduxData?.websiteSwitch==false ?false:true:data?.linksData?.websiteLink?.show==false?false:true,
+
+        // facebookSwitch: data?.linksData?.facebook?.show == false ? false : true,
+        // youtubeSwitch: data?.linksData?.youtube?.show == false ? false : true,
+        // contactSwitch: data?.linksData?.contact?.show == false ? false : true,
+        // websiteSwitch: data?.linksData?.websiteLink?.show == false ? false : true
     });
 
     const handleInputChange = (e) => {

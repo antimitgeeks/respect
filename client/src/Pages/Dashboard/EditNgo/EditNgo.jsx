@@ -21,7 +21,7 @@ function EditNgo(
 ) {
 
 
-    // const [showPassword, setShowPassword] = useState("password");
+    const [showPassword, setShowPassword] = useState("password");
     const [UpdateNpo] = useUpdateNpoMutation()
     const [loading, setLoading] = useState(false);
     const [updateLoading, setUpdateLoading] = useState(false);
@@ -47,7 +47,7 @@ function EditNgo(
 
         name: yup.string().strict().matches(/^[a-zA-Z 0-9]+$/, "Special characters not allowed").required('name is required').trim("Invalid name"),
         email: yup.string().strict().email('Enter Valid email').required('email is required').trim("Invalid email"),
-        address: yup.string().required('address is required').trim("Enter valid address").strict(),
+        // address: yup.string().required('address is required').trim("Enter valid address").strict(),
         password: yup.string().required('password is required').min(6, "minimum 6 characters required").trim("Invalid password").strict(),
         number: yup.string().required('number is required').min(10, "Invalid number").max(10, "Invalid number").trim("Invalid number")
     });
@@ -56,7 +56,7 @@ function EditNgo(
     const initialValues = {
         name: NpoData?.name || '',
         email: NpoData?.email || '',
-        address: NpoData?.address || '',
+        // address: NpoData?.address || '',
         number: NpoData?.number || '',
         password: NpoData?.password || ''
     };
@@ -144,22 +144,24 @@ function EditNgo(
 
                                                 <InputComponent
                                                     required
-                                                    type={'text'}
+                                                    type={showPassword}
                                                     label={'Password'}
                                                     placeholder={'Enter ngo password'}
                                                     name={'password'}
                                                     onChange={settingsProps.handleChange}
                                                     value={settingsProps.values.password}
                                                 />
-                                                {/* <span className=' absolute cursor-pointer right-2 bottom-3'>
+                                                 <span className=' absolute cursor-pointer right-2 bottom-3'>
                                         {
+
                                             showPassword === "text" ?
-                                                <IoEye onClick={() => setShowPassword("password")} size={18} />
-                                                :
+                                            <IoEye onClick={() => setShowPassword("password")} size={18} />
+                                            :
                                                 <IoEyeOff onClick={() => setShowPassword("text")} size={18} />
 
                                         }
-                                    </span> */}
+                                        
+                                    </span> 
                                             </div>
                                             <InputComponent
                                                 required
