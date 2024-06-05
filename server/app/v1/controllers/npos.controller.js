@@ -60,6 +60,7 @@ exports.getPageImage = async (req, res) => {
                 return res.status(404).send('Image not found');
             }
             const imagePath = path.join(imageDir, file);
+            res.set('Content-Type', 'image/*');
             res.sendFile(path.resolve(imagePath));
         });
         // return sendResponse(res, statusCode.OK, true, `Npo Page Image ${SuccessMessage.FETCH}`, result);

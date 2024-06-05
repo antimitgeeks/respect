@@ -22,5 +22,6 @@ module.exports.ErrorMessage = {
   UNAUTHORIZED: "Token Not Exist.",
   INVALID_TOKEN: "Invalid Token.",
   FILE_REQUIRED: "File Required.",
-  FILE_NOT_UPLOAD: "File Not Upload."
+  FILE_NOT_UPLOAD: "File Not Upload.",
+  NOT_CREATED: "Not Created.",
 };

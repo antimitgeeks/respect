@@ -20,6 +20,9 @@ exports.createNpo = async (req, res) => {
         }
         // add new npo
         const result = await service.addNpo(details);
+        if (!result) {
+            return sendResponse(res, statusCode.BAD_REQUEST, false, `Npo ${ErrorMessage.NOT_CREATED}`);
+        }
         return sendResponse(res, statusCode.OK, true, `Npo ${SuccessMessage.CREATED}`, result);
     } catch (error) {
         // delete created row in store table

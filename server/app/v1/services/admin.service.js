@@ -1,14 +1,6 @@
 const axios = require('axios');
-const fs = require('fs');
-const { DataTypes, where } = require('sequelize');
-const customerSchema = require("../models/schemas/customer.schema.js")
-const csv = require('csv-parser');
-const stream = require('stream');
 
 const db = require("../models/index.js");
-const Stores = db.stores;
-const uploadedFiles = db.uploadedFiles;
-const sequelize = db.sequelize;
 const Npos = db.Npos;
 
 
@@ -26,8 +18,44 @@ exports.npoByEmail = async (email) => {
 
 // add new store 
 exports.addNpo = async (details) => {
+    // create page in shopify 
+    // const pageCreated = await this.addPageInShopify({ title: details.name, body: details.name });
+    // if (!pageCreated) {
+    //     return false
+    // }
     const npoDetails = await Npos.create(details);
     return npoDetails;
+}
+
+// add page in shop : shopify
+exports.addPageInShopify = async (details) => {
+    let data = JSON.stringify({
+        "page": {
+            "title": details.title,
+            "body_html": `<h2>NPO Details</h2>\n<p>${details.body}</p>`
+        }
+    });
+
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: `https://${process.env.STORE_NAME}.myshopify.com/admin/api/2024-04/pages.json`,
+        headers: {
+            'X-Shopify-Access-Token': process.env.STORE_ACCESS_TOKEN,
+            'Content-Type': 'application/json'
+        },
+        data: data
+    };
+
+    try {
+        const response = await axios.request(config)
+        console.log('Shopify Page Details : ', response.data);
+        return true;
+    } catch (error) {
+        console.log('Error In Page Create Shopify : ', error);
+        return false
+    }
+
 }
 
 // return npo`s list
