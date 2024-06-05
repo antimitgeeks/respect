@@ -18,34 +18,111 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode';
-import { useAddPageMutation, useGetPageByIdQuery } from '../../../services/NpoPageService';
+import { useAddPageMutation, useGetFileQuery, useGetPageByIdQuery, useUploadFileMutation } from '../../../services/NpoPageService';
 
 function NpoHome() {
     const NpoReduxData = useSelector((state) => state.NpoDataSlice);
-    const [loading,setLoading]= useState(false);
+    const [loading, setLoading] = useState(false);
     const [FinalData, setFinalData] = useState();
-
     const [decodedToken, setDecodedToken] = useState('');
-    const { data: NpoPagedata,isFetching:ispageDataFetching,isLoading:ispageDataLoading } = useGetPageByIdQuery({ Id: decodedToken?.id })
+    const [IMG, setImg] = useState('')
 
-    useEffect(()=>
-    {
-        if(ispageDataFetching || ispageDataLoading)
-            {
-                setLoading(true)
-            }
-        else
-        {
-            setLoading(false);
-            setFinalData(NpoPagedata?.result?.pageJson?JSON.parse(NpoPagedata?.result?.pageJson):null)
+    /* Getting PageData using Api by Id */
+
+
+    const { data: NpoPagedata, isFetching: ispageDataFetching, isLoading: ispageDataLoading } = useGetPageByIdQuery({ Id: decodedToken?.id || '0' })
+
+    useEffect(() => {
+        if (ispageDataFetching || ispageDataLoading) {
+            setLoading(true)
         }
-    },[NpoPagedata,ispageDataFetching,ispageDataLoading])
+        else {
+            setLoading(false);
+            setFinalData(NpoPagedata?.result?.pageJson ? JSON.parse(NpoPagedata?.result?.pageJson) : null)
+        }
+    }, [NpoPagedata, ispageDataFetching, ispageDataLoading])
 
-    console.log(FinalData);
+
+
+    /* Getting ImageFile data using Api by */
+    // const {data:logoImageData,isFetching:isLogoDataFetching,isLoading:isLogoDataLoading} = useGetFileQuery({Id:6,type:'logo'});
+
+//////////////////////////////////////////////////////////////////////////
+    const fetchLogoData = async () => {
+        const config = {
+            method: "POST"
+        }
+        try {
+            const response = await fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${6}?type=${'logo'}`, config);
+            const resdta = await response?.blob();
+            const imgURL = URL.createObjectURL(resdta)
+            setLogoUrl(imgURL)
+            console.log(resdta, "res")
+            if (!response.ok) {
+                throw new Error('Image not found');
+            }
+        }
+        catch (err) {
+            console.log(err, "________________")
+        }
+    }
+    useEffect(() => {
+
+        fetchLogoData()
+    }, [decodedToken]);
+
+///////////////////////////////////////////////////////////////////////////////////////////
+    const fetchBannerImgData = async () => {
+        const config = {
+            method: "POST"
+        }
+        try {
+            const response = await fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=${'banner'}`, config);
+            const resdta = await response?.blob();
+            const imgURL = URL.createObjectURL(resdta)
+            setBannerUrl(imgURL)
+            console.log(resdta, "res")
+            if (!response.ok) {
+                throw new Error('Image not found');
+            }
+        }
+        catch (err) {
+            console.log(err, "________________")
+        }
+    }
+
+    useEffect(() => {
+        fetchBannerImgData()
+    }, [decodedToken])
+
+//////////////////////////////////////////////////////////////////////////////
+
+const fetchTextImgData = async () => {
+    const config = {
+        method: "POST"
+    }
+    try {
+        const response = await fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=${'text'}`, config);
+        const resdta = await response?.blob();
+        const imgURL = URL.createObjectURL(resdta)
+        setImageTextUrl(imgURL)
+        console.log(resdta, "res")
+        if (!response.ok) {
+            throw new Error('Image not found');
+        }
+    }
+    catch (err) {
+        console.log(err, "________________")
+    }
+}
+useEffect(()=>
+{
+    fetchTextImgData()
+},[decodedToken])
+
 
     const [imageHeading, setImageHeading] = useState(FinalData?.imageHeading || '');
-    useEffect(()=>
-    {
+    useEffect(() => {
         setImageHeading(FinalData?.imageHeading)
         setImageText(FinalData?.imageText);
         setVideoModalData(FinalData?.videoData);
@@ -54,7 +131,7 @@ function NpoHome() {
         setEmailData(FinalData?.emailData);
 
     }
-    ,[FinalData])
+        , [FinalData])
     const [logoUrl, setLogoUrl] = useState(NpoReduxData?.data?.logoUrl || '');
     const [bannerUrl, setBannerUrl] = useState(NpoReduxData?.data?.bannerUrl || '');
     const [imageTextUrl, setImageTextUrl] = useState(NpoReduxData?.data.imageTextUrl || '');
@@ -68,7 +145,7 @@ function NpoHome() {
     const cookieData = Cookies.get('NpoAuthLogin');
 
     const [AddPage] = useAddPageMutation();
-
+    const [UploadFile] = useUploadFileMutation();
 
 
     useEffect(() => {
@@ -86,33 +163,94 @@ function NpoHome() {
 
     const [videoModalOpen, setVideoModalOpen] = useState(false);
     const [linksModalOpen, setLinksModalOpen] = useState(false);
+
     console.log(NpoReduxData.data);
     const navigate = useNavigate()
 
+    /* Logo ImageUplaod handle*/
     const handleLogoInput = (ev) => {
 
         // setLogoUrl(logoUrl)
         const file = ev?.target?.files[0];
-        const newLogoUrl = URL?.createObjectURL(file);
+        const formData = new FormData();
 
-        setLogoUrl(newLogoUrl);
+        formData.append('image', file);
+        const newLogoUrl = URL?.createObjectURL(file);
+        UploadFile({ Id: decodedToken?.id, data: formData, type: 'logo' })
+            .then((res) => {
+                if (res.error) {
+                    toast.error(res.error.data.message);
+                    console.log(res.error)
+                }
+                else {
+                    console.log(res);
+                    setLogoUrl(newLogoUrl);
+
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+
     };
 
+
+    /* Banner Image upload handle */
     const handleBannerInput = (ev) => {
 
         const file = ev?.target?.files[0];
         const newLogoUrl = URL?.createObjectURL(file);
+        const formData = new FormData();
 
-        setBannerUrl(newLogoUrl);
+        formData.append('image', file);
+        UploadFile({ Id: decodedToken?.id, data: formData, type: 'banner' })
+            .then((res) => {
+                if (res.error) {
+                    toast.error(res.error.data.message);
+                    setBannerUrl('')
+                }
+                else {
+                    setBannerUrl(newLogoUrl);
+                    console.log(res);
+
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+
     };
 
+    /* Handle Image with text upload */
     const handleImagewithText = (ev) => {
 
         const file = ev?.target?.files[0];
+        const formData = new FormData();
+        
+        formData.append('image', file);
         const newLogoUrl = URL?.createObjectURL(file);
+        UploadFile({ Id: decodedToken?.id, data: formData, type: 'text' })
+            .then((res) => {
+                if (res.error) {
+                    toast.error(res?.error?.data?.message);
+                    console.log(res?.error)
+                }
+                else {
+                    console.log(res);
+                    setImageTextUrl(newLogoUrl);
 
-        setImageTextUrl(newLogoUrl);
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+
+
     };
+    console.log(imageTextUrl)
     const handleImageTextInput = (ev) => {
 
         const val = ev?.target?.value;
@@ -170,16 +308,16 @@ function NpoHome() {
                 },
                 youtube: {
                     link: linksData?.youtube || FinalData?.linksData?.youtube?.link,
-                    show: linksData?.youtubeSwitch||  FinalData?.linksData?.youtube?.show
+                    show: linksData?.youtubeSwitch || FinalData?.linksData?.youtube?.show
 
                 },
                 contactUs: {
                     link: linksData?.contactUs || FinalData?.linksData?.contactUs?.link,
-                    show:linksData?.contactSwitch ||  FinalData?.linksData?.contactUs?.show
+                    show: linksData?.contactSwitch || FinalData?.linksData?.contactUs?.show
                 },
                 websiteLink: {
                     link: linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link,
-                    show:linksData?.websiteSwitch || FinalData?.linksData?.websiteLink?.show
+                    show: linksData?.websiteSwitch || FinalData?.linksData?.websiteLink?.show
                 }
             }
         }
@@ -206,49 +344,9 @@ function NpoHome() {
                 })
             console.log(DataForApi)
         }
-        // AddPage(DataForApi)
 
 
-        // let saveData = {
-        //     logoUrl: logoUrl,
-        //     bannerUrl: bannerUrl,
-        //     imageTextUrl: imageTextUrl,
-        //     imageText: imageText,
-        //     imageHeading: imageHeading,
-        //     videoData: systmVideoData ? systmVideoData : videoModalData,
-        //     richBody: richBody,
-        //     emailData: emailData,
-        //     richHeading: richHeading,
-        //     linksData: {
-        //         instagram: {
-        //             link: linksData?.instagram,
-        //             show: linksData?.instaSwitch
-        //         },
-        //         facebook: {
-        //             link: linksData?.facebook,
-        //             show: linksData?.facebookSwitch
-        //         },
-        //         youtube: {
-        //             link: linksData?.youtube,
-        //             show: linksData?.youtubeSwitch
 
-        //         },
-        //         contactUs: {
-        //             link: linksData?.contactUs
-        //         },
-        //         websiteLink: {
-        //             link: linksData?.websiteLink
-        //         }
-        //     }
-        // }
-        // if (saveData.logoUrl.trim() == '' || saveData.bannerUrl.trim() == '' || saveData.imageTextUrl.trim() == '' || saveData.imageText.trim() == ''
-        //     || saveData.videoData.trim() == '' || saveData.richHeading.trim() == '' || saveData.richBody.trim() == '' || saveData.emailData.trim() == '') {
-        //     toast.error("Fill all the details first")
-        // }
-        // else {
-
-        //     console.log(saveData)
-        // }
     }
 
     const handleLinksModalClose = (data) => {
@@ -283,7 +381,7 @@ function NpoHome() {
 
     const handleCall = (number) => {
         window.open(`tel:${number}`, '_blank');
-      }
+    }
 
     return (
         <div className='h-full   overflow-y-scroll w-full flex flex-col'>
@@ -385,7 +483,7 @@ function NpoHome() {
                                             <source src={systmVideoData} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video>
-                                        <span onClick={() => { setSystmVideoData('') }} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit/></span>
+                                        <span onClick={() => { setSystmVideoData('') }} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></span>
 
 
                                     </div>
@@ -394,8 +492,8 @@ function NpoHome() {
                                 videoModalData?.length > 0 && videoModalData
                                     ?
                                     <div className=' relative w-full h-full'>
-                                        <iframe className=' w-full h-full' src={videoModalData} title="YouTube video player" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" loop allow="accelerometer; loop; autoplay; fullscreen; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                                        <span onClick={() => { setVideoModalData('') }} className=' absolute cursor-pointer bg-slate-200 top-[-12px] right-[-9.4px] font-semibold text-black text-lg'><FaRegEdit/></span>
+                                        <iframe className=' w-full h-full' src={videoModalData} title="YouTube video player" referrerPolicy="strict-origin-when-cross-origin" loop allow="accelerometer; loop; autoplay; fullscreen; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                                        <span onClick={() => { setVideoModalData('') }} className=' absolute cursor-pointer bg-slate-200 top-[-12px] right-[-9.4px] font-semibold text-black text-lg'><FaRegEdit /></span>
                                     </div>
                                     :
 
@@ -435,13 +533,13 @@ function NpoHome() {
                     </div>
                     <div style={linksData?.backgroundColor ? { backgroundColor: linksData?.backgroundColor } : { backgroundColor: '#CBD5E1' }} className={` w-full flex-col  items-center gap-4 flex px-3 pb-4 pt-2 `}>
                         <div className=' w-full'>
-                                    <span className='  w-full flex justify-end font-semibold'><span className='  cursor-pointer'  onClick={() => setLinksModalOpen(true)}>EDIT</span></span>
+                            <span className='  w-full flex justify-end font-semibold'><span className='  cursor-pointer' onClick={() => setLinksModalOpen(true)}>EDIT</span></span>
                             <span className=' w-[100%] flex items-center justify-center'>
                                 <div className='relative gap-2 flex items-center justify-center  w-1/3'>
                                     <div className=' flex flex-col gap-1 w-full items-center'>
 
-                                    <span>Reach Us Through Our Email : </span>
-                                    <input value={emailData} onInput={(e) => setEmailData(e.target.value)} type="text" className=' py-2 focus:border-2  focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit ' placeholder='Enter  email' />
+                                        <span>Reach Us Through Our Email : </span>
+                                        <input value={emailData} onInput={(e) => setEmailData(e.target.value)} type="text" className=' py-2 focus:border-2  focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit ' placeholder='Enter  email' />
                                     </div>
                                     {/* {
                                         emailData && emailData?.length > 0
@@ -454,14 +552,14 @@ function NpoHome() {
                         <div className=' w-full items-center flex justify-between'>
                             <div className=' flex flex-col  gap-3'>
 
-                                <span className='' onClick={()=>handleCall(linksData?.contactUs)} >
+                                <span className='' onClick={() => handleCall(linksData?.contactUs)} >
                                     <span>
-                                        Contact Us : {linksData?.contactUs ||FinalData?.linksData?.contactUs?.link}
+                                        Contact Us : {linksData?.contactUs || FinalData?.linksData?.contactUs?.link}
                                     </span>
                                 </span>
                                 <a className='' href={linksData?.websiteLink || "#"}>
                                     <span>
-                                        Website Link : { linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link}
+                                        Website Link : {linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link}
                                     </span>
                                 </a>
                             </div>
@@ -470,23 +568,23 @@ function NpoHome() {
                                     linksData?.instaSwitch != false
                                     &&
                                     } */}
-                                    <a href={linksData?.instagram || "https://www.instagram.com/"} target='_blank'>
-                                        <img className=' w-[42px] h-[41px]' src={insta} alt="" />
-                                    </a>
+                                <a href={linksData?.instagram || "https://www.instagram.com/"} target='_blank'>
+                                    <img className=' w-[42px] h-[41px]' src={insta} alt="" />
+                                </a>
                                 {/* {
                                     linksData?.facebookSwitch != false
                                 }
                                     && */}
-                                    <a href={linksData?.facebook || "https://www.facebook.com/"} target='_blank'>
-                                        <img className=' w-fit h-[28px]' src={facebook} alt="" />
-                                    </a>
+                                <a href={linksData?.facebook || "https://www.facebook.com/"} target='_blank'>
+                                    <img className=' w-fit h-[28px]' src={facebook} alt="" />
+                                </a>
                                 {/* {
                                     linksData?.youtubeSwitch != false
                                     &&
                                     } */}
-                                    <a href={linksData?.youtube || "https://www.youtube.com/"} target='_blank'>
-                                        <img className=' w-fit h-[28px]' src={ytLogo} alt="" />
-                                    </a>
+                                <a href={linksData?.youtube || "https://www.youtube.com/"} target='_blank'>
+                                    <img className=' w-fit h-[28px]' src={ytLogo} alt="" />
+                                </a>
                             </div>
 
                         </div>

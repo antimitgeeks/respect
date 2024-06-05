@@ -29,12 +29,23 @@ const NpoPageService = CreateApi.injectEndpoints(
                 ),
                 UploadFile:builder.mutation(
                     {
-                        invalidatesTags:['npopage'],
-                        query:({Id,data})=>(
+                        invalidatesTags:['npopageimage'],
+                        query:({Id,data,type})=>(
                             {
-                                url:`/npos/page/${Id}`,
+                                url:`/npos/upload/${Id}?type=${type}`,
                                 method:'POST',
                                 body:data
+                            }
+                        )
+                    }
+                ),
+                GetFile:builder.query(
+                    {
+                        providesTags:['npopageimage'],
+                        query:({Id,type})=>(
+                            {
+                                url:`/npos/image/${Id}?type=${type}`,
+                                method:"POST"
                             }
                         )
                     }
@@ -44,4 +55,4 @@ const NpoPageService = CreateApi.injectEndpoints(
     }
 );
 
-export const  { useGetPageByIdQuery, useAddPageMutation,useUploadFileMutation}= NpoPageService;
+export const  { useGetPageByIdQuery, useGetFileQuery, useAddPageMutation,useUploadFileMutation}= NpoPageService;
