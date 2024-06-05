@@ -28,20 +28,13 @@ function NpoHome() {
     const [decodedToken, setDecodedToken] = useState('');
     const { data: NpoPagedata, isFetching: ispageDataFetching, isLoading: ispageDataLoading } = useGetPageByIdQuery({ Id: decodedToken?.id })
 
-    useEffect(()=>
-    {
-        if(ispageDataFetching || ispageDataLoading)
-            {
-                setLoading(true)
-            }
-        else
-        {
-            setLoading(false);
-            setFinalData(NpoPagedata?.result?.pageJson?JSON.parse(NpoPagedata?.result?.pageJson):null)
+    useEffect(() => {
+        if (ispageDataFetching || ispageDataLoading) {
+            setLoading(true)
         }
         else {
             setLoading(false);
-            setFinalData(NpoPagedata?.result?.pageJson ? JSON.parse(NpoPagedata.result.pageJson) : null)
+            setFinalData(NpoPagedata?.result?.pageJson ? JSON.parse(NpoPagedata?.result?.pageJson) : null)
         }
     }, [NpoPagedata, ispageDataFetching, ispageDataLoading])
 
@@ -173,16 +166,16 @@ function NpoHome() {
                 },
                 youtube: {
                     link: linksData?.youtube || FinalData?.linksData?.youtube?.link,
-                    show: linksData?.youtubeSwitch||  FinalData?.linksData?.youtube?.show
+                    show: linksData?.youtubeSwitch || FinalData?.linksData?.youtube?.show
 
                 },
                 contactUs: {
                     link: linksData?.contactUs || FinalData?.linksData?.contactUs?.link,
-                    show:linksData?.contactSwitch ||  FinalData?.linksData?.contactUs?.show
+                    show: linksData?.contactSwitch || FinalData?.linksData?.contactUs?.show
                 },
                 websiteLink: {
                     link: linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link,
-                    show:linksData?.websiteSwitch || FinalData?.linksData?.websiteLink?.show
+                    show: linksData?.websiteSwitch || FinalData?.linksData?.websiteLink?.show
                 }
             }
         }
@@ -388,7 +381,7 @@ function NpoHome() {
                                             <source src={systmVideoData} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video>
-                                        <span onClick={() => { setSystmVideoData('') }} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit/></span>
+                                        <span onClick={() => { setSystmVideoData('') }} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></span>
 
 
                                     </div>
@@ -398,7 +391,7 @@ function NpoHome() {
                                     ?
                                     <div className=' relative w-full h-full'>
                                         <iframe className=' w-full h-full' src={videoModalData} title="YouTube video player" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" loop allow="accelerometer; loop; autoplay; fullscreen; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                                        <span onClick={() => { setVideoModalData('') }} className=' absolute cursor-pointer bg-slate-200 top-[-12px] right-[-9.4px] font-semibold text-black text-lg'><FaRegEdit/></span>
+                                        <span onClick={() => { setVideoModalData('') }} className=' absolute cursor-pointer bg-slate-200 top-[-12px] right-[-9.4px] font-semibold text-black text-lg'><FaRegEdit /></span>
                                     </div>
                                     :
 
@@ -459,12 +452,12 @@ function NpoHome() {
 
                                 <span className='' onClick={() => handleCall(linksData?.contactUs)} >
                                     <span>
-                                        Contact Us : {linksData?.contactUs ||FinalData?.linksData?.contactUs?.link}
+                                        Contact Us : {linksData?.contactUs || FinalData?.linksData?.contactUs?.link}
                                     </span>
                                 </span>
                                 <a className='' href={linksData?.websiteLink || "#"}>
                                     <span>
-                                        Website Link : { linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link}
+                                        Website Link : {linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link}
                                     </span>
                                 </a>
                             </div>
