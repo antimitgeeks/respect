@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useGetSingleNpoQuery } from '../../../services/NpoService';
 import { useGetPageByIdQuery } from '../../../services/NpoPageService';
+import { useNavigate } from 'react-router-dom';
 
 function NpoView() {
 
@@ -11,7 +12,7 @@ function NpoView() {
   const [showDetails, setShowDetails] = useState(false);
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [npoDetails, setNpoDetails] = useState(null);
-
+  const navigate = useNavigate()
   const Id = 8
   const { data: singleData, isFetching: isdataFetching, isLoading: isdataLoading } = useGetSingleNpoQuery({ Id })
 
@@ -48,12 +49,18 @@ function NpoView() {
               <div className=' border h-[300px] rounded w-full bg-slate-400 animate-pulse'></div>
             </div>
             :
-            <div className="container mx-auto p-4">
-              <h1 className="text-3xl font-bold mb-4">{NpoData?.name} Details</h1>
+            <div className="container  mx-auto p-4">
+              <div  className=" float-end mb-3 cursor-pointer bg-slate-300 px-3 py-[5px] rounded w-fit" onClick={()=>navigate('/dashboard')}>
+                Back
+              </div>
+              {
+                NpoData?
+                <>
+                  <h1 className="text-3xl font-bold mb-4">{NpoData?.name} Details</h1>
               <div className="bg-white rounded-lg p-6">
-                <p className="text-lg mb-2"><strong>Name:</strong> {NpoData?.name}</p>
-                <p className="text-lg mb-2"><strong>Email:</strong> {NpoData?.email}</p>
-                <p className="text-lg"><strong>Number:</strong> {NpoData?.number}</p>
+                <p className="text-[19px] mb-2"><strong>Name:</strong> {NpoData?.name}</p>
+                <p className="text-[19px] mb-2"><strong>Email:</strong> {NpoData?.email}</p>
+                <p className="text-[19px]"><strong>Number:</strong> {NpoData?.number}</p>
               </div>
               <button
                 onClick={toggleDetails}
@@ -78,6 +85,13 @@ function NpoView() {
                   )}
                 </div>
               )}
+                </>
+                :
+                <div className=' font-semibold w-full flex justify-center'>
+                No Data Available
+                </div>
+              }
+            
             </div>
         }
       </div>

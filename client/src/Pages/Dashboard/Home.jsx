@@ -146,7 +146,7 @@ function Home() {
             }
             else {
               // close()
-              toast.success(res.data.message)
+              toast.success(res?.data?.message)
             }
             // setUpdateLoading(false)
           })
@@ -226,7 +226,9 @@ function Home() {
                   listData?.map((itm, indx) => {
                     return <div key={indx} className=' w-full  items-start bg-white select-none sm:flex-col border-slate-400 flex-col md:flex-row  gap-3 border-2   rounded-md  px-2 py-3'>
                       <span className=' w-full text-[13.4px]  flex gap-14 '><span className=' font-semibold'> Ngo name</span>  {itm?.name} </span>
-                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Ngo email : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.accessToken}</span> </span>
+                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Ngo email : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.email}</span> </span>
+                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Ngo number : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.number}</span> </span>
+                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Status : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.status}</span> </span>
                       {/* <span className=' w-full  text-[13.4px] flex gap-10'><span className=' font-semibold'>Api store Key :</span> {itm.apiKey}</span> */}
                       {/* <span className=' w-full  text-[13.4px] flex gap-10'><span className=' font-semibold'>Api store pass </span>{itm.apiPassword}</span> */}
                       <span className=' w-full  text-[13.4px] gap-20 relative  flex'> <span className=' font-semibold'>Actions  </span> <span className=' pt-1 cursor-pointer' onClick={() => { actionIndex[indx] === true ? handleActionsClose(indx) : handleActions(indx, itm?.id) }}><BsThreeDotsVertical /></span>
