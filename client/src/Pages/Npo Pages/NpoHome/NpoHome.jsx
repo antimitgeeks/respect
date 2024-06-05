@@ -53,7 +53,7 @@ function NpoHome() {
             method: "POST"
         }
         try {
-            const response = await fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${6}?type=${'logo'}`, config);
+            const response = await fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=${'logo'}`, config);
             const resdta = await response?.blob();
             const imgURL = URL.createObjectURL(resdta)
             setLogoUrl(imgURL)
@@ -175,7 +175,7 @@ useEffect(()=>
         const formData = new FormData();
 
         formData.append('image', file);
-        const newLogoUrl = URL?.createObjectURL(file);
+        const newLogoUrl =  file?URL?.createObjectURL(file):'';
         UploadFile({ Id: decodedToken?.id, data: formData, type: 'logo' })
             .then((res) => {
                 if (res.error) {
@@ -373,7 +373,7 @@ useEffect(()=>
 
     const handlePreviewPage = () => {
         console.log(NpoReduxData?.data)
-        NpoReduxData?.data != '' ?
+        FinalData?.data != '' ?
             navigate('/page/preview')
             :
             toast.error('Page details incomplete')
@@ -405,7 +405,8 @@ useEffect(()=>
                                 logoUrl ?
                                     <div className=' z-[1000] relative w-full h-full'>
                                         <img className='  border-4 border-black w-[70px] h-[70px]  rounded-full' src={logoUrl} alt="" />
-                                        <span onClick={() => setLogoUrl('')} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></span>
+                                        <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
+                                        <label htmlFor='logoInput' className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></label>
                                     </div>
                                     :
                                     <div className=' cursor-pointer p-[1px]  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-500 border-2  rounded-full'> <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
@@ -419,7 +420,9 @@ useEffect(()=>
                                 ?
                                 <div className=' z-0  w-full '>
                                     <img className=' w-full object-cover h-[440px]' src={bannerUrl} alt="" />
-                                    <span onClick={() => setBannerUrl('')} className=' cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></span>
+                                        <input onChange={(e) => handleBannerInput(e)} type="file" id='bannerInput' className=' w-0 hidden' accept='image/*' />
+
+                                    <label htmlFor='bannerInput' className=' m-0 cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></label>
                                 </div>
                                 :
                                 <div className=' flex  focus:border-2 p-1  focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center bg-slate-300 w-full h-[435px]'>
@@ -437,7 +440,9 @@ useEffect(()=>
                                     ?
                                     <div className='  h-full w-full'>
                                         <img className=' w-full h-full object-fill' src={imageTextUrl} alt="" />
-                                        <span onClick={() => setImageTextUrl('')} className=' text-black  font-bold bg-slate-200 p-[1px] right-[-4px] top-[-10px] cursor-pointer absolute'><FaRegEdit /></span>
+                                        <input onInput={(e) => handleImagewithText(e)} id='imageWithText' type="file" accept='image/*' className=' w-0 hidden' />
+
+                                        <label htmlFor={'imageWithText'} className=' text-black m-0  font-bold bg-slate-200 p-[1px] right-[-4px] top-[-10px] cursor-pointer absolute'><FaRegEdit /></label>
                                     </div>
                                     :
                                     <div className=' w-full py-1  focus:border-2 h-full focus:border-black focus:border-solid border-dashed border-slate-400 border-2  flex items-center justify-center'>
@@ -483,7 +488,7 @@ useEffect(()=>
                                             <source src={systmVideoData} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video>
-                                        <span onClick={() => { setSystmVideoData('') }} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></span>
+                                        <span  onClick={()=>setVideoModalOpen(true)} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></span>
 
 
                                     </div>
@@ -493,7 +498,7 @@ useEffect(()=>
                                     ?
                                     <div className=' relative w-full h-full'>
                                         <iframe className=' w-full h-full' src={videoModalData} title="YouTube video player" referrerPolicy="strict-origin-when-cross-origin" loop allow="accelerometer; loop; autoplay; fullscreen; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-                                        <span onClick={() => { setVideoModalData('') }} className=' absolute cursor-pointer bg-slate-200 top-[-12px] right-[-9.4px] font-semibold text-black text-lg'><FaRegEdit /></span>
+                                        <span onClick={() => { setVideoModalOpen(true) }} className=' absolute cursor-pointer bg-slate-200 top-[-12px] right-[-9.4px] font-semibold text-black text-lg'><FaRegEdit /></span>
                                     </div>
                                     :
 

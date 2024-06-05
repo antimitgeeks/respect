@@ -16,7 +16,9 @@ function NpoPreview() {
     const [loading,setLoading] = useState(false)
     
     const [decodedToken, setDecodedToken] = useState('');
+
     const { data: NpoPagedata,isFetching:ispageDataFetching,isLoading:ispageDataLoading } = useGetPageByIdQuery({ Id: decodedToken?.id })
+
     const cookieData = Cookies.get('NpoAuthLogin');
     const [logoUrl,setLogoUrl]= useState('');
     const [bannerUrl,setBannerUrl]= useState('');
@@ -61,14 +63,13 @@ function NpoPreview() {
     }
 
 
-
     /* functions for image get */
     const fetchLogoData = async () => {
         const config = {
             method: "POST"
         }
         try {
-            const response = await fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${6}?type=${'logo'}`, config);
+            const response = await fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=${'logo'}`, config);
             const resdta = await response?.blob();
             const imgURL = URL.createObjectURL(resdta)
             setLogoUrl(imgURL)
