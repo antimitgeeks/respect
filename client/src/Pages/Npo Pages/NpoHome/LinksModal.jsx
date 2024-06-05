@@ -7,6 +7,7 @@ import Switch from '@mui/material/Switch';
 function LinksModal({ close,data }) {
     const NpoReduxData = useSelector((state) => state.NpoDataSlice.linksData);
 
+    console.log(NpoReduxData)
     const [linksData, setLinksData] = useState({
         instagram:NpoReduxData?.instagram || data?.linksData?.instagram?.link || '',
         facebook: NpoReduxData?.facebook || data?.linksData?.facebook?.link|| '',
@@ -14,7 +15,7 @@ function LinksModal({ close,data }) {
         contactUs: NpoReduxData?.contactUs||data?.linksData?.contactUs?.link ||  '',
         websiteLink:  NpoReduxData?.websiteLink ||data?.linksData?.websiteLink?.link || '',
         // backgroundColor: NpoReduxData?.backgroundColor || '#CBD5E1',
-        instaSwitch: data?.linksData?.instagram?.show == false ? false : true,
+        instaSwitch: NpoReduxData?.instaSwitch==false &&false || data?.linksData?.instagram?.show == false ? false : true,
         facebookSwitch: data?.linksData?.facebook?.show == false ? false : true,
         youtubeSwitch: data?.linksData?.youtube?.show == false ? false : true,
         contactSwitch: data?.linksData?.contact?.show == false ? false : true,

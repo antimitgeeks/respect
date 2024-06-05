@@ -18,15 +18,19 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode';
-import { useAddPageMutation, useGetPageByIdQuery } from '../../../services/NpoPageService';
+import { useAddPageMutation, useGetFileQuery, useGetPageByIdQuery, useUploadFileMutation } from '../../../services/NpoPageService';
 
 function NpoHome() {
     const NpoReduxData = useSelector((state) => state.NpoDataSlice);
     const [loading, setLoading] = useState(false);
     const [FinalData, setFinalData] = useState();
-
     const [decodedToken, setDecodedToken] = useState('');
-    const { data: NpoPagedata, isFetching: ispageDataFetching, isLoading: ispageDataLoading } = useGetPageByIdQuery({ Id: decodedToken?.id })
+    const [IMG, setImg] = useState('')
+
+    /* Getting PageData using Api by Id */
+
+
+    const { data: NpoPagedata, isFetching: ispageDataFetching, isLoading: ispageDataLoading } = useGetPageByIdQuery({ Id: decodedToken?.id || '0' })
 
     useEffect(() => {
         if (ispageDataFetching || ispageDataLoading) {
@@ -38,7 +42,84 @@ function NpoHome() {
         }
     }, [NpoPagedata, ispageDataFetching, ispageDataLoading])
 
-    console.log(FinalData);
+
+
+    /* Getting ImageFile data using Api by */
+    // const {data:logoImageData,isFetching:isLogoDataFetching,isLoading:isLogoDataLoading} = useGetFileQuery({Id:6,type:'logo'});
+
+//////////////////////////////////////////////////////////////////////////
+    const fetchLogoData = async () => {
+        const config = {
+            method: "POST"
+        }
+        try {
+            const response = await fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=${'logo'}`, config);
+            const resdta = await response?.blob();
+            const imgURL = URL.createObjectURL(resdta)
+            setLogoUrl(imgURL)
+            console.log(resdta, "res")
+            if (!response.ok) {
+                throw new Error('Image not found');
+            }
+        }
+        catch (err) {
+            console.log(err, "________________")
+        }
+    }
+    useEffect(() => {
+
+        fetchLogoData()
+    }, [decodedToken]);
+
+///////////////////////////////////////////////////////////////////////////////////////////
+    const fetchBannerImgData = async () => {
+        const config = {
+            method: "POST"
+        }
+        try {
+            const response = await fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=${'banner'}`, config);
+            const resdta = await response?.blob();
+            const imgURL = URL.createObjectURL(resdta)
+            setBannerUrl(imgURL)
+            console.log(resdta, "res")
+            if (!response.ok) {
+                throw new Error('Image not found');
+            }
+        }
+        catch (err) {
+            console.log(err, "________________")
+        }
+    }
+
+    useEffect(() => {
+        fetchBannerImgData()
+    }, [decodedToken])
+
+//////////////////////////////////////////////////////////////////////////////
+
+const fetchTextImgData = async () => {
+    const config = {
+        method: "POST"
+    }
+    try {
+        const response = await fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=${'text'}`, config);
+        const resdta = await response?.blob();
+        const imgURL = URL.createObjectURL(resdta)
+        setImageTextUrl(imgURL)
+        console.log(resdta, "res")
+        if (!response.ok) {
+            throw new Error('Image not found');
+        }
+    }
+    catch (err) {
+        console.log(err, "________________")
+    }
+}
+useEffect(()=>
+{
+    fetchTextImgData()
+},[decodedToken])
+
 
     const [imageHeading, setImageHeading] = useState(FinalData?.imageHeading || '');
     useEffect(() => {
@@ -64,7 +145,7 @@ function NpoHome() {
     const cookieData = Cookies.get('NpoAuthLogin');
 
     const [AddPage] = useAddPageMutation();
-
+    const [UploadFile] = useUploadFileMutation();
 
 
     useEffect(() => {
@@ -82,33 +163,94 @@ function NpoHome() {
 
     const [videoModalOpen, setVideoModalOpen] = useState(false);
     const [linksModalOpen, setLinksModalOpen] = useState(false);
+
     console.log(NpoReduxData.data);
     const navigate = useNavigate()
 
+    /* Logo ImageUplaod handle*/
     const handleLogoInput = (ev) => {
 
         // setLogoUrl(logoUrl)
         const file = ev?.target?.files[0];
-        const newLogoUrl = URL?.createObjectURL(file);
+        const formData = new FormData();
 
-        setLogoUrl(newLogoUrl);
+        formData.append('image', file);
+        const newLogoUrl =  file?URL?.createObjectURL(file):'';
+        UploadFile({ Id: decodedToken?.id, data: formData, type: 'logo' })
+            .then((res) => {
+                if (res.error) {
+                    toast.error(res.error.data.message);
+                    console.log(res.error)
+                }
+                else {
+                    console.log(res);
+                    setLogoUrl(newLogoUrl);
+
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+
     };
 
+
+    /* Banner Image upload handle */
     const handleBannerInput = (ev) => {
 
         const file = ev?.target?.files[0];
         const newLogoUrl = URL?.createObjectURL(file);
+        const formData = new FormData();
 
-        setBannerUrl(newLogoUrl);
+        formData.append('image', file);
+        UploadFile({ Id: decodedToken?.id, data: formData, type: 'banner' })
+            .then((res) => {
+                if (res.error) {
+                    toast.error(res.error.data.message);
+                    setBannerUrl('')
+                }
+                else {
+                    setBannerUrl(newLogoUrl);
+                    console.log(res);
+
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+
     };
 
+    /* Handle Image with text upload */
     const handleImagewithText = (ev) => {
 
         const file = ev?.target?.files[0];
+        const formData = new FormData();
+        
+        formData.append('image', file);
         const newLogoUrl = URL?.createObjectURL(file);
+        UploadFile({ Id: decodedToken?.id, data: formData, type: 'text' })
+            .then((res) => {
+                if (res.error) {
+                    toast.error(res?.error?.data?.message);
+                    console.log(res?.error)
+                }
+                else {
+                    console.log(res);
+                    setImageTextUrl(newLogoUrl);
 
-        setImageTextUrl(newLogoUrl);
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+
+
     };
+    console.log(imageTextUrl)
     const handleImageTextInput = (ev) => {
 
         const val = ev?.target?.value;
@@ -202,49 +344,9 @@ function NpoHome() {
                 })
             console.log(DataForApi)
         }
-        // AddPage(DataForApi)
 
 
-        // let saveData = {
-        //     logoUrl: logoUrl,
-        //     bannerUrl: bannerUrl,
-        //     imageTextUrl: imageTextUrl,
-        //     imageText: imageText,
-        //     imageHeading: imageHeading,
-        //     videoData: systmVideoData ? systmVideoData : videoModalData,
-        //     richBody: richBody,
-        //     emailData: emailData,
-        //     richHeading: richHeading,
-        //     linksData: {
-        //         instagram: {
-        //             link: linksData?.instagram,
-        //             show: linksData?.instaSwitch
-        //         },
-        //         facebook: {
-        //             link: linksData?.facebook,
-        //             show: linksData?.facebookSwitch
-        //         },
-        //         youtube: {
-        //             link: linksData?.youtube,
-        //             show: linksData?.youtubeSwitch
 
-        //         },
-        //         contactUs: {
-        //             link: linksData?.contactUs
-        //         },
-        //         websiteLink: {
-        //             link: linksData?.websiteLink
-        //         }
-        //     }
-        // }
-        // if (saveData.logoUrl.trim() == '' || saveData.bannerUrl.trim() == '' || saveData.imageTextUrl.trim() == '' || saveData.imageText.trim() == ''
-        //     || saveData.videoData.trim() == '' || saveData.richHeading.trim() == '' || saveData.richBody.trim() == '' || saveData.emailData.trim() == '') {
-        //     toast.error("Fill all the details first")
-        // }
-        // else {
-
-        //     console.log(saveData)
-        // }
     }
 
     const handleLinksModalClose = (data) => {
@@ -271,7 +373,7 @@ function NpoHome() {
 
     const handlePreviewPage = () => {
         console.log(NpoReduxData?.data)
-        NpoReduxData?.data != '' ?
+        FinalData?.data != '' ?
             navigate('/page/preview')
             :
             toast.error('Page details incomplete')
@@ -303,7 +405,8 @@ function NpoHome() {
                                 logoUrl ?
                                     <div className=' z-[1000] relative w-full h-full'>
                                         <img className='  border-4 border-black w-[70px] h-[70px]  rounded-full' src={logoUrl} alt="" />
-                                        <span onClick={() => setLogoUrl('')} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></span>
+                                        <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
+                                        <label htmlFor='logoInput' className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></label>
                                     </div>
                                     :
                                     <div className=' cursor-pointer p-[1px]  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-500 border-2  rounded-full'> <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
@@ -317,7 +420,9 @@ function NpoHome() {
                                 ?
                                 <div className=' z-0  w-full '>
                                     <img className=' w-full object-cover h-[440px]' src={bannerUrl} alt="" />
-                                    <span onClick={() => setBannerUrl('')} className=' cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></span>
+                                        <input onChange={(e) => handleBannerInput(e)} type="file" id='bannerInput' className=' w-0 hidden' accept='image/*' />
+
+                                    <label htmlFor='bannerInput' className=' m-0 cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></label>
                                 </div>
                                 :
                                 <div className=' flex  focus:border-2 p-1  focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center bg-slate-300 w-full h-[435px]'>
@@ -335,7 +440,9 @@ function NpoHome() {
                                     ?
                                     <div className='  h-full w-full'>
                                         <img className=' w-full h-full object-fill' src={imageTextUrl} alt="" />
-                                        <span onClick={() => setImageTextUrl('')} className=' text-black  font-bold bg-slate-200 p-[1px] right-[-4px] top-[-10px] cursor-pointer absolute'><FaRegEdit /></span>
+                                        <input onInput={(e) => handleImagewithText(e)} id='imageWithText' type="file" accept='image/*' className=' w-0 hidden' />
+
+                                        <label htmlFor={'imageWithText'} className=' text-black m-0  font-bold bg-slate-200 p-[1px] right-[-4px] top-[-10px] cursor-pointer absolute'><FaRegEdit /></label>
                                     </div>
                                     :
                                     <div className=' w-full py-1  focus:border-2 h-full focus:border-black focus:border-solid border-dashed border-slate-400 border-2  flex items-center justify-center'>
@@ -381,7 +488,7 @@ function NpoHome() {
                                             <source src={systmVideoData} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video>
-                                        <span onClick={() => { setSystmVideoData('') }} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></span>
+                                        <span  onClick={()=>setVideoModalOpen(true)} className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></span>
 
 
                                     </div>
@@ -390,8 +497,8 @@ function NpoHome() {
                                 videoModalData?.length > 0 && videoModalData
                                     ?
                                     <div className=' relative w-full h-full'>
-                                        <iframe className=' w-full h-full' src={videoModalData} title="YouTube video player" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" loop allow="accelerometer; loop; autoplay; fullscreen; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                                        <span onClick={() => { setVideoModalData('') }} className=' absolute cursor-pointer bg-slate-200 top-[-12px] right-[-9.4px] font-semibold text-black text-lg'><FaRegEdit /></span>
+                                        <iframe className=' w-full h-full' src={videoModalData} title="YouTube video player" referrerPolicy="strict-origin-when-cross-origin" loop allow="accelerometer; loop; autoplay; fullscreen; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                                        <span onClick={() => { setVideoModalOpen(true) }} className=' absolute cursor-pointer bg-slate-200 top-[-12px] right-[-9.4px] font-semibold text-black text-lg'><FaRegEdit /></span>
                                     </div>
                                     :
 
