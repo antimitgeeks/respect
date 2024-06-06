@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 
 const CreateApi = createApi({
         baseQuery:fetchBaseQuery({
-            baseUrl:"http://localhost:8080/api/v1",
+            baseUrl:"https://respect-ql8e.vercel.app/api/v1",
             prepareHeaders: (headers) => {
 
                 const user =Cookies.get('isLogged');
