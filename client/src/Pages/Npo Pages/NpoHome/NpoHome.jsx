@@ -58,7 +58,7 @@ function NpoHome() {
             method: "POST"
         };
         setLoading(true)
-        fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
+        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -95,7 +95,7 @@ function NpoHome() {
         setLoading(true);
         setBannerLoading(true);
 
-        fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
+        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Image not found');
@@ -129,7 +129,7 @@ function NpoHome() {
         };
         setLoading(true)
         setTextImageLoading(true);
-        fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
+        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -501,7 +501,7 @@ function NpoHome() {
                                 <div className=' self-stretch flex-col justify-center  items-center flex gap-2 w-full bg-slate-300'>
                                     <div className=' px-3 py-1 w-full flex flex-col gap-2 items-center'>
                                         <span className=' relative flex-col gap-2 flex items-center  h-full py-2 justify-center w-full'>
-                                            <input value={imageHeading} onInput={(e) => setImageHeading(e.target.value)} type="text" className=' py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit ' placeholder='Heading' />
+                                            <input value={imageHeading} onInput={(e) => setImageHeading(e.target.value)} type="text" className='font-bold py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit' placeholder='Heading' />
                                             {/* {
                                         imageHeading && imageHeading.length > 0
                                         &&

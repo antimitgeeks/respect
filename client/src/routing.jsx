@@ -50,15 +50,15 @@ function Routing() {
     return (
         <div>
             <Routes>
-                <Route path="" element={<WelcomePage/>} />
+                <Route path="" element={<WelcomePage />} />
                 <Route path="login/admin" element={<Login auth={setAthenticateLogin} />} />
                 <Route path="login/npo" element={<NpoLogin auth={setAthenticateLogin} />} />
                 <Route path="/forgot-password/:id" element={<ForgetPassword />} />
                 <Route path="/reset-password" element={<EmailAuth />} />
                 <Route path="*" element={<Login auth={setAthenticateLogin} />} />
                 <Route path="page/preview" element={<NpoPreview />} />
-                {/* {
-                    authenticateLogin ? */}
+                {
+                    authenticateLogin ?
                         <Route path="/dashboard" element={<Dashboard />} >
                             <Route path='' element={role == 'npo' ?  <NpoHome />:<Home />} />
                             <Route path='reports' element={<Report />} />
