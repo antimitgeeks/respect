@@ -76,14 +76,14 @@ function NpoHome() {
                 setLogoLoading(false);
             })
             .catch(err => {
-                console.log(err, "________________");
                 setLoading(false);
                 setLogoLoading(false)
             });
     };
 
     useEffect(() => {
-
+        decodedToken?.id
+         &&
         fetchLogoData()
     }, [decodedToken]);
 
@@ -110,7 +110,6 @@ function NpoHome() {
                 setBannerLoading(false)
             })
             .catch(err => {
-                console.log(err, "________________");
                 setLoading(false);
                 setBannerLoading(false)
             });
@@ -118,6 +117,8 @@ function NpoHome() {
 
 
     useEffect(() => {
+        decodedToken?.id
+         &&  
         fetchBannerImgData()
     }, [decodedToken])
 
@@ -144,13 +145,14 @@ function NpoHome() {
                 setTextImageLoading(false)
             })
             .catch(err => {
-                console.log(err, "________________");
                 setLoading(false);
                 setTextImageLoading(false)
             });
     };
 
     useEffect(() => {
+        decodedToken?.id 
+        &&
         fetchTextImgData()
     }, [decodedToken])
 

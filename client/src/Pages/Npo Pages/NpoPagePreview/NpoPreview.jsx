@@ -80,12 +80,11 @@ function NpoPreview({ Id }) {
                 console.log(blob, "res");
             })
             .catch(err => {
-                console.log(err, "________________");
             });
     };
     useEffect(() => {
-
-        fetchLogoData()
+        decodedToken?.id || Id
+            && fetchLogoData()
     }, [decodedToken]);
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -107,12 +106,12 @@ function NpoPreview({ Id }) {
                 console.log(blob, "res");
             })
             .catch(err => {
-                console.log(err, "________________");
             });
     };
 
     useEffect(() => {
-        fetchBannerImgData()
+        decodedToken?.id || Id
+        && fetchBannerImgData()
     }, [decodedToken])
 
     //////////////////////////////////////////////////////////////////////////////
@@ -135,10 +134,11 @@ function NpoPreview({ Id }) {
                 console.log(blob, "res");
             })
             .catch(err => {
-                console.log(err, "________________");
             });
     };
     useEffect(() => {
+        decodedToken?.id || Id
+        &&
         fetchTextImgData()
     }, [decodedToken])
 
@@ -246,7 +246,7 @@ function NpoPreview({ Id }) {
                             &&
                             <span className=' flex gap-[46px] cursor-pointer'>
                                 <span>
-                                    Visit Us 
+                                    Visit Us
                                 </span>
                                 :<a target='_blank' href={PageData?.linksData?.websiteLink?.link}> <u> {PageData?.linksData?.websiteLink?.link}</u></a>
                             </span>
