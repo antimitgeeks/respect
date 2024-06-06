@@ -409,10 +409,11 @@ function NpoHome() {
 
     const handlePreviewPage = () => {
         console.log(NpoReduxData?.data)
-        FinalData?.data != '' ?
-            navigate('/page/preview')
-            :
-            toast.error('Page details incomplete')
+        console.log(FinalData?.data)
+        FinalData?.data == '' || FinalData?.data ==undefined ?
+        toast.error('Page details incomplete')
+        :
+        navigate('/page/preview')
     }
 
     const handleCall = (number) => {

@@ -76,11 +76,7 @@ function NpoView() {
                     </div>
                   ) : (
                     <div className="bg-white rounded-lg p-6">
-                      {/* <h2 className="text-2xl font-bold mb-4">{npoDetails?.name} Full Details</h2>
-                      <p className="text-lg mb-2"><strong>Name:</strong> {npoDetails?.name}</p>
-                      <p className="text-lg mb-2"><strong>Email:</strong> {npoDetails?.email}</p>
-                      <p className="text-lg"><strong>Number:</strong> {npoDetails?.number}</p> */}
-                      {/* Add other details as needed */}
+                      
                     </div>
                   )}
                 </div>
