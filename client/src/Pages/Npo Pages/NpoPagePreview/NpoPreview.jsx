@@ -17,7 +17,7 @@ function NpoPreview({ Id }) {
     const [loading, setLoading] = useState(false)
     const [decodedToken, setDecodedToken] = useState('');
 
-    const { data: NpoPagedata, isFetching: ispageDataFetching, isLoading: ispageDataLoading } = useGetPageByIdQuery({ Id: decodedToken?.id || Id })
+    const { data: NpoPagedata, isFetching: ispageDataFetching, isLoading: ispageDataLoading } = useGetPageByIdQuery({ Id: Id || decodedToken?.id })
 
     const cookieData = Cookies.get('NpoAuthLogin');
     const [logoUrl, setLogoUrl] = useState('');
@@ -30,7 +30,7 @@ function NpoPreview({ Id }) {
         }
         else {
             setLoading(false);
-            setPageData(NpoPagedata?.result?.pageJson ? JSON.parse(NpoPagedata?.result?.pageJson) : null)
+            setPageData(NpoPagedata?.result?.pageJson ? (NpoPagedata?.result?.pageJson) : null)
         }
     }, [NpoPagedata, ispageDataFetching, ispageDataLoading])
 
@@ -64,7 +64,7 @@ function NpoPreview({ Id }) {
             method: "POST"
         };
 
-        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id || Id}?type=logo`, config)
+        fetch(`https://respect-ql8e.vercel.app/api/v1/npos/image/${ Id || decodedToken?.id}?type=logo`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -83,8 +83,11 @@ function NpoPreview({ Id }) {
             });
     };
     useEffect(() => {
-        decodedToken?.id || Id
-            && fetchLogoData()
+        if(decodedToken?.id || Id)
+            {
+
+         fetchLogoData()
+            }
     }, [decodedToken]);
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -93,7 +96,7 @@ function NpoPreview({ Id }) {
             method: "POST"
         };
 
-        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id || Id}?type=banner`, config)
+        fetch(`https://respect-ql8e.vercel.app/api/v1/npos/image/${Id || decodedToken?.id }?type=banner`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -110,8 +113,11 @@ function NpoPreview({ Id }) {
     };
 
     useEffect(() => {
-        decodedToken?.id || Id
-        && fetchBannerImgData()
+        if(decodedToken?.id || Id)
+            {
+
+            fetchBannerImgData()
+            }
     }, [decodedToken])
 
     //////////////////////////////////////////////////////////////////////////////
@@ -120,8 +126,8 @@ function NpoPreview({ Id }) {
         const config = {
             method: "POST"
         };
-
-        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id || Id}?type=text`, config)
+        console.log(Id,'IDDDDDDDDDDDDDDDDDDDDDDDDD')
+        fetch(`https://respect-ql8e.vercel.app/api/v1/npos/image/${ Id?Id: decodedToken?.id }?type=text`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -137,9 +143,11 @@ function NpoPreview({ Id }) {
             });
     };
     useEffect(() => {
-        decodedToken?.id || Id
-        &&
-        fetchTextImgData()
+        if(decodedToken?.id || Id)
+            {
+
+                fetchTextImgData()
+            }
     }, [decodedToken])
 
 

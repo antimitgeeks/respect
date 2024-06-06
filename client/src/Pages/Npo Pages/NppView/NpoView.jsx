@@ -53,7 +53,7 @@ function NpoView() {
   return (
     <>
 
-      <div className=' flex flex-col gap-2 pt-2  '>
+      <div className=' h-full overflow-y-scroll flex flex-col gap-2 pt-2  '>
         {
           loading ?
             <div className=' w-full flex flex-col gap-2 mt-10'>

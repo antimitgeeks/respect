@@ -83,6 +83,7 @@ function AddNgo(
                                 <div className=' flex items-center gap-1'>
 
                                     <InputComponent
+                                        auto={'off'}
                                         required
                                         label={'NPO Name'}
                                         placeholder={'Enter npo name'}
@@ -94,6 +95,7 @@ function AddNgo(
                                 </div>
                                 <InputComponent
                                     required
+                                    auto={'off'}
                                     label={'Email'}
                                     placeholder={'Enter npo email'}
                                     name={'email'}
@@ -112,6 +114,7 @@ function AddNgo(
 
                                     <InputComponent
                                         required
+                                        auto={"off"}
                                         type={'password'}
                                         label={'Password'}
                                         placeholder={'Enter npo password'}
@@ -130,9 +133,10 @@ function AddNgo(
                                     </span> */}
                                 </div>
                                 <InputComponent
-                                    required
-                                    label={'Number'}
-                                    placeholder={'Enter npo number'}
+                                    // required
+                                    auto={"off"}
+                                    label={'Contact number'}
+                                    placeholder={'Enter contact number'}
                                     name={'number'}
                                     onChange={settingsProps.handleChange}
                                     value={settingsProps.values.number}

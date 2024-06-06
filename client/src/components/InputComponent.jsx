@@ -10,7 +10,8 @@ function InputComponent(
         type,
         label,
         required,
-        defaultValue
+        defaultValue,
+        auto
     }
 ) {
     return (
@@ -21,6 +22,7 @@ function InputComponent(
                 }
                 <input
                     value={value}
+                    autoComplete={auto}
                     defaultValue={defaultValue}
                     name={name}
                     onChange={onChange}

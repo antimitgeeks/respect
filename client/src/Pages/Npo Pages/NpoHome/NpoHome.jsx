@@ -42,7 +42,8 @@ function NpoHome() {
         }
         else {
             setLoading(false);
-            setFinalData(NpoPagedata?.result?.pageJson ? JSON.parse(NpoPagedata?.result?.pageJson) : null)
+            console.log(NpoPagedata?.result?.pageJson)
+            setFinalData(NpoPagedata?.result?.pageJson ? (NpoPagedata?.result?.pageJson) : null)
         }
     }, [NpoPagedata, ispageDataFetching, ispageDataLoading])
 
@@ -58,7 +59,7 @@ function NpoHome() {
             method: "POST"
         };
         setLoading(true)
-        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
+        fetch(`https://respect-ql8e.vercel.app/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -95,7 +96,7 @@ function NpoHome() {
         setLoading(true);
         setBannerLoading(true);
 
-        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
+        fetch(`https://respect-ql8e.vercel.app/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Image not found');
@@ -130,7 +131,7 @@ function NpoHome() {
         };
         setLoading(true)
         setTextImageLoading(true);
-        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
+        fetch(`https://respect-ql8e.vercel.app/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -209,7 +210,7 @@ function NpoHome() {
         // setLogoUrl(logoUrl)
         const file = ev?.target?.files[0];
         const formData = new FormData();
-
+        console.log('HI')
         formData.append('image', file);
         const newLogoUrl = file ? URL?.createObjectURL(file) : '';
         UploadFile({ Id: decodedToken?.id, data: formData, type: 'logo' })
@@ -411,8 +412,8 @@ function NpoHome() {
 
     const handlePreviewPage = () => {
         console.log(NpoReduxData?.data)
-        console.log(FinalData?.data)
-        FinalData?.data == '' || FinalData?.data == undefined ?
+        console.log(FinalData)
+        FinalData == '' || FinalData == undefined ?
             toast.error('Page details incomplete')
             :
             navigate('/page/preview')
