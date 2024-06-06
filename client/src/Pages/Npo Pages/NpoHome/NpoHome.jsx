@@ -84,8 +84,8 @@ function NpoHome() {
 
     useEffect(() => {
         decodedToken?.id
-         &&
-        fetchLogoData()
+            &&
+            fetchLogoData()
     }, [decodedToken]);
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -119,8 +119,8 @@ function NpoHome() {
 
     useEffect(() => {
         decodedToken?.id
-         &&  
-        fetchBannerImgData()
+            &&
+            fetchBannerImgData()
     }, [decodedToken])
 
     //////////////////////////////////////////////////////////////////////////////
@@ -152,9 +152,9 @@ function NpoHome() {
     };
 
     useEffect(() => {
-        decodedToken?.id 
-        &&
-        fetchTextImgData()
+        decodedToken?.id
+            &&
+            fetchTextImgData()
     }, [decodedToken])
 
 
@@ -360,10 +360,12 @@ function NpoHome() {
         }
         console.log(DataForApi, "%%%")
 
-        if (DataForApi?.logoUrl == '' || DataForApi?.bannerUrl == '' || DataForApi?.imageTextUrl == '' || DataForApi?.imageText == ''
+        if (
+            // DataForApi?.logoUrl == '' || DataForApi?.bannerUrl == '' || DataForApi?.imageTextUrl == '' ||
+            DataForApi?.imageText == ''
             || DataForApi?.videoData == '' || DataForApi?.richHeading == '' || DataForApi?.richBody == '' || DataForApi?.emailData == ''
-            || DataForApi?.logoUrl == undefined || DataForApi?.bannerUrl == undefined || DataForApi?.imageTextUrl == undefined || DataForApi?.imageText == undefined
-            || DataForApi?.videoData == undefined || DataForApi?.richHeading == undefined || DataForApi?.richBody == undefined || DataForApi?.emailData == undefined
+            // || DataForApi?.logoUrl == undefined || DataForApi?.bannerUrl == undefined || DataForApi?.imageTextUrl == undefined || DataForApi?.imageText == undefined
+            // || DataForApi?.videoData == undefined || DataForApi?.richHeading == undefined || DataForApi?.richBody == undefined || DataForApi?.emailData == undefined
         ) {
             toast.error("Fill all the details first")
         }

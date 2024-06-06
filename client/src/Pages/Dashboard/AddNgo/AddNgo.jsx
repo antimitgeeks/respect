@@ -43,7 +43,7 @@ function AddNgo(
 
     /* handle form submit */
     const handleSubmit = (data, { resetForm }) => {
-
+        setLoading(true)
         // localStorage.setItem('ngolist', JSON.stringify(updatedData));
         console.log(data);
         CreateNpo({ data: data })
@@ -55,8 +55,10 @@ function AddNgo(
                     close()
                     toast.success(res.data.message)
                 }
+                setLoading(false)
             })
             .catch((err) => {
+                setLoading(false)
                 console.log(err)
             })
 
