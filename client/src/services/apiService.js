@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 
 const CreateApi = createApi({
         baseQuery:fetchBaseQuery({
-            baseUrl:"http://rndnc-2401-4900-1ca3-a933-14ba-7883-e9e6-3958.a.free.pinggy.link/api/v1",
+            baseUrl:"http://localhost:8080/api/v1",
             prepareHeaders: (headers) => {
 
                 const user =Cookies.get('isLogged');

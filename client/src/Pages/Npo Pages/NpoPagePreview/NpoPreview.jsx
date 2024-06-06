@@ -60,6 +60,7 @@ function NpoPreview({ Id }) {
 
     /* functions for image get */
     const fetchLogoData = () => {
+        console.log('----------------------------------------api calling');
         const config = {
             method: "POST"
         };
@@ -83,8 +84,7 @@ function NpoPreview({ Id }) {
             });
     };
     useEffect(() => {
-        decodedToken?.id || Id
-            && fetchLogoData()
+        if (decodedToken?.id || Id) fetchLogoData()
     }, [decodedToken]);
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -110,8 +110,7 @@ function NpoPreview({ Id }) {
     };
 
     useEffect(() => {
-        decodedToken?.id || Id
-        && fetchBannerImgData()
+        if (decodedToken?.id || Id) fetchBannerImgData()
     }, [decodedToken])
 
     //////////////////////////////////////////////////////////////////////////////
@@ -137,9 +136,7 @@ function NpoPreview({ Id }) {
             });
     };
     useEffect(() => {
-        decodedToken?.id || Id
-        &&
-        fetchTextImgData()
+        if (decodedToken?.id || Id) fetchTextImgData()
     }, [decodedToken])
 
 
