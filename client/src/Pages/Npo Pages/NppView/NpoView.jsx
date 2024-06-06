@@ -21,13 +21,12 @@ function NpoView() {
 
   useEffect(()=>
   {
-
     setUserId(data?.id);
     console.log(data?.id)
   },[data])
 
 
-  const { data: singleData, isFetching: isdataFetching, isLoading: isdataLoading } = useGetSingleNpoQuery({ UserId })
+  const { data: singleData, isFetching: isdataFetching, isLoading: isdataLoading } = useGetSingleNpoQuery({ Id:UserId })
 
   // const { data: NpoPagedata, error, isFetching, isLoading } = useGetPageByIdQuery(
   //   { Id: NpoData?.id },

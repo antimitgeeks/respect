@@ -105,7 +105,7 @@ function Dashboard() {
           {role == 'Admin' ? 'A' : 'N'}
         </span>
         {
-          <div className={` ${ToggleProfile ? "mymove" : "mymoveReverse"} transition-all duration-500 top-[45px] px-2 mt-[14.2px] select-none  text-white h-[41px] flex flex-col gap-2 absolute w-[112px] z-[500] rounded py-2 bg-slate-500`}>
+          <div className={` ${ToggleProfile ? "mymove" : "mymoveReverse"} transition-all duration-500 top-[45px] px-2 mt-[14.2px] select-none  text-white h-[41px] flex flex-col gap-2 absolute mr-2 w-[104.6px] z-[500] rounded py-2 bg-slate-500`}>
             <span onClick={() => handleLogout()} className=' transition ease-in duration-200 cursor-pointer self-center flex items-center hover:opacity-80 gap-2'> <RiLogoutBoxLine /> Logout</span>
           </div>
         }
