@@ -8,6 +8,7 @@ exports.createNpo = async (req, res) => {
     console.info('***************************************************Create Npo Api************************************************');
     const details = req.body;
     try {
+        console.log('-----------------test');
         // check email already used
         const emailExist = await service.npoByEmail(details.email);
         if (emailExist) {
