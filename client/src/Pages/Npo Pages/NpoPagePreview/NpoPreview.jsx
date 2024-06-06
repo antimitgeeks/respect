@@ -10,17 +10,14 @@ import Cookies from 'js-cookie';
 import { MdKeyboardBackspace } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 
-function NpoPreview() {
+function NpoPreview({ Id }) {
 
-    const npoPageData = useSelector((state) => state.NpoDataSlice.data);
-    console.log(npoPageData);
     const navigate = useNavigate();
     const [PageData, setPageData] = useState();
     const [loading, setLoading] = useState(false)
-
     const [decodedToken, setDecodedToken] = useState('');
 
-    const { data: NpoPagedata, isFetching: ispageDataFetching, isLoading: ispageDataLoading } = useGetPageByIdQuery({ Id: decodedToken?.id })
+    const { data: NpoPagedata, isFetching: ispageDataFetching, isLoading: ispageDataLoading } = useGetPageByIdQuery({ Id: decodedToken?.id || Id })
 
     const cookieData = Cookies.get('NpoAuthLogin');
     const [logoUrl, setLogoUrl] = useState('');
@@ -40,7 +37,7 @@ function NpoPreview() {
 
     useEffect(() => {
         if (cookieData?.length > 0) {
-            const DecodedData = jwtDecode(cookieData);
+            const DecodedData = cookieData ? jwtDecode(cookieData) : '';
             setDecodedToken(DecodedData);
         }
     }, [cookieData]);
@@ -57,7 +54,7 @@ function NpoPreview() {
     }
 
     const handleCall = (number) => {
-        window.open(`tel:${number}`);
+        window.open(`tel:${number}`, '_blank');
     }
 
 
@@ -67,7 +64,7 @@ function NpoPreview() {
             method: "POST"
         };
 
-        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
+        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id || Id}?type=logo`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -97,7 +94,7 @@ function NpoPreview() {
             method: "POST"
         };
 
-        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
+        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id || Id}?type=banner`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -125,7 +122,7 @@ function NpoPreview() {
             method: "POST"
         };
 
-        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
+        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id || Id}?type=text`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -149,9 +146,12 @@ function NpoPreview() {
 
     return (
         <div className=' flex flex-col gap-2 pb-3 relative  w-full h-full'>
-            <div onClick={() => navigate('/dashboard')} className=' w-fit z-10  fixed right-4 hover:opacity-95 top-4 bg-[#f49a86] px-3 rounded cursor-pointer py-2'>
-                <span className=' cursor-pointer flex gap-2 items-center'> <MdKeyboardBackspace size={20} />Back</span>
-            </div>
+            {
+                !Id &&
+                <div onClick={() => navigate('/dashboard')} className=' w-fit z-10  fixed right-4 hover:opacity-95 top-4 bg-[#f49a86] px-3 rounded cursor-pointer py-2'>
+                    <span className=' cursor-pointer flex gap-2 items-center'> <MdKeyboardBackspace size={20} />Back</span>
+                </div>
+            }
             <div className=' relative w-full  '>
                 <div className=' py-3 px-3 w-full absolute'>
                     {
@@ -234,12 +234,22 @@ function NpoPreview() {
                         {
                             PageData?.linksData?.contactUs?.show != false
                             &&
-                            <span onClick={() => handleCall(PageData?.linksData?.contactUs?.link)} className=' cursor-pointer'>Contact Us :<a href={PageData?.linksData?.contactUs?.link}> <u> {PageData?.linksData?.contactUs?.link}</u></a></span>
+                            <span onClick={() => handleCall(PageData?.linksData?.contactUs?.link)} className=' flex gap-5 cursor-pointer'>
+                                <span>
+                                    Contact Us
+                                </span>
+                                :<a href={PageData?.linksData?.contactUs?.link}> <u> {PageData?.linksData?.contactUs?.link}</u></a>
+                            </span>
                         }
                         {
                             PageData?.linksData?.websiteLink?.show != false
                             &&
-                            <span className=' cursor-pointer'>Visit Us :<a target='_blank' href={PageData?.linksData?.websiteLink?.link}> <u> {PageData?.linksData?.websiteLink?.link}</u></a></span>
+                            <span className=' flex gap-[46px] cursor-pointer'>
+                                <span>
+                                    Visit Us 
+                                </span>
+                                :<a target='_blank' href={PageData?.linksData?.websiteLink?.link}> <u> {PageData?.linksData?.websiteLink?.link}</u></a>
+                            </span>
                         }
                     </div>
                     <div className=' flex gap-3 items-center h-6'>
@@ -258,9 +268,9 @@ function NpoPreview() {
                             </a>
                         }
                         {
-                            npoPageData?.linksData?.youtube?.show != false
+                            PageData?.linksData?.youtube?.show != false
                             &&
-                            <a href={npoPageData?.linksData?.youtube?.link || "https://www.instagram.com/"} target='_blank'>
+                            <a href={PageData?.linksData?.youtube?.link || "https://www.instagram.com/"} target='_blank'>
                                 <img className=' w-fit h-[35.5px]' src={ytLogo} alt="" />
                             </a>
                         }

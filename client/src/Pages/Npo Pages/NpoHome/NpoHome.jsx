@@ -68,7 +68,7 @@ function NpoHome() {
             })
             .then(blob => {
                 console.log(blob);
-                const imgURL = blob? URL.createObjectURL(blob):'';
+                const imgURL = blob ? URL.createObjectURL(blob) : '';
                 console.log(imgURL);
                 setLogoUrl(imgURL);
                 console.log(blob, "res");
@@ -103,7 +103,7 @@ function NpoHome() {
                 return response.blob();
             })
             .then(blob => {
-                const imgURL = blob? URL.createObjectURL(blob):'';
+                const imgURL = blob ? URL.createObjectURL(blob) : '';
                 setBannerUrl(imgURL);
                 console.log(blob, "res");
                 setLoading(false);
@@ -137,7 +137,7 @@ function NpoHome() {
                 return response?.blob();
             })
             .then(blob => {
-                const imgURL = blob? URL.createObjectURL(blob):'';
+                const imgURL = blob ? URL.createObjectURL(blob) : '';
                 setImageTextUrl(imgURL);
                 console.log(blob, "res");
                 setLoading(false);
@@ -410,10 +410,10 @@ function NpoHome() {
     const handlePreviewPage = () => {
         console.log(NpoReduxData?.data)
         console.log(FinalData?.data)
-        FinalData?.data == '' || FinalData?.data ==undefined ?
-        toast.error('Page details incomplete')
-        :
-        navigate('/page/preview')
+        FinalData?.data == '' || FinalData?.data == undefined ?
+            toast.error('Page details incomplete')
+            :
+            navigate('/page/preview')
     }
 
     const handleCall = (number) => {
@@ -501,7 +501,7 @@ function NpoHome() {
                                 <div className=' self-stretch flex-col justify-center  items-center flex gap-2 w-full bg-slate-300'>
                                     <div className=' px-3 py-1 w-full flex flex-col gap-2 items-center'>
                                         <span className=' relative flex-col gap-2 flex items-center  h-full py-2 justify-center w-full'>
-                                            <input value={imageHeading} onInput={(e) => setImageHeading(e.target.value)} type="text" className='font-bold py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit' placeholder='Heading' />
+                                            <input value={imageHeading} onInput={(e) => setImageHeading(e.target.value)} type="text" className='font-semibold placeholder-opacity-70 placeholder-slate-400 py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit' placeholder='Heading' />
                                             {/* {
                                         imageHeading && imageHeading.length > 0
                                         &&
@@ -559,7 +559,7 @@ function NpoHome() {
                                 <div className=' w-full flex items-center justify-center flex-col gap-3'>
                                     {/* <span>Heading</span> */}
                                     <span className='relative w-[80%]'>
-                                        <input value={richHeading} onInput={(e) => setRichHeading(e.target.value)} type="text" className=' py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit ' placeholder='Heading' />
+                                        <input value={richHeading} onInput={(e) => setRichHeading(e.target.value)} type="text" className=' py-2 font-semibold placeholder-opacity-75 placeholder-slate-400 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit ' placeholder='Heading' />
                                         {/* {
                                     richHeading && richHeading?.length > 0
                                     &&
@@ -582,9 +582,9 @@ function NpoHome() {
                             <div style={linksData?.backgroundColor ? { backgroundColor: linksData?.backgroundColor } : { backgroundColor: '#CBD5E1' }} className={` w-full flex-col  items-center gap-4 flex px-3 pb-4 pt-2 `}>
                                 <div className=' w-full'>
                                     <span className='  w-full flex justify-end font-semibold'><span className='  cursor-pointer' onClick={() => setLinksModalOpen(true)}>EDIT</span></span>
-                                    <span className=' w-[100%] flex items-center justify-center'>
+                                    <span className=' py-3 w-[100%] flex items-center justify-center'>
                                         <div className='relative gap-2 flex items-center justify-center  w-full md:w-1/3'>
-                                            <div className=' flex flex-col gap-1 w-full items-center'>
+                                            <div className=' flex flex-col gap-2 w-full items-center'>
 
                                                 <span>Reach Us Through Our Email : </span>
                                                 <input value={emailData} onInput={(e) => setEmailData(e.target.value)} type="text" className=' py-2 focus:border-2  focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit ' placeholder='Enter  email' />
@@ -601,15 +601,29 @@ function NpoHome() {
                                     <div className=' flex flex-col  gap-3'>
 
                                         <span className='' onClick={() => handleCall(linksData?.contactUs)} >
-                                            <span>
-                                                Contact Us : {linksData?.contactUs || FinalData?.linksData?.contactUs?.link}
+                                            <span className=' flex gap-[25.5px]'>
+                                                <span>
+                                                    Contact Us
+                                                </span>
+                                                :
+                                                <span className=' cursor-pointer'>
+
+                                                    {linksData?.contactUs || FinalData?.linksData?.contactUs?.link}
+                                                </span>
                                             </span>
                                         </span>
-                                        <a className='' href={linksData?.websiteLink || "#"}>
+                                        <span className=' flex gap-4'>
+                                            Website Link
                                             <span>
-                                                Website Link : {linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link}
+
+                                                :
                                             </span>
-                                        </a>
+                                            <a className='' href={linksData?.websiteLink || "#"}>
+                                                <span>
+                                                    {linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link}
+                                                </span>
+                                            </a>
+                                        </span>
                                     </div>
                                     <div className=' border-b h-11 mt-3 flex items-center justify-center gap-2'>
                                         {/* {

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useGetSingleNpoQuery } from '../../../services/NpoService';
 import { useGetPageByIdQuery } from '../../../services/NpoPageService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
+import NpoPreview from '../NpoPagePreview/NpoPreview';
 
 function NpoView() {
 
@@ -12,17 +15,26 @@ function NpoView() {
   const [showDetails, setShowDetails] = useState(false);
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [npoDetails, setNpoDetails] = useState(null);
-  const navigate = useNavigate()
-  const Id = 8
-  const { data: singleData, isFetching: isdataFetching, isLoading: isdataLoading } = useGetSingleNpoQuery({ Id })
+  const navigate = useNavigate();
+  const [UserId, setUserId] = useState('')
+  const data = useParams();
 
-  const { data: NpoPagedata, error, isFetching, isLoading } = useGetPageByIdQuery(
-    { Id: NpoData?.id },
-    { skip: !showDetails } // Only fetch when showDetails is true
-  );
+  useEffect(()=>
+  {
+
+    setUserId(data?.id);
+    console.log(data?.id)
+  },[data])
+
+
+  const { data: singleData, isFetching: isdataFetching, isLoading: isdataLoading } = useGetSingleNpoQuery({ UserId })
+
+  // const { data: NpoPagedata, error, isFetching, isLoading } = useGetPageByIdQuery(
+  //   { Id: NpoData?.id },
+  //   { skip: !showDetails } // Only fetch when showDetails is true
+  // );
 
   const toggleDetails = () => {
-    console.log(NpoPagedata, '-------------------------NpoPagedata');
     setShowDetails(!showDetails);
   };
 
@@ -50,44 +62,44 @@ function NpoView() {
             </div>
             :
             <div className="container  mx-auto p-4">
-              <div  className=" float-end mb-3 cursor-pointer bg-slate-300 px-3 py-[5px] rounded w-fit" onClick={()=>navigate('/dashboard')}>
+              <div className=" float-end mb-3 cursor-pointer bg-slate-300 px-3 py-[5px] rounded w-fit" onClick={() => navigate('/dashboard')}>
                 Back
               </div>
               {
-                NpoData?
-                <>
-                  <h1 className="text-3xl font-bold mb-4">{NpoData?.name} Details</h1>
-              <div className="bg-white rounded-lg p-6">
-                <p className="text-[19px] mb-2"><strong>Name:</strong> {NpoData?.name}</p>
-                <p className="text-[19px] mb-2"><strong>Email:</strong> {NpoData?.email}</p>
-                <p className="text-[19px]"><strong>Number:</strong> {NpoData?.number}</p>
-              </div>
-              <button
-                onClick={toggleDetails}
-                className="text-blue-500 underline mt-4 inline-block"
-              >
-                {showDetails ? 'Hide NPO Page Details' : 'View NPO Page Details'}
-              </button>
-              {showDetails && (
-                <div className="mt-4">
-                  {detailsLoading ? (
-                    <div className='w-full flex flex-col gap-2 mt-10'>
-                      <div className='border h-[300px] rounded w-full bg-slate-400 animate-pulse'></div>
-                    </div>
-                  ) : (
+                NpoData ?
+                  <>
+                    <h1 className="text-3xl font-bold mb-4">{NpoData?.name} Details</h1>
                     <div className="bg-white rounded-lg p-6">
-                      
+                      <p className="text-[19px] mb-2"><strong>Name:</strong> {NpoData?.name}</p>
+                      <p className="text-[19px] mb-2"><strong>Email:</strong> {NpoData?.email}</p>
+                      <p className="text-[19px]"><strong>Number:</strong> {NpoData?.number}</p>
                     </div>
-                  )}
-                </div>
-              )}
-                </>
-                :
-                <div className=' font-semibold w-full flex justify-center'>
-                No Data Available
-                </div>
+                    <button
+                      onClick={toggleDetails}
+                      className="text-blue-500 underline mt-4 inline-block"
+                    >
+                      {showDetails ? 'Hide NPO Page Details' : 'View NPO Page Details'}
+                    </button>
+                    {showDetails && (
+                      <div className="mt-4">
+                        {detailsLoading ? (
+                          <div className='w-full flex flex-col gap-2 mt-10'>
+                            <div className='border h-[300px] rounded w-full bg-slate-400 animate-pulse'></div>
+                          </div>
+                        ) : (
+                          <div className="bg-white border-2 w-full rounded-lg p-6">
+                            <NpoPreview Id={UserId}/>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </>
+                  :
+                  <div className=' font-semibold w-full flex justify-center'>
+                    No Data Available
+                  </div>
               }
-            
+
             </div>
         }
       </div>
