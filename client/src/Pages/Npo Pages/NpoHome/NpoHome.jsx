@@ -428,13 +428,13 @@ function NpoHome() {
         <div className='h-full relative   overflow-y-scroll w-full flex flex-col'>
 
             <div className=' fixed z-50 right-0 top-[75px] gap-2 flex px-12 pt-3'>
-                <span onClick={() => handlePreviewPage()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-80 text-white px-3 py-2'>
+                <span onClick={() => handlePreviewPage()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
                     Preview Page
                 </span>
-                <span onClick={() => handleClearAll()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-80 text-white px-3 py-2'>
+                <span onClick={() => handleClearAll()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
                     Clear All
                 </span>
-                <span onClick={() => handleSave()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-80 text-white px-3 py-2'>
+                <span onClick={() => handleSave()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
                     SAVE
                 </span>
             </div>
@@ -504,7 +504,7 @@ function NpoHome() {
                                 <div className=' self-stretch flex-col justify-center  items-center flex gap-2 w-full bg-slate-300'>
                                     <div className=' px-3 py-1 w-full flex flex-col gap-2 items-center'>
                                         <span className=' relative flex-col gap-2 flex items-center  h-full py-2 justify-center w-full'>
-                                            <input value={imageHeading} onInput={(e) => setImageHeading(e.target.value)} type="text" className='font-semibold placeholder-opacity-70 placeholder-slate-400 py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit' placeholder='Heading' />
+                                            <input value={imageHeading} onInput={(e) => setImageHeading(e.target.value)} type="text" className='font-semibold placeholder-opacity-70 placeholder-slate-400 py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit placeholder:font-normal' placeholder='Heading' />
                                             {/* {
                                         imageHeading && imageHeading.length > 0
                                         &&
@@ -562,7 +562,7 @@ function NpoHome() {
                                 <div className=' w-full flex items-center justify-center flex-col gap-3'>
                                     {/* <span>Heading</span> */}
                                     <span className='relative w-[80%]'>
-                                        <input value={richHeading} onInput={(e) => setRichHeading(e.target.value)} type="text" className=' py-2 font-semibold placeholder-opacity-75 placeholder-slate-400 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit ' placeholder='Heading' />
+                                        <input value={richHeading} onInput={(e) => setRichHeading(e.target.value)} type="text" className=' py-2 font-semibold placeholder-opacity-75 placeholder-slate-400 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit placeholder:font-normal' placeholder='Heading' />
                                         {/* {
                                     richHeading && richHeading?.length > 0
                                     &&

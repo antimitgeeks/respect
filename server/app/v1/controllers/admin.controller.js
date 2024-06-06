@@ -8,6 +8,7 @@ exports.createNpo = async (req, res) => {
     console.info('***************************************************Create Npo Api************************************************');
     const details = req.body;
     try {
+        console.log('-----------------test');
         // check email already used
         const emailExist = await service.npoByEmail(details.email);
         if (emailExist) {
@@ -25,8 +26,6 @@ exports.createNpo = async (req, res) => {
         }
         return sendResponse(res, statusCode.OK, true, `Npo ${SuccessMessage.CREATED}`, result);
     } catch (error) {
-        // delete created row in store table
-        await service.deleteByName(details.name);
         console.error('Error in create npo api : ', error);
         return sendResponse(res, statusCode.INTERNAL_SERVER_ERROR, false, ErrorMessage.INTERNAL_SERVER_ERROR, error?.errors);
     }
