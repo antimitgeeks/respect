@@ -57,8 +57,7 @@ function NpoPreview() {
     }
 
     const handleCall = (number) => {
-        number.preventDefault()
-        window.open(`tel:${number}`, '_blank');
+        window.open(`tel:${number}`);
     }
 
 
@@ -68,7 +67,7 @@ function NpoPreview() {
             method: "POST"
         };
 
-        fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
+        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -78,7 +77,7 @@ function NpoPreview() {
             })
             .then(blob => {
                 console.log(blob);
-                const imgURL = blob? URL.createObjectURL(blob):'';
+                const imgURL = blob ? URL.createObjectURL(blob) : '';
                 console.log(imgURL);
                 setLogoUrl(imgURL);
                 console.log(blob, "res");
@@ -98,7 +97,7 @@ function NpoPreview() {
             method: "POST"
         };
 
-        fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
+        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -106,7 +105,7 @@ function NpoPreview() {
                 return response?.blob();
             })
             .then(blob => {
-                const imgURL = blob? URL.createObjectURL(blob):'';
+                const imgURL = blob ? URL.createObjectURL(blob) : '';
                 setBannerUrl(imgURL);
                 console.log(blob, "res");
             })
@@ -126,7 +125,7 @@ function NpoPreview() {
             method: "POST"
         };
 
-        fetch(`https://3576-122-168-208-11.ngrok-free.app/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
+        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -134,7 +133,7 @@ function NpoPreview() {
                 return response?.blob();
             })
             .then(blob => {
-                const imgURL = blob? URL.createObjectURL(blob):'';
+                const imgURL = blob ? URL.createObjectURL(blob) : '';
                 setImageTextUrl(imgURL);
                 console.log(blob, "res");
             })
@@ -150,32 +149,32 @@ function NpoPreview() {
 
     return (
         <div className=' flex flex-col gap-2 pb-3 relative  w-full h-full'>
-                <div onClick={()=>navigate('/dashboard')} className=' w-fit z-10  fixed right-4 hover:opacity-75 top-4 bg-[#f49a86] px-3 rounded cursor-pointer py-2'>
-                    <span className=' cursor-pointer flex gap-2 items-center'> <MdKeyboardBackspace size={20}/>Back</span>
-                </div>
+            <div onClick={() => navigate('/dashboard')} className=' w-fit z-10  fixed right-4 hover:opacity-95 top-4 bg-[#f49a86] px-3 rounded cursor-pointer py-2'>
+                <span className=' cursor-pointer flex gap-2 items-center'> <MdKeyboardBackspace size={20} />Back</span>
+            </div>
             <div className=' relative w-full  '>
                 <div className=' py-3 px-3 w-full absolute'>
                     {
                         logoUrl ?
-                        <>
-                    <img className=' w-[70px] h-[70px] rounded-full' src={logoUrl} alt="" />
-                        </>
-                        :
-                        <div className=' bg-slate-400 h-[70px] w-[70px] rounded-full'>
-                            
-                        </div>
+                            <>
+                                <img className=' w-[70px] h-[70px] rounded-full' src={logoUrl} alt="" />
+                            </>
+                            :
+                            <div className=' bg-slate-400 h-[70px] w-[70px] rounded-full'>
+
+                            </div>
                     }
                 </div>
                 <div className=' w-full h-[580px]'>
                     {
                         bannerUrl ?
-                        <>
-                    <img className=' object-cover object-center h-full w-full' src={bannerUrl} alt="" />
-                        </>
-                        :
-                        <div className=' bg-slate-300  w-full h-full'>
+                            <>
+                                <img className=' object-cover object-center h-full w-full' src={bannerUrl} alt="" />
+                            </>
+                            :
+                            <div className=' bg-slate-300  w-full h-full'>
 
-                        </div>
+                            </div>
                     }
                 </div>
             </div>
@@ -183,11 +182,11 @@ function NpoPreview() {
                 <div className=' w-1/2 min-h-[400px] h-full px-1 py-1'>
                     {
                         imageTextUrl ?
-                        <img className=' rounded h-full w-full object-cover' src={imageTextUrl} alt="" />
-                        :
-                        <div className=' bg-slate-300 min-h-[400px] rounded h-full w-full'>
-                            
-                        </div>
+                            <img className=' rounded h-full w-full object-cover' src={imageTextUrl} alt="" />
+                            :
+                            <div className=' bg-slate-300 min-h-[400px] rounded h-full w-full'>
+
+                            </div>
 
                     }
                 </div>
@@ -202,10 +201,10 @@ function NpoPreview() {
             <div className=' w-full h-[560px] px-20 py-3'>
                 {
                     PageData?.videoData ?
-                    <iframe allowFullScreen src={PageData?.videoData} className=' fullscreen rounded w-full h-full' frameborder="0"></iframe>
-                    :
-                    <div className=' w-full h-full bg-slate-300 rounded'>
-                    </div>
+                        <iframe allowFullScreen src={PageData?.videoData} className=' fullscreen rounded w-full h-full' frameborder="0"></iframe>
+                        :
+                        <div className=' w-full h-full bg-slate-300 rounded'>
+                        </div>
 
                 }
             </div>
@@ -240,7 +239,7 @@ function NpoPreview() {
                         {
                             PageData?.linksData?.websiteLink?.show != false
                             &&
-                            <span className=' cursor-pointer'>Visit Us :<a href={PageData?.linksData?.websiteLink?.link}> <u> {PageData?.linksData?.websiteLink?.link}</u></a></span>
+                            <span className=' cursor-pointer'>Visit Us :<a target='_blank' href={PageData?.linksData?.websiteLink?.link}> <u> {PageData?.linksData?.websiteLink?.link}</u></a></span>
                         }
                     </div>
                     <div className=' flex gap-3 items-center h-6'>

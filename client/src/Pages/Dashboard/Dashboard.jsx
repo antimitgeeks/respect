@@ -101,12 +101,12 @@ function Dashboard() {
           <span onClick={() => navigate('/dashboard')} className='text-lg w-fit cursor-pointer text-white select-none italic pl-1 flex  items-center'><img className=' object-cover w-32' src="https://53bc37-e5.myshopify.com/cdn/shop/files/Screenshot_2024-05-07_at_7.14.21_PM.png?v=1715134582" alt="" /></span>
         </span>
 
-        <span onClick={() => handleProfileToggle()} className=' select-none cursor-pointer flex items-center justify-center text-white w-8 h-8 bg-slate-400 rounded-full  italic  font-semibold'>
-          A
+        <span onClick={() => handleProfileToggle()} className=' select-none cursor-pointer flex items-center justify-center text-white w-8 h-8 bg-slate-400 rounded-full   font-semibold'>
+          {role == 'Admin' ? 'A' : 'N'}
         </span>
         {
 
-          <div className={` ${ToggleProfile ? "mymove" : "mymoveReverse"} transition-all duration-500 top-[45px] px-2 select-none  text-white  flex flex-col gap-2 absolute w-[120px] z-50 rounded py-2 bg-slate-500`}>
+          <div className={` ${ToggleProfile ? "mymove" : "mymoveReverse"} transition-all duration-500 top-[45px] px-2 select-none  text-white  flex flex-col gap-2 absolute w-[120px] z-[500] rounded py-2 bg-slate-500`}>
             <span onClick={() => handleLogout()} className=' transition ease-in duration-200 cursor-pointer self-center flex items-center hover:opacity-80 gap-2'> <RiLogoutBoxLine /> Logout</span>
           </div>
         }
