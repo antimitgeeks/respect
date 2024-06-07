@@ -31,7 +31,8 @@ function NpoHome() {
     const [bannerLoading, setBannerLoading] = useState(false);
     const [TextImageloading, setTextImageLoading] = useState(false);
     const LocalNpoPreviewData = localStorage.getItem('previewData');
-    const [localNpoPreviewDataState, setlocalNpoPreviewDataState] = useState('')
+    const [localNpoPreviewDataState, setlocalNpoPreviewDataState] = useState('');
+    const [clear, setclear] = useState('')
 
 
 
@@ -179,15 +180,17 @@ function NpoHome() {
         setRichBody(FinalData?.richBody);
         setBannerBackgroundText(FinalData?.bannerBackgroundText);
         setEmailData(FinalData?.emailData);
+        setBannerTextColor(FinalData?.bannerTextColor)
 
     }, [FinalData, localNpoPreviewDataState])
 
     const [logoUrl, setLogoUrl] = useState(NpoReduxData?.data?.logoUrl || '');
     const [bannerUrl, setBannerUrl] = useState(NpoReduxData?.data?.bannerUrl || '');
-    const [bannerBackgroundText, setBannerBackgroundText] = useState(localNpoPreviewDataState?.bannerBackgroundText || FinalData?.bannerBackgroundText || '')
+    const [bannerBackgroundText, setBannerBackgroundText] = useState(localNpoPreviewDataState?.bannerBackgroundText || FinalData?.bannerBackgroundText || '');
+    const [bannerTextColor, setBannerTextColor] = useState('#ffffff');
     const [imageTextUrl, setImageTextUrl] = useState(NpoReduxData?.data?.imageTextUrl || '');
     const [imageText, setImageText] = useState(NpoReduxData?.data?.imageText || '');
-    const [videoModalData, setVideoModalData] = useState(FinalData?.imageText || '')
+    const [videoModalData, setVideoModalData] = useState(FinalData?.videoData || '')
     const [richHeading, setRichHeading] = useState(NpoReduxData?.data?.richHeading || '')
     const [richBody, setRichBody] = useState(NpoReduxData?.data?.richBody || '');
     const [emailData, setEmailData] = useState(NpoReduxData?.data.emailData || '');
@@ -214,7 +217,8 @@ function NpoHome() {
         setLogoUrl(localNpoPreviewDataState?.logoUrl || logoUrl);
         setBannerUrl(localNpoPreviewDataState?.bannerUrl || bannerUrl);
         setImageTextUrl(localNpoPreviewDataState?.imageTextUrl || imageTextUrl);
-        setBannerBackgroundText(localNpoPreviewDataState?.bannerBackgroundText || FinalData?.bannerBackgroundText)
+        setBannerBackgroundText(localNpoPreviewDataState?.bannerBackgroundText || FinalData?.bannerBackgroundText);
+        setBannerTextColor(localNpoPreviewDataState?.bannerTextColor || FinalData?.bannerTextColor)
     }, [localNpoPreviewDataState, FinalData])
 
     useEffect(() => {
@@ -343,6 +347,7 @@ function NpoHome() {
             logoUrl: logoUrl,
             bannerUrl: bannerUrl,
             bannerBackgroundText: bannerBackgroundText,
+            bannerTextColor: bannerTextColor,
             imageTextUrl: imageTextUrl,
             imageText: imageText,
             imageHeading: imageHeading,
@@ -462,16 +467,22 @@ function NpoHome() {
     }
 
     const handleClearAll = () => {
-        setLogoUrl('')
-        setBannerUrl('')
-        setEmailData('')
-        setImageText('')
-        setImageHeading('')
-        setImageTextUrl('')
-        setRichBody('')
-        setRichHeading('')
-        setVideoModalData('')
-        setBannerBackgroundText('')
+        localStorage.removeItem('previewData');
+        navigate('/dashboard/d');
+        dispatch(setLinkData({}))
+
+        // fetchLogoData();
+        // fetchBannerImgData();
+        // fetchTextImgData();
+        // setFinalData(FinalData)
+        // setEmailData( FinalData?.emailData)
+        // setImageText(FinalData?.imageText)
+        // setImageHeading(FinalData?.imageHeading)
+        // setRichBody(FinalData?.richBody)
+        // setRichHeading(FinalData?.richHeading)
+        // setVideoModalData(FinalData?.videoData)
+        // setBannerBackgroundText(FinalData?.bannerBackgroundText)
+
     }
 
     const handlePreviewPage = () => {
@@ -488,6 +499,7 @@ function NpoHome() {
             logoUrl: logoUrl,
             bannerUrl: bannerUrl,
             bannerBackgroundText: bannerBackgroundText,
+            bannerTextColor: bannerTextColor,
             imageTextUrl: imageTextUrl,
             imageText: imageText,
             imageHeading: imageHeading,
@@ -578,9 +590,25 @@ function NpoHome() {
                                         <div className=' z-0   w-full overflow-hidden '>
                                             <img className=' w-full object-cover h-[480px]' src={bannerUrl} alt="" />
                                             <input onChange={(e) => handleBannerInput(e)} type="file" id='bannerInput' className=' w-0 hidden' accept='image/*' />
-                                            <span className=' w-full absolute top-[200px] flex items-center  justify-center left-[0px] self-center'>
-                                                <input value={bannerBackgroundText} onInput={(e) => setBannerBackgroundText(e.target.value)} type="text" className=' text-center  backdrop-blur-md w-1/2 font-bold placeholder-slate-200 text-xl text-white py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 px-2 outline-none bg-inherit placeholder:font-normal' placeholder='TYPE YOUR CONTENT HERE' />
+                                            <span className='w-full gap-1 absolute top-[200px] flex items-center justify-center left-[0px] self-center'>
+                                                <input
+                                                    value={bannerBackgroundText}
+                                                    onInput={(e) => setBannerBackgroundText(e.target.value)}
+                                                    type="text"
+                                                    className={`text-center backdrop-blur-sm w-1/2 font-bold placeholder-slate-200 text-xl py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 px-2 outline-none bg-inherit placeholder:font-normal`}
+                                                    placeholder='TYPE YOUR CONTENT HERE'
+                                                    style={{ color: bannerTextColor || 'black' }} // Inline style for text color
+                                                />
+                                                <span className=''>
+                                                    <input
+                                                        className=' bg-transparent h-7 w-7  rounded-full'
+                                                        value={bannerTextColor}
+                                                        onInput={(e) => setBannerTextColor(e.target.value)}
+                                                        type="color"
+                                                    />
+                                                </span>
                                             </span>
+
                                             <label htmlFor='bannerInput' className=' m-0  z-10  cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></label>
                                         </div>
                                         :
