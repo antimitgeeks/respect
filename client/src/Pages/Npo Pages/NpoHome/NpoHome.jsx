@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DialogComponent from '../../../components/DialogComponent';
 import VideoModal from './VideoModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLinkData, setNpoData } from '../../../Redux/NpoSlices/NpoDataSlice';
+import { setLinkData, setNpoData, setPreviewData } from '../../../Redux/NpoSlices/NpoDataSlice';
 import { FaEdit } from 'react-icons/fa';
 import { FiEdit } from 'react-icons/fi';
 import { MdCancel } from "react-icons/md";
@@ -15,7 +15,7 @@ import facebook from '../../../Assets/Facebook_Logo_2023.png'
 import ytLogo from '../../../Assets/Youtube_logo.png'
 import LinksModal from './LinksModal';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode';
 import { useAddPageMutation, useGetFileQuery, useGetPageByIdQuery, useUploadFileMutation } from '../../../services/NpoPageService';
@@ -30,7 +30,20 @@ function NpoHome() {
     const [logoLoading, setLogoLoading] = useState(false);
     const [bannerLoading, setBannerLoading] = useState(false);
     const [TextImageloading, setTextImageLoading] = useState(false);
+    const LocalNpoPreviewData = localStorage.getItem('previewData');
+    const [localNpoPreviewDataState, setlocalNpoPreviewDataState] = useState('')
 
+
+   
+
+
+    useEffect(() => {
+        if (LocalNpoPreviewData) {
+            setlocalNpoPreviewDataState(JSON.parse(LocalNpoPreviewData))
+        }
+    }, [LocalNpoPreviewData])
+
+    console.log(localNpoPreviewDataState, "!@#$%^&*")
     /* Getting PageData using Api by Id */
 
 
@@ -43,7 +56,7 @@ function NpoHome() {
         else {
             setLoading(false);
             console.log(NpoPagedata?.result?.pageJson)
-            setFinalData(NpoPagedata?.result?.pageJson ? (NpoPagedata?.result?.pageJson) : null)
+            setFinalData(NpoPagedata?.result?.pageJson ? JSON.parse(NpoPagedata?.result?.pageJson) : null)
         }
     }, [NpoPagedata, ispageDataFetching, ispageDataLoading])
 
@@ -59,7 +72,7 @@ function NpoHome() {
             method: "POST"
         };
         setLoading(true)
-        fetch(`https://respect-ql8e.vercel.app/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
+        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -71,7 +84,7 @@ function NpoHome() {
                 console.log(blob);
                 const imgURL = blob ? URL.createObjectURL(blob) : '';
                 console.log(imgURL);
-                setLogoUrl(imgURL);
+                setLogoUrl(localNpoPreviewDataState?.logoUrl?.length>0 ?localNpoPreviewDataState?.logoUrl : imgURL);
                 console.log(blob, "res");
                 setLoading(false);
                 setLogoLoading(false);
@@ -96,7 +109,7 @@ function NpoHome() {
         setLoading(true);
         setBannerLoading(true);
 
-        fetch(`https://respect-ql8e.vercel.app/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
+        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Image not found');
@@ -105,7 +118,7 @@ function NpoHome() {
             })
             .then(blob => {
                 const imgURL = blob ? URL.createObjectURL(blob) : '';
-                setBannerUrl(imgURL);
+                setBannerUrl( localNpoPreviewDataState?.bannerUrl?.length>0 ?localNpoPreviewDataState?.bannerUrl: imgURL);
                 console.log(blob, "res");
                 setLoading(false);
                 setBannerLoading(false)
@@ -131,7 +144,7 @@ function NpoHome() {
         };
         setLoading(true)
         setTextImageLoading(true);
-        fetch(`https://respect-ql8e.vercel.app/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
+        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -140,7 +153,7 @@ function NpoHome() {
             })
             .then(blob => {
                 const imgURL = blob ? URL.createObjectURL(blob) : '';
-                setImageTextUrl(imgURL);
+                setImageTextUrl(localNpoPreviewDataState?.imageTextUrl?.length>0?localNpoPreviewDataState?.imageTextUrl:imgURL);
                 console.log(blob, "res");
                 setLoading(false);
                 setTextImageLoading(false)
@@ -158,7 +171,6 @@ function NpoHome() {
     }, [decodedToken])
 
 
-    const [imageHeading, setImageHeading] = useState(FinalData?.imageHeading || '');
     useEffect(() => {
         setImageHeading(FinalData?.imageHeading)
         setImageText(FinalData?.imageText);
@@ -167,7 +179,7 @@ function NpoHome() {
         setRichBody(FinalData?.richBody);
         setEmailData(FinalData?.emailData);
 
-    }, [FinalData])
+    }, [FinalData,localNpoPreviewDataState])
 
     const [logoUrl, setLogoUrl] = useState(NpoReduxData?.data?.logoUrl || '');
     const [bannerUrl, setBannerUrl] = useState(NpoReduxData?.data?.bannerUrl || '');
@@ -176,14 +188,30 @@ function NpoHome() {
     const [videoModalData, setVideoModalData] = useState(FinalData?.imageText || '')
     const [richHeading, setRichHeading] = useState(NpoReduxData?.data?.richHeading || '')
     const [richBody, setRichBody] = useState(NpoReduxData?.data?.richBody || '');
-    const [linksData, setLinksData] = useState();
     const [emailData, setEmailData] = useState(NpoReduxData?.data.emailData || '');
     const [systmVideoData, setSystmVideoData] = useState(NpoReduxData?.data.systmVideoData || '')
     const cookieData = Cookies.get('NpoAuthLogin');
+    const [imageHeading, setImageHeading] = useState(localNpoPreviewDataState?.imageHeading || FinalData?.imageHeading || '');
+    const [linksData, setLinksData] = useState();
+    const [logoFormData,setLogoFormData]=useState(null);
+    const [bannerFormData,setBannerFormData]= useState(null);
+    const [textFormData,setTextFormData]= useState(null);
+
 
     const [AddPage] = useAddPageMutation();
     const [UploadFile] = useUploadFileMutation();
 
+    useEffect(() => {
+        setImageHeading(localNpoPreviewDataState?.imageHeading || FinalData?.imageHeading)
+        setImageText(localNpoPreviewDataState?.imageText || FinalData?.imageText);
+        setVideoModalData(localNpoPreviewDataState?.videoData || FinalData?.videoData);
+        setRichHeading(localNpoPreviewDataState?.richHeading || FinalData?.richHeading);
+        setRichBody(localNpoPreviewDataState?.richBody || FinalData?.richBody);
+        setEmailData(localNpoPreviewDataState?.emailData || FinalData?.emailData);
+        setLogoUrl(localNpoPreviewDataState?.logoUrl || logoUrl);
+        setBannerUrl(localNpoPreviewDataState?.bannerUrl || bannerUrl);
+        setImageTextUrl(localNpoPreviewDataState?.imageTextUrl || imageTextUrl)
+    }, [localNpoPreviewDataState, FinalData])
 
     useEffect(() => {
         if (cookieData?.length > 0) {
@@ -206,28 +234,14 @@ function NpoHome() {
 
     /* Logo ImageUplaod handle*/
     const handleLogoInput = (ev) => {
-
         // setLogoUrl(logoUrl)
         const file = ev?.target?.files[0];
         const formData = new FormData();
-        console.log('HI')
         formData.append('image', file);
         const newLogoUrl = file ? URL?.createObjectURL(file) : '';
-        UploadFile({ Id: decodedToken?.id, data: formData, type: 'logo' })
-            .then((res) => {
-                if (res?.error) {
-                    toast.error(res?.error?.data?.message);
-                    console.log(res?.error)
-                }
-                else {
-                    console.log(res);
-                    setLogoUrl(newLogoUrl);
-
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+        setLogoUrl(newLogoUrl);
+        setLogoFormData(formData)
+       
 
 
     };
@@ -235,27 +249,26 @@ function NpoHome() {
 
     /* Banner Image upload handle */
     const handleBannerInput = (ev) => {
-
         const file = ev?.target?.files[0];
         const newLogoUrl = URL?.createObjectURL(file);
         const formData = new FormData();
-
         formData.append('image', file);
-        UploadFile({ Id: decodedToken?.id, data: formData, type: 'banner' })
-            .then((res) => {
-                if (res?.error) {
-                    toast.error(res?.error?.data?.message);
-                    setBannerUrl('')
-                }
-                else {
-                    setBannerUrl(newLogoUrl);
-                    console.log(res);
+        setBannerUrl(newLogoUrl);
+        setBannerFormData(formData)
+        // UploadFile({ Id: decodedToken?.id, data: formData, type: 'banner' })
+        //     .then((res) => {
+        //         if (res?.error) {
+        //             toast.error(res?.error?.data?.message);
+        //             setBannerUrl('')
+        //         }
+        //         else {
+        //             console.log(res);
 
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         console.log(err)
+        //     })
 
 
     };
@@ -268,22 +281,23 @@ function NpoHome() {
 
         formData.append('image', file);
         const newLogoUrl = URL?.createObjectURL(file);
-        UploadFile({ Id: decodedToken?.id, data: formData, type: 'text' })
-            .then((res) => {
-                if (res?.error) {
-                    toast.error(res?.error?.data?.message);
-                    console.log(res?.error)
-                }
-                else {
-                    console.log(res);
-                    setImageTextUrl(newLogoUrl);
+        setImageTextUrl(newLogoUrl)
+        setTextFormData(formData)
+        // UploadFile({ Id: decodedToken?.id, data: formData, type: 'text' })
+        //     .then((res) => {
+        //         if (res?.error) {
+        //             toast.error(res?.error?.data?.message);
+        //             console.log(res?.error)
+        //         }
+        //         else {
+        //             console.log(res);
+        //             setImageTextUrl(newLogoUrl);
 
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         console.log(err)
+        //     })
 
 
     };
@@ -370,6 +384,49 @@ function NpoHome() {
             toast.error("Fill all the details first")
         }
         else {
+            UploadFile({ Id: decodedToken?.id, data: textFormData, type: 'text' })
+            .then((res) => {
+                if (res?.error) {
+                    toast.error(res?.error?.data?.message);
+                    console.log(res?.error);
+                    setImageTextUrl('')
+                }
+                else {
+                    console.log(res);
+
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            UploadFile({ Id: decodedToken?.id, data: bannerFormData, type: 'banner' })
+            .then((res) => {
+                if (res?.error) {
+                    toast.error(res?.error?.data?.message);
+                    setBannerUrl('')
+                }
+                else {
+                    console.log(res);
+
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+            UploadFile({ Id: decodedToken?.id, data: logoFormData, type: 'logo' })
+            .then((res) => {
+                if (res?.error) {
+                    toast.error(res?.error?.data?.message);
+                    console.log(res?.error)
+                }
+                else {
+                    console.log(res);
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
             AddPage({ Id: decodedToken?.id, data: DataForApi })
                 .then((res) => {
                     console.log(res);
@@ -377,8 +434,11 @@ function NpoHome() {
                         toast.error('An Error Occured')
                     }
                     else {
-                        dispatch(setNpoData(DataForApi))
-                        toast.success(res.data.message)
+                        dispatch(setNpoData(DataForApi));
+                        dispatch(setLinkData(linksData));
+                        toast.success(res.data.message);
+                        localStorage.setItem('previewData', JSON.stringify(DataForApi));
+
                     }
                 })
                 .catch((err) => {
@@ -413,12 +473,57 @@ function NpoHome() {
     }
 
     const handlePreviewPage = () => {
-        console.log(NpoReduxData?.data)
-        console.log(FinalData)
-        FinalData == '' || FinalData == undefined ?
-            toast.error('Page details incomplete')
-            :
-            navigate('/page/preview')
+        /*  Previous Imp Data */
+
+        // console.log(NpoReduxData?.data)
+        // console.log(FinalData)
+        // FinalData == '' || FinalData == undefined ?
+        //     toast.error('Page details incomplete')
+        //     :
+        //     navigate('/page/preview')
+
+        let DataForRedux = {
+            logoUrl: logoUrl,
+            bannerUrl: bannerUrl,
+            imageTextUrl: imageTextUrl,
+            imageText: imageText,
+            imageHeading: imageHeading,
+            videoData: systmVideoData ? systmVideoData : videoModalData,
+            richBody: richBody,
+            emailData: emailData,
+            richHeading: richHeading,
+            linksData: {
+                instagram: {
+                    link: linksData?.instagram || FinalData?.linksData?.instagram?.link,
+                    show: linksData?.instaSwitch || FinalData?.linksData?.instagram?.show
+                },
+                facebook: {
+                    link: linksData?.facebook || FinalData?.linksData?.facebook?.link,
+                    show: linksData?.facebookSwitch || FinalData?.linksData?.facebook?.show
+                },
+                youtube: {
+                    link: linksData?.youtube || FinalData?.linksData?.youtube?.link,
+                    show: linksData?.youtubeSwitch || FinalData?.linksData?.youtube?.show
+
+                },
+                contactUs: {
+                    link: linksData?.contactUs || FinalData?.linksData?.contactUs?.link,
+                    show: linksData?.contactSwitch || FinalData?.linksData?.contactUs?.show
+                },
+                websiteLink: {
+                    link: linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link,
+                    show: linksData?.websiteSwitch || FinalData?.linksData?.websiteLink?.show
+                }
+            }
+        };
+
+        localStorage.setItem('previewData', JSON.stringify(DataForRedux));
+        dispatch(setPreviewData(DataForRedux));
+
+        navigate('/page/preview')
+
+
+
     }
 
     const handleCall = (number) => {
@@ -606,28 +711,34 @@ function NpoHome() {
                                     <div className=' flex flex-col  gap-3'>
 
                                         <span className='' onClick={() => handleCall(linksData?.contactUs)} >
-                                            <span className=' flex gap-[25.5px]'>
+                                            <span className=' flex'>
                                                 <span>
                                                     Contact Us
                                                 </span>
-                                                :
-                                                <span className=' cursor-pointer'>
+                                                <span className=' pl-4'>
 
-                                                    {linksData?.contactUs || FinalData?.linksData?.contactUs?.link}
+                                                :
+                                                </span>
+                                                <span className=' pl-[30px] cursor-pointer'>
+
+                                                    {linksData?.contactUs || localNpoPreviewDataState?.linksData?.contactUs?.link || FinalData?.linksData?.contactUs?.link}
                                                 </span>
                                             </span>
                                         </span>
-                                        <span className=' flex gap-4'>
+                                        <span className=' flex'>
                                             Website Link
-                                            <span>
+                                            <span className=' pl-[13px]'>
 
                                                 :
                                             </span>
+                                            <span className=' pl-[27px]'>
+
                                             <a className='' href={linksData?.websiteLink || "#"}>
                                                 <span>
                                                     {linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link}
                                                 </span>
                                             </a>
+                                            </span>
                                         </span>
                                     </div>
                                     <div className=' border-b h-11 mt-3 flex items-center justify-center gap-2'>

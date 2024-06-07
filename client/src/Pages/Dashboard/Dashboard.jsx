@@ -50,7 +50,8 @@ function Dashboard() {
   const location = useLocation()
   /////// handling user logout /////////
   const handleLogout = () => {
-    localStorage.removeItem('IsUserLogged')
+    localStorage.removeItem('IsUserLogged');
+    localStorage.removeItem('previewData')
     // Cookies.remove("AuthLogin");
     Cookies.remove("isLogged");
 

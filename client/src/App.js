@@ -11,7 +11,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify'
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 
-
+const myfunc=()=>
+  {
+      console.log("HII")
+      localStorage.clear('previewData')
+  }
+window.onload= myfunc();
 
 class App extends Component {
   render() {

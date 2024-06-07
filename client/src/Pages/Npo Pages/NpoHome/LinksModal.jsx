@@ -6,8 +6,8 @@ import Switch from '@mui/material/Switch';
 
 function LinksModal({ close,data }) {
     const NpoReduxData = useSelector((state) => state.NpoDataSlice.linksData);
-
-    console.log(NpoReduxData)
+    console.log(data);
+    console.log(NpoReduxData);
     const [linksData, setLinksData] = useState({
         instagram:NpoReduxData?.instagram || data?.linksData?.instagram?.link || '',
         facebook: NpoReduxData?.facebook || data?.linksData?.facebook?.link|| '',
