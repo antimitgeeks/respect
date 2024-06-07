@@ -32,6 +32,7 @@ exports.addPageInShopify = async (details) => {
     let data = JSON.stringify({
         "page": {
             "title": details.title,
+            "template_suffix": process.env.PAGE_SUFFIX,
             "body_html": `<h2>NPO Details</h2>\n<p>${details.body}</p>`
         }
     });
