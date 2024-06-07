@@ -29,7 +29,7 @@ const NpoPageService = CreateApi.injectEndpoints(
                 ),
                 UploadFile:builder.mutation(
                     {
-                        invalidatesTags:['npopageimage'],
+                        invalidatesTags:['npoimage'],
                         query:({Id,data,type})=>(
                             {
                                 url:`/npos/upload/${Id}?type=${type}`,
@@ -39,20 +39,20 @@ const NpoPageService = CreateApi.injectEndpoints(
                         )
                     }
                 ),
-                GetFile:builder.query(
-                    {
-                        providesTags:['npopageimage'],
-                        query:({Id,type})=>(
-                            {
-                                url:`/npos/image/${Id}?type=${type}`,
-                                method:"POST"
-                            }
-                        )
-                    }
-                )
+                // GetFile:builder.query(
+                //     {
+                //         providesTags:['npoimage'],
+                //         query:({Id,type})=>(
+                //             {
+                //                 url:`/npos/image/${Id}?type=${type}`,
+                //                 method:"POST"
+                //             }
+                //         )
+                //     }
+                // )
             }
         )
     }
 );
 
-export const  { useGetPageByIdQuery, useGetFileQuery, useAddPageMutation,useUploadFileMutation}= NpoPageService;
+export const  { useGetPageByIdQuery, useAddPageMutation,useUploadFileMutation}= NpoPageService;

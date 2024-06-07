@@ -18,7 +18,7 @@ import { toast } from 'react-toastify';
 import { json, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode';
-import { useAddPageMutation, useGetFileQuery, useGetPageByIdQuery, useUploadFileMutation } from '../../../services/NpoPageService';
+import { useAddPageMutation, useGetPageByIdQuery, useUploadFileMutation } from '../../../services/NpoPageService';
 import { VscLoading } from 'react-icons/vsc';
 
 function NpoHome() {
@@ -34,7 +34,7 @@ function NpoHome() {
     const [localNpoPreviewDataState, setlocalNpoPreviewDataState] = useState('')
 
 
-   
+
 
 
     useEffect(() => {
@@ -43,7 +43,6 @@ function NpoHome() {
         }
     }, [LocalNpoPreviewData])
 
-    console.log(localNpoPreviewDataState, "!@#$%^&*")
     /* Getting PageData using Api by Id */
 
 
@@ -84,7 +83,7 @@ function NpoHome() {
                 console.log(blob);
                 const imgURL = blob ? URL.createObjectURL(blob) : '';
                 console.log(imgURL);
-                setLogoUrl(localNpoPreviewDataState?.logoUrl?.length>0 ?localNpoPreviewDataState?.logoUrl : imgURL);
+                setLogoUrl(localNpoPreviewDataState?.logoUrl?.length > 0 ? localNpoPreviewDataState?.logoUrl : imgURL);
                 console.log(blob, "res");
                 setLoading(false);
                 setLogoLoading(false);
@@ -96,9 +95,11 @@ function NpoHome() {
     };
 
     useEffect(() => {
-        decodedToken?.id
-            &&
-            fetchLogoData()
+        if(decodedToken?.id)
+            {
+
+                fetchLogoData()
+            }
     }, [decodedToken]);
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +119,7 @@ function NpoHome() {
             })
             .then(blob => {
                 const imgURL = blob ? URL.createObjectURL(blob) : '';
-                setBannerUrl( localNpoPreviewDataState?.bannerUrl?.length>0 ?localNpoPreviewDataState?.bannerUrl: imgURL);
+                setBannerUrl(localNpoPreviewDataState?.bannerUrl?.length > 0 ? localNpoPreviewDataState?.bannerUrl : imgURL);
                 console.log(blob, "res");
                 setLoading(false);
                 setBannerLoading(false)
@@ -131,9 +132,11 @@ function NpoHome() {
 
 
     useEffect(() => {
-        decodedToken?.id
-            &&
-            fetchBannerImgData()
+        if(decodedToken?.id)
+            {
+
+                fetchBannerImgData()
+            }
     }, [decodedToken])
 
     //////////////////////////////////////////////////////////////////////////////
@@ -153,7 +156,7 @@ function NpoHome() {
             })
             .then(blob => {
                 const imgURL = blob ? URL.createObjectURL(blob) : '';
-                setImageTextUrl(localNpoPreviewDataState?.imageTextUrl?.length>0?localNpoPreviewDataState?.imageTextUrl:imgURL);
+                setImageTextUrl(localNpoPreviewDataState?.imageTextUrl?.length > 0 ? localNpoPreviewDataState?.imageTextUrl : imgURL);
                 console.log(blob, "res");
                 setLoading(false);
                 setTextImageLoading(false)
@@ -165,9 +168,11 @@ function NpoHome() {
     };
 
     useEffect(() => {
-        decodedToken?.id
-            &&
-            fetchTextImgData()
+        if(decodedToken?.id)
+            {
+                fetchTextImgData()
+
+            }
     }, [decodedToken])
 
 
@@ -179,10 +184,11 @@ function NpoHome() {
         setRichBody(FinalData?.richBody);
         setEmailData(FinalData?.emailData);
 
-    }, [FinalData,localNpoPreviewDataState])
+    }, [FinalData, localNpoPreviewDataState])
 
     const [logoUrl, setLogoUrl] = useState(NpoReduxData?.data?.logoUrl || '');
     const [bannerUrl, setBannerUrl] = useState(NpoReduxData?.data?.bannerUrl || '');
+    const [bannerBackgroundText, setBannerBackgroundText] = useState('')
     const [imageTextUrl, setImageTextUrl] = useState(NpoReduxData?.data?.imageTextUrl || '');
     const [imageText, setImageText] = useState(NpoReduxData?.data?.imageText || '');
     const [videoModalData, setVideoModalData] = useState(FinalData?.imageText || '')
@@ -193,9 +199,10 @@ function NpoHome() {
     const cookieData = Cookies.get('NpoAuthLogin');
     const [imageHeading, setImageHeading] = useState(localNpoPreviewDataState?.imageHeading || FinalData?.imageHeading || '');
     const [linksData, setLinksData] = useState();
-    const [logoFormData,setLogoFormData]=useState(null);
-    const [bannerFormData,setBannerFormData]= useState(null);
-    const [textFormData,setTextFormData]= useState(null);
+    const [logoFormData, setLogoFormData] = useState(null);
+    const [bannerFormData, setBannerFormData] = useState(null);
+    const [textFormData, setTextFormData] = useState(null);
+
 
 
     const [AddPage] = useAddPageMutation();
@@ -241,7 +248,7 @@ function NpoHome() {
         const newLogoUrl = file ? URL?.createObjectURL(file) : '';
         setLogoUrl(newLogoUrl);
         setLogoFormData(formData)
-       
+
 
 
     };
@@ -301,7 +308,6 @@ function NpoHome() {
 
 
     };
-    console.log(imageTextUrl)
     const handleImageTextInput = (ev) => {
 
         const val = ev?.target?.value;
@@ -385,48 +391,48 @@ function NpoHome() {
         }
         else {
             UploadFile({ Id: decodedToken?.id, data: textFormData, type: 'text' })
-            .then((res) => {
-                if (res?.error) {
-                    toast.error(res?.error?.data?.message);
-                    console.log(res?.error);
-                    setImageTextUrl('')
-                }
-                else {
-                    console.log(res);
+                .then((res) => {
+                    if (res?.error) {
+                        toast.error(res?.error?.data?.message);
+                        console.log(res?.error);
+                        setImageTextUrl('')
+                    }
+                    else {
+                        console.log(res);
 
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             UploadFile({ Id: decodedToken?.id, data: bannerFormData, type: 'banner' })
-            .then((res) => {
-                if (res?.error) {
-                    toast.error(res?.error?.data?.message);
-                    setBannerUrl('')
-                }
-                else {
-                    console.log(res);
+                .then((res) => {
+                    if (res?.error) {
+                        toast.error(res?.error?.data?.message);
+                        setBannerUrl('')
+                    }
+                    else {
+                        console.log(res);
 
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
 
             UploadFile({ Id: decodedToken?.id, data: logoFormData, type: 'logo' })
-            .then((res) => {
-                if (res?.error) {
-                    toast.error(res?.error?.data?.message);
-                    console.log(res?.error)
-                }
-                else {
-                    console.log(res);
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+                .then((res) => {
+                    if (res?.error) {
+                        toast.error(res?.error?.data?.message);
+                        console.log(res?.error)
+                    }
+                    else {
+                        console.log(res);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             AddPage({ Id: decodedToken?.id, data: DataForApi })
                 .then((res) => {
                     console.log(res);
@@ -458,7 +464,6 @@ function NpoHome() {
         }
         setLinksModalOpen(false)
     }
-    console.log(linksData);
 
     const handleClearAll = () => {
         setLogoUrl('')
@@ -530,7 +535,6 @@ function NpoHome() {
         window.open(`tel:${number}`, '_blank');
     }
 
-    console.log(logoUrl)
     return (
         <div className='h-full relative   overflow-y-scroll w-full flex flex-col'>
 
@@ -562,7 +566,7 @@ function NpoHome() {
                                             <div className=' z-[1000] relative w-full h-full'>
                                                 <img className='  border-4 border-black w-[70px] h-[70px]  rounded-full' src={logoUrl} alt="" />
                                                 <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
-                                                <label htmlFor='logoInput' className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></label>
+                                                <label htmlFor='logoInput'  className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></label>
                                             </div>
                                             :
                                             <div className=' cursor-pointer p-[1px]  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-500 border-2  rounded-full'> <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
@@ -574,11 +578,13 @@ function NpoHome() {
                                 {
                                     bannerUrl && bannerUrl.length > 0
                                         ?
-                                        <div className=' z-0  w-full '>
+                                        <div className=' z-0   w-full overflow-hidden '>
                                             <img className=' w-full object-cover h-[480px]' src={bannerUrl} alt="" />
                                             <input onChange={(e) => handleBannerInput(e)} type="file" id='bannerInput' className=' w-0 hidden' accept='image/*' />
-
-                                            <label htmlFor='bannerInput' className=' m-0 cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></label>
+                                            <span className=' w-full absolute top-[200px] flex items-center  justify-center left-[0px] self-center'>
+                                                <input value={bannerBackgroundText} onInput={(e) => setBannerBackgroundText(e.target.value)} type="text" className='  backdrop-blur-md w-1/2 font-bold placeholder-white text-xl text-white py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 px-2 outline-none bg-inherit placeholder:font-normal' placeholder='THIS IS A DEMO HEADING OF NPO PAGE' />
+                                            </span>
+                                            <label htmlFor='bannerInput' className=' m-0  z-10  cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></label>
                                         </div>
                                         :
                                         <div className=' flex  focus:border-2 p-1  focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center bg-slate-300 w-full h-[475px]'>
@@ -717,7 +723,7 @@ function NpoHome() {
                                                 </span>
                                                 <span className=' pl-4'>
 
-                                                :
+                                                    :
                                                 </span>
                                                 <span className=' pl-[30px] cursor-pointer'>
 
@@ -733,11 +739,11 @@ function NpoHome() {
                                             </span>
                                             <span className=' pl-[27px]'>
 
-                                            <a className='' href={linksData?.websiteLink || "#"}>
-                                                <span>
-                                                    {linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link}
-                                                </span>
-                                            </a>
+                                                <a className='' href={linksData?.websiteLink || "#"}>
+                                                    <span>
+                                                        {linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link}
+                                                    </span>
+                                                </a>
                                             </span>
                                         </span>
                                     </div>
