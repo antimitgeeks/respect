@@ -16,6 +16,9 @@ function NpoPreview({ Id }) {
     const [PageData, setPageData] = useState();
     const [loading, setLoading] = useState(false)
     const [decodedToken, setDecodedToken] = useState('');
+    const ReduxPreviewData = useSelector((state) => state.NpoDataSlice.PreviewData);
+
+    console.log(ReduxPreviewData)
 
     const { data: NpoPagedata, isFetching: ispageDataFetching, isLoading: ispageDataLoading } = useGetPageByIdQuery({ Id: Id || decodedToken?.id })
 
@@ -30,7 +33,7 @@ function NpoPreview({ Id }) {
         }
         else {
             setLoading(false);
-            setPageData(NpoPagedata?.result?.pageJson ? (NpoPagedata?.result?.pageJson) : null)
+            setPageData(NpoPagedata?.result?.pageJson ? JSON.parse(NpoPagedata?.result?.pageJson) : null)
         }
     }, [NpoPagedata, ispageDataFetching, ispageDataLoading])
 
@@ -65,7 +68,7 @@ function NpoPreview({ Id }) {
             method: "POST"
         };
 
-        fetch(`https://respect-ql8e.vercel.app/api/v1/npos/image/${ Id || decodedToken?.id}?type=logo`, config)
+        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${Id || decodedToken?.id}?type=logo`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -93,7 +96,7 @@ function NpoPreview({ Id }) {
             method: "POST"
         };
 
-        fetch(`https://respect-ql8e.vercel.app/api/v1/npos/image/${Id || decodedToken?.id }?type=banner`, config)
+        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${Id || decodedToken?.id}?type=banner`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -119,8 +122,8 @@ function NpoPreview({ Id }) {
         const config = {
             method: "POST"
         };
-        console.log(Id,'IDDDDDDDDDDDDDDDDDDDDDDDDD')
-        fetch(`https://respect-ql8e.vercel.app/api/v1/npos/image/${ Id?Id: decodedToken?.id }?type=text`, config)
+        console.log(Id, 'IDDDDDDDDDDDDDDDDDDDDDDDDD')
+        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${Id ? Id : decodedToken?.id}?type=text`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -152,9 +155,9 @@ function NpoPreview({ Id }) {
             <div className=' relative w-full  '>
                 <div className=' py-3 px-3 w-full absolute'>
                     {
-                        logoUrl ?
+                        logoUrl || ReduxPreviewData?.logoUrl ?
                             <>
-                                <img className=' w-[70px] h-[70px] rounded-full' src={logoUrl} alt="" />
+                                <img className=' w-[70px] h-[70px] rounded-full' src={ReduxPreviewData?.logoUrl || logoUrl} alt="" />
                             </>
                             :
                             <div className=' bg-slate-400 h-[70px] w-[70px] rounded-full'>
@@ -164,9 +167,9 @@ function NpoPreview({ Id }) {
                 </div>
                 <div className=' w-full h-[580px]'>
                     {
-                        bannerUrl ?
+                        bannerUrl || ReduxPreviewData?.bannerUrl ?
                             <>
-                                <img className=' object-cover object-center h-full w-full' src={bannerUrl} alt="" />
+                                <img className=' object-cover object-center h-full w-full' src={ReduxPreviewData?.bannerUrl || bannerUrl} alt="" />
                             </>
                             :
                             <div className=' bg-slate-300  w-full h-full'>
@@ -178,8 +181,8 @@ function NpoPreview({ Id }) {
             <div className=' w-full gap-1 flex  px-3'>
                 <div className=' w-1/2 min-h-[400px] h-full px-1 py-1'>
                     {
-                        imageTextUrl ?
-                            <img className=' rounded h-full w-full object-cover' src={imageTextUrl} alt="" />
+                        imageTextUrl || ReduxPreviewData?.imageTextUrl ?
+                            <img className=' rounded h-full w-full object-cover' src={ReduxPreviewData?.imageTextUrl || imageTextUrl} alt="" />
                             :
                             <div className=' bg-slate-300 min-h-[400px] rounded h-full w-full'>
 
@@ -190,15 +193,15 @@ function NpoPreview({ Id }) {
                 <div className=' w-1/2 border my-1 px-3 rounded mr-1  flex items-center justify-center'>
                     <div className=' flex flex-col gap-3 items-center'>
 
-                        <span className=' font-semibold text-xl mb-2'>{PageData?.imageHeading}</span>
-                        <span>{PageData?.imageText}</span>
+                        <span className=' font-semibold text-xl mb-2'>{ReduxPreviewData?.imageHeading || PageData?.imageHeading}</span>
+                        <span>{ReduxPreviewData?.imageText || PageData?.imageText}</span>
                     </div>
                 </div>
             </div>
             <div className=' w-full h-[560px] px-20 py-3'>
                 {
-                    PageData?.videoData ?
-                        <iframe allowFullScreen src={PageData?.videoData} className=' fullscreen rounded w-full h-full' frameborder="0"></iframe>
+                    ReduxPreviewData?.videoData || PageData?.videoData ?
+                        <iframe allowFullScreen src={ReduxPreviewData?.videoData || PageData?.videoData} className=' fullscreen rounded w-full h-full' frameborder="0"></iframe>
                         :
                         <div className=' w-full h-full bg-slate-300 rounded'>
                         </div>
@@ -208,10 +211,10 @@ function NpoPreview({ Id }) {
             <div className=' w-full flex items-center justify-center px-5 py-4 '>
                 <div className=' flex flex-col items-center gap-10'>
                     <span className=' font-semibold text-2xl capitalize'>
-                        {PageData?.richHeading}
+                        {ReduxPreviewData?.richHeading || PageData?.richHeading}
                     </span>
                     <span>
-                        {PageData?.richBody}
+                        {ReduxPreviewData?.richBody || PageData?.richBody}
                     </span>
                 </div>
             </div>
@@ -222,7 +225,7 @@ function NpoPreview({ Id }) {
                         <span className=' font-semibold text-lg capitalize'>
                             Reach us through Our Email :
                         </span>
-                        <span onClick={() => handleRedirectEmail(PageData?.emailData)} className=' font-semibold text-lg hover:opacity-80 cursor-pointer '><u>{PageData?.emailData}</u></span>
+                        <span onClick={() => handleRedirectEmail(ReduxPreviewData?.PageData || PageData?.emailData)} className=' font-semibold text-lg hover:opacity-80 cursor-pointer '><u>{ReduxPreviewData?.emailData || PageData?.emailData}</u></span>
                     </div>
                 </div>
                 <hr />
@@ -231,21 +234,44 @@ function NpoPreview({ Id }) {
                         {
                             PageData?.linksData?.contactUs?.show != false
                             &&
-                            <span onClick={() => handleCall(PageData?.linksData?.contactUs?.link)} className=' flex gap-5 cursor-pointer'>
+                            // <span onClick={() => handleCall(ReduxPreviewData?.linksData?.contactUs?.link ||PageData?.linksData?.contactUs?.link)} className=' flex gap-[32px] cursor-pointer'>
+                            //     <span>
+                            //         Contact Us
+                            //     </span>
+                            //     <span>
+
+                            //     :
+                            //     </span>
+                            //     <a href={ReduxPreviewData?.linksData?.contactUs?.link|| PageData?.linksData?.contactUs?.link}> <u> { ReduxPreviewData?.linksData?.contactUs?.link ||PageData?.linksData?.contactUs?.link}</u></a>
+                            // </span>
+                            <span  onClick={() => handleCall(ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link)} >
                                 <span>
                                     Contact Us
                                 </span>
-                                :<a href={PageData?.linksData?.contactUs?.link}> <u> {PageData?.linksData?.contactUs?.link}</u></a>
+                                <span className=' pl-4'>
+                                    :
+                                </span>
+                                <span className=' pl-3'>
+                                    <a href={ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link}> <u> {ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link}</u></a>
+
+                                </span>
                             </span>
                         }
                         {
                             PageData?.linksData?.websiteLink?.show != false
                             &&
-                            <span className=' flex gap-[46px] cursor-pointer'>
+                            <span className=' flex cursor-pointer'>
                                 <span>
                                     Visit Us
                                 </span>
-                                :<a target='_blank' href={PageData?.linksData?.websiteLink?.link}> <u> {PageData?.linksData?.websiteLink?.link}</u></a>
+                                <span className=' pl-[50px]'>
+
+                                    :
+                                </span>
+                                <span className=' pl-[18.5px]'>
+
+                                    <a target='_blank' href={ReduxPreviewData?.linksData?.websiteLink?.link || PageData?.linksData?.websiteLink?.link}> <u> {ReduxPreviewData?.linksData?.websiteLink?.link || PageData?.linksData?.websiteLink?.link}</u></a>
+                                </span>
                             </span>
                         }
                     </div>
