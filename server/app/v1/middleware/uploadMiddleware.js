@@ -18,17 +18,17 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         const imageType = req.query.type; // eg., 'logo'
         const dir = `app/v1/utils/images/${req.params.id}`;
+        if (fs.existsSync(dir)) {
+            // Delete existing files with different extensions but the same base name
+            const existingFiles = fs.readdirSync(dir).filter(existingFile => {
+                const baseName = path.basename(existingFile, path.extname(existingFile));
+                return baseName === imageType && existingFile !== `${imageType}${path.extname(file.originalname)}`;
+            });
 
-        // Delete existing files with different extensions but the same base name
-        const existingFiles = fs.readdirSync(dir).filter(existingFile => {
-            const baseName = path.basename(existingFile, path.extname(existingFile));
-            return baseName === imageType && existingFile !== `${imageType}${path.extname(file.originalname)}`;
-        });
-
-        existingFiles.forEach(existingFile => {
-            fs.unlinkSync(path.join(dir, existingFile));
-        });
-
+            existingFiles.forEach(existingFile => {
+                fs.unlinkSync(path.join(dir, existingFile));
+            });
+        }
         cb(null, `${imageType}${path.extname(file.originalname)}`);
     }
 });
