@@ -147,160 +147,178 @@ function NpoPreview({ Id }) {
     return (
         <div className=' flex flex-col gap-2 pb-3 relative  w-full h-full'>
             {
-                !Id &&
-                <div onClick={() => navigate('/dashboard')} className=' w-fit z-10  fixed right-4 hover:opacity-95 top-4 bg-[#f49a86] px-3 rounded cursor-pointer py-2'>
-                    <span className=' cursor-pointer flex gap-2 items-center'> <MdKeyboardBackspace size={20} />Back</span>
-                </div>
-            }
-            <div className=' relative w-full  '>
-                <div className=' py-3 px-3 w-full absolute'>
-                    {
-                        logoUrl || ReduxPreviewData?.logoUrl ?
-                            <>
-                                <img className=' w-[70px] h-[70px] rounded-full' src={ReduxPreviewData?.logoUrl || logoUrl} alt="" />
-                            </>
-                            :
-                            <div className=' bg-slate-400 h-[70px] w-[70px] rounded-full'>
-
+                Id && !PageData ?
+                    <>
+                        <span className=' w-full flex items-center justify-center font-semibold'> No Data Found      </span>
+                    </>
+                    :
+                    <>
+                        {
+                            !Id &&
+                            <div onClick={() => navigate('/dashboard')} className=' w-fit z-10  fixed right-4 hover:opacity-95 top-4 bg-[#f49a86] px-3 rounded cursor-pointer py-2'>
+                                <span className=' cursor-pointer flex gap-2 items-center'> <MdKeyboardBackspace size={20} />Back</span>
                             </div>
-                    }
-                </div>
-                <div className=' w-full h-[580px]'>
-                    {
-                        bannerUrl || ReduxPreviewData?.bannerUrl ?
-                            <>
-                                <img className=' object-cover object-center h-full w-full' src={ReduxPreviewData?.bannerUrl || bannerUrl} alt="" />
-                            </>
-                            :
-                            <div className=' bg-slate-300  w-full h-full'>
+                        }
+                        <div className=' relative w-full  '>
+                            <div className=' py-3 px-3 w-full absolute'>
+                                {
+                                    logoUrl || ReduxPreviewData?.logoUrl ?
+                                        <>
+                                            <img className=' w-[70px] h-[70px] rounded-full' src={ReduxPreviewData?.logoUrl || logoUrl} alt="" />
+                                        </>
+                                        :
+                                        <div className=' bg-slate-400 h-[70px] w-[70px] rounded-full'>
 
+                                        </div>
+                                }
                             </div>
-                    }
-                </div>
-            </div>
-            <div className=' w-full gap-1 flex  px-3'>
-                <div className=' w-1/2 min-h-[400px] h-full px-1 py-1'>
-                    {
-                        imageTextUrl || ReduxPreviewData?.imageTextUrl ?
-                            <img className=' rounded h-full w-full object-cover' src={ReduxPreviewData?.imageTextUrl || imageTextUrl} alt="" />
-                            :
-                            <div className=' bg-slate-300 min-h-[400px] rounded h-full w-full'>
+                            <div className=' w-full h-[580px]'>
+                                {
+                                    bannerUrl || ReduxPreviewData?.bannerUrl ?
+                                        <div className=' w-full h-full'>
+                                            <img className=' object-cover object-center h-full w-full' src={ReduxPreviewData?.bannerUrl || bannerUrl} alt="" />
+                                            <span className=' absolute top-[250px] text-white w-full flex items-center justify-center'>
+                                                <span className=' w-full px-16 break-words text-center  backdrop-blur-sm text-slate-50 text-[30px] rounded py-1'>
+                                                    {ReduxPreviewData?.bannerBackgroundText || PageData?.bannerBackgroundText}
+                                                </span>
+                                            </span>
+                                        </div>
+                                        :
+                                        <div className=' bg-slate-300  w-full h-full'>
 
+                                        </div>
+                                }
                             </div>
-
-                    }
-                </div>
-                <div className=' w-1/2 border my-1 px-3 rounded mr-1  flex items-center justify-center'>
-                    <div className=' flex flex-col gap-3 items-center'>
-
-                        <span className=' font-semibold text-xl mb-2'>{ReduxPreviewData?.imageHeading || PageData?.imageHeading}</span>
-                        <span>{ReduxPreviewData?.imageText || PageData?.imageText}</span>
-                    </div>
-                </div>
-            </div>
-            <div className=' w-full h-[560px] px-20 py-3'>
-                {
-                    ReduxPreviewData?.videoData || PageData?.videoData ?
-                        <iframe allowFullScreen src={ReduxPreviewData?.videoData || PageData?.videoData} className=' fullscreen rounded w-full h-full' frameborder="0"></iframe>
-                        :
-                        <div className=' w-full h-full bg-slate-300 rounded'>
+                        </div>
+                        <div className='w-full gap-1 flex px-3'>
+                            <div className='w-1/2 self-stretch min-h-[320px] h-full px-1 py-1'>
+                                {
+                                    imageTextUrl || ReduxPreviewData?.imageTextUrl ?
+                                        <img className='rounded self-stretch h-full w-full object-cover' src={ReduxPreviewData?.imageTextUrl || imageTextUrl} alt="" />
+                                        :
+                                        <div className='bg-slate-300 min-h-[400px] rounded h-full w-full'>
+                                        </div>
+                                }
+                            </div>
+                            <div className='w-1/2  self-stretch  border my-1 px-3 rounded mr-1 flex items-center justify-center'>
+                                <div className='w-full flex flex-col gap-3 items-center'>
+                                    <span className='font-semibold text-xl mb-2'>{ReduxPreviewData?.imageHeading || PageData?.imageHeading}</span>
+                                    <span className='w-full text-center  h-auto overflow-hidden whitespace-pre-wrap break-words'>
+                                        {ReduxPreviewData?.imageText || PageData?.imageText}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
 
-                }
-            </div>
-            <div className=' w-full flex items-center justify-center px-5 py-4 '>
-                <div className=' flex flex-col items-center gap-10'>
-                    <span className=' font-semibold text-2xl capitalize'>
-                        {ReduxPreviewData?.richHeading || PageData?.richHeading}
-                    </span>
-                    <span>
-                        {ReduxPreviewData?.richBody || PageData?.richBody}
-                    </span>
-                </div>
-            </div>
-            <hr />
-            <div className=' w-full flex flex-col gap-3 py-3'>
-                <div className=' w-full flex items-center justify-center'>
-                    <div className=' flex flex-col items-center gap-1'>
-                        <span className=' font-semibold text-lg capitalize'>
-                            Reach us through Our Email :
-                        </span>
-                        <span onClick={() => handleRedirectEmail(ReduxPreviewData?.PageData || PageData?.emailData)} className=' font-semibold text-lg hover:opacity-80 cursor-pointer '><u>{ReduxPreviewData?.emailData || PageData?.emailData}</u></span>
-                    </div>
-                </div>
-                <hr />
-                <div className=' w-full flex justify-between px-3 py-2'>
-                    <div className=' flex flex-col gap-2'>
-                        {
-                            PageData?.linksData?.contactUs?.show != false
-                            &&
-                            // <span onClick={() => handleCall(ReduxPreviewData?.linksData?.contactUs?.link ||PageData?.linksData?.contactUs?.link)} className=' flex gap-[32px] cursor-pointer'>
-                            //     <span>
-                            //         Contact Us
-                            //     </span>
-                            //     <span>
-
-                            //     :
-                            //     </span>
-                            //     <a href={ReduxPreviewData?.linksData?.contactUs?.link|| PageData?.linksData?.contactUs?.link}> <u> { ReduxPreviewData?.linksData?.contactUs?.link ||PageData?.linksData?.contactUs?.link}</u></a>
-                            // </span>
-                            <span  onClick={() => handleCall(ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link)} >
-                                <span>
-                                    Contact Us
-                                </span>
-                                <span className=' pl-4'>
+                        <div className=' w-full h-[560px] px-20 py-3'>
+                            {
+                                ReduxPreviewData?.videoData || PageData?.videoData ?
+                                    <iframe allowFullScreen src={ReduxPreviewData?.videoData || PageData?.videoData} className=' fullscreen rounded w-full h-full' frameborder="0"></iframe>
                                     :
-                                </span>
-                                <span className=' pl-3'>
-                                    <a href={ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link}> <u> {ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link}</u></a>
+                                    <div className=' w-full h-full bg-slate-300 rounded'>
+                                    </div>
 
+                            }
+                        </div>
+                        <div className='w-full flex items-center justify-center px-5 py-4'>
+                            <div className='flex px-4 w-full flex-col items-center gap-10'>
+                                <span className='font-semibold text-2xl capitalize'>
+                                    {ReduxPreviewData?.richHeading || PageData?.richHeading}
                                 </span>
-                            </span>
-                        }
-                        {
-                            PageData?.linksData?.websiteLink?.show != false
-                            &&
-                            <span className=' flex cursor-pointer'>
-                                <span>
-                                    Visit Us
+                                <span className='w-full break-words text-center whitespace-normal'>
+                                    {ReduxPreviewData?.richBody || PageData?.richBody}
                                 </span>
-                                <span className=' pl-[50px]'>
+                            </div>
+                        </div>
 
-                                    :
-                                </span>
-                                <span className=' pl-[18.5px]'>
 
-                                    <a target='_blank' href={ReduxPreviewData?.linksData?.websiteLink?.link || PageData?.linksData?.websiteLink?.link}> <u> {ReduxPreviewData?.linksData?.websiteLink?.link || PageData?.linksData?.websiteLink?.link}</u></a>
-                                </span>
-                            </span>
-                        }
-                    </div>
-                    <div className=' flex gap-3 items-center h-6'>
-                        {
-                            PageData?.linksData?.instagram?.show != false
-                            &&
-                            <a href={PageData?.linksData?.instagram?.link || "https://www.instagram.com/"} target='_blank'>
-                                <img className=' w-[53px] h-[50px]' src={insta} alt="" />
-                            </a>
-                        }
-                        {
-                            PageData?.linksData?.facebook?.show != false
-                            &&
-                            <a href={PageData?.linksData?.facebook?.link || "https://www.instagram.com/"} target='_blank'>
-                                <img className=' w-fit h-[39px]' src={facebook} alt="" />
-                            </a>
-                        }
-                        {
-                            PageData?.linksData?.youtube?.show != false
-                            &&
-                            <a href={PageData?.linksData?.youtube?.link || "https://www.instagram.com/"} target='_blank'>
-                                <img className=' w-fit h-[35.5px]' src={ytLogo} alt="" />
-                            </a>
-                        }
-                    </div>
-                </div>
+                        <hr />
+                        <div className=' w-full flex flex-col gap-3 py-3'>
+                            <div className=' w-full flex items-center justify-center'>
+                                <div className=' flex flex-col items-center gap-1'>
+                                    <span className=' font-semibold text-lg capitalize'>
+                                        Reach us through Our Email :
+                                    </span>
+                                    <span onClick={() => handleRedirectEmail(ReduxPreviewData?.PageData || PageData?.emailData)} className=' font-semibold text-lg hover:opacity-80 cursor-pointer '><u>{ReduxPreviewData?.emailData || PageData?.emailData}</u></span>
+                                </div>
+                            </div>
+                            <hr />
+                            <div className=' w-full flex justify-between px-3 py-2'>
+                                <div className=' flex flex-col gap-2'>
+                                    {
+                                        PageData?.linksData?.contactUs?.show != false
+                                        &&
+                                        // <span onClick={() => handleCall(ReduxPreviewData?.linksData?.contactUs?.link ||PageData?.linksData?.contactUs?.link)} className=' flex gap-[32px] cursor-pointer'>
+                                        //     <span>
+                                        //         Contact Us
+                                        //     </span>
+                                        //     <span>
 
-            </div>
+                                        //     :
+                                        //     </span>
+                                        //     <a href={ReduxPreviewData?.linksData?.contactUs?.link|| PageData?.linksData?.contactUs?.link}> <u> { ReduxPreviewData?.linksData?.contactUs?.link ||PageData?.linksData?.contactUs?.link}</u></a>
+                                        // </span>
+                                        <span onClick={() => handleCall(ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link)} >
+                                            <span>
+                                                Contact Us
+                                            </span>
+                                            <span className=' pl-4'>
+                                                :
+                                            </span>
+                                            <span className=' pl-3'>
+                                                <a href={ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link}> <u> {ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link}</u></a>
+
+                                            </span>
+                                        </span>
+                                    }
+                                    {
+                                        PageData?.linksData?.websiteLink?.show != false
+                                        &&
+                                        <span className=' flex cursor-pointer'>
+                                            <span>
+                                                Visit Us
+                                            </span>
+                                            <span className=' pl-[50px]'>
+
+                                                :
+                                            </span>
+                                            <span className=' pl-[18.5px]'>
+
+                                                <a target='_blank' href={ReduxPreviewData?.linksData?.websiteLink?.link || PageData?.linksData?.websiteLink?.link}> <u> {ReduxPreviewData?.linksData?.websiteLink?.link || PageData?.linksData?.websiteLink?.link}</u></a>
+                                            </span>
+                                        </span>
+                                    }
+                                </div>
+                                <div className=' flex gap-3 items-center h-6'>
+                                    {
+                                        PageData?.linksData?.instagram?.show != false
+                                        &&
+                                        <a href={PageData?.linksData?.instagram?.link || "https://www.instagram.com/"} target='_blank'>
+                                            <img className=' w-[53px] h-[50px]' src={insta} alt="" />
+                                        </a>
+                                    }
+                                    {
+                                        PageData?.linksData?.facebook?.show != false
+                                        &&
+                                        <a href={PageData?.linksData?.facebook?.link || "https://www.instagram.com/"} target='_blank'>
+                                            <img className=' w-fit h-[39px]' src={facebook} alt="" />
+                                        </a>
+                                    }
+                                    {
+                                        PageData?.linksData?.youtube?.show != false
+                                        &&
+                                        <a href={PageData?.linksData?.youtube?.link || "https://www.instagram.com/"} target='_blank'>
+                                            <img className=' w-fit h-[35.5px]' src={ytLogo} alt="" />
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </>
+
+            }
+
         </div>
     )
 }

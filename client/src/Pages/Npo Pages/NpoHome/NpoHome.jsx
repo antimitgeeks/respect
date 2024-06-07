@@ -35,8 +35,6 @@ function NpoHome() {
 
 
 
-
-
     useEffect(() => {
         if (LocalNpoPreviewData) {
             setlocalNpoPreviewDataState(JSON.parse(LocalNpoPreviewData))
@@ -59,7 +57,7 @@ function NpoHome() {
         }
     }, [NpoPagedata, ispageDataFetching, ispageDataLoading])
 
-
+    console.log(FinalData)
 
     /* Getting ImageFile data using Api by */
     // const {data:logoImageData,isFetching:isLogoDataFetching,isLoading:isLogoDataLoading} = useGetFileQuery({Id:6,type:'logo'});
@@ -95,11 +93,10 @@ function NpoHome() {
     };
 
     useEffect(() => {
-        if(decodedToken?.id)
-            {
+        if (decodedToken?.id) {
 
-                fetchLogoData()
-            }
+            fetchLogoData()
+        }
     }, [decodedToken]);
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -132,11 +129,10 @@ function NpoHome() {
 
 
     useEffect(() => {
-        if(decodedToken?.id)
-            {
+        if (decodedToken?.id) {
 
-                fetchBannerImgData()
-            }
+            fetchBannerImgData()
+        }
     }, [decodedToken])
 
     //////////////////////////////////////////////////////////////////////////////
@@ -168,11 +164,10 @@ function NpoHome() {
     };
 
     useEffect(() => {
-        if(decodedToken?.id)
-            {
-                fetchTextImgData()
+        if (decodedToken?.id) {
+            fetchTextImgData()
 
-            }
+        }
     }, [decodedToken])
 
 
@@ -182,13 +177,14 @@ function NpoHome() {
         setVideoModalData(FinalData?.videoData);
         setRichHeading(FinalData?.richHeading);
         setRichBody(FinalData?.richBody);
+        setBannerBackgroundText(FinalData?.bannerBackgroundText);
         setEmailData(FinalData?.emailData);
 
     }, [FinalData, localNpoPreviewDataState])
 
     const [logoUrl, setLogoUrl] = useState(NpoReduxData?.data?.logoUrl || '');
     const [bannerUrl, setBannerUrl] = useState(NpoReduxData?.data?.bannerUrl || '');
-    const [bannerBackgroundText, setBannerBackgroundText] = useState('')
+    const [bannerBackgroundText, setBannerBackgroundText] = useState(localNpoPreviewDataState?.bannerBackgroundText || FinalData?.bannerBackgroundText || '')
     const [imageTextUrl, setImageTextUrl] = useState(NpoReduxData?.data?.imageTextUrl || '');
     const [imageText, setImageText] = useState(NpoReduxData?.data?.imageText || '');
     const [videoModalData, setVideoModalData] = useState(FinalData?.imageText || '')
@@ -217,7 +213,8 @@ function NpoHome() {
         setEmailData(localNpoPreviewDataState?.emailData || FinalData?.emailData);
         setLogoUrl(localNpoPreviewDataState?.logoUrl || logoUrl);
         setBannerUrl(localNpoPreviewDataState?.bannerUrl || bannerUrl);
-        setImageTextUrl(localNpoPreviewDataState?.imageTextUrl || imageTextUrl)
+        setImageTextUrl(localNpoPreviewDataState?.imageTextUrl || imageTextUrl);
+        setBannerBackgroundText(localNpoPreviewDataState?.bannerBackgroundText || FinalData?.bannerBackgroundText)
     }, [localNpoPreviewDataState, FinalData])
 
     useEffect(() => {
@@ -248,8 +245,6 @@ function NpoHome() {
         const newLogoUrl = file ? URL?.createObjectURL(file) : '';
         setLogoUrl(newLogoUrl);
         setLogoFormData(formData)
-
-
 
     };
 
@@ -347,6 +342,7 @@ function NpoHome() {
         let DataForApi = {
             logoUrl: logoUrl,
             bannerUrl: bannerUrl,
+            bannerBackgroundText: bannerBackgroundText,
             imageTextUrl: imageTextUrl,
             imageText: imageText,
             imageHeading: imageHeading,
@@ -381,11 +377,11 @@ function NpoHome() {
         console.log(DataForApi, "%%%")
 
         if (
-            // DataForApi?.logoUrl == '' || DataForApi?.bannerUrl == '' || DataForApi?.imageTextUrl == '' ||
+            DataForApi?.logoUrl == '' || DataForApi?.bannerUrl == '' || DataForApi?.imageTextUrl == '' ||
             DataForApi?.imageText == ''
             || DataForApi?.videoData == '' || DataForApi?.richHeading == '' || DataForApi?.richBody == '' || DataForApi?.emailData == ''
-            // || DataForApi?.logoUrl == undefined || DataForApi?.bannerUrl == undefined || DataForApi?.imageTextUrl == undefined || DataForApi?.imageText == undefined
-            // || DataForApi?.videoData == undefined || DataForApi?.richHeading == undefined || DataForApi?.richBody == undefined || DataForApi?.emailData == undefined
+            || DataForApi?.logoUrl == undefined || DataForApi?.bannerUrl == undefined || DataForApi?.imageTextUrl == undefined || DataForApi?.imageText == undefined
+            || DataForApi?.videoData == undefined || DataForApi?.richHeading == undefined || DataForApi?.richBody == undefined || DataForApi?.emailData == undefined
         ) {
             toast.error("Fill all the details first")
         }
@@ -432,7 +428,7 @@ function NpoHome() {
                 })
                 .catch((err) => {
                     console.log(err)
-                })
+                });
             AddPage({ Id: decodedToken?.id, data: DataForApi })
                 .then((res) => {
                     console.log(res);
@@ -475,6 +471,7 @@ function NpoHome() {
         setRichBody('')
         setRichHeading('')
         setVideoModalData('')
+        setBannerBackgroundText('')
     }
 
     const handlePreviewPage = () => {
@@ -490,6 +487,7 @@ function NpoHome() {
         let DataForRedux = {
             logoUrl: logoUrl,
             bannerUrl: bannerUrl,
+            bannerBackgroundText: bannerBackgroundText,
             imageTextUrl: imageTextUrl,
             imageText: imageText,
             imageHeading: imageHeading,
@@ -526,7 +524,6 @@ function NpoHome() {
         dispatch(setPreviewData(DataForRedux));
 
         navigate('/page/preview')
-
 
 
     }
@@ -566,7 +563,7 @@ function NpoHome() {
                                             <div className=' z-[1000] relative w-full h-full'>
                                                 <img className='  border-4 border-black w-[70px] h-[70px]  rounded-full' src={logoUrl} alt="" />
                                                 <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
-                                                <label htmlFor='logoInput'  className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></label>
+                                                <label htmlFor='logoInput' className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></label>
                                             </div>
                                             :
                                             <div className=' cursor-pointer p-[1px]  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-500 border-2  rounded-full'> <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
@@ -582,7 +579,7 @@ function NpoHome() {
                                             <img className=' w-full object-cover h-[480px]' src={bannerUrl} alt="" />
                                             <input onChange={(e) => handleBannerInput(e)} type="file" id='bannerInput' className=' w-0 hidden' accept='image/*' />
                                             <span className=' w-full absolute top-[200px] flex items-center  justify-center left-[0px] self-center'>
-                                                <input value={bannerBackgroundText} onInput={(e) => setBannerBackgroundText(e.target.value)} type="text" className='  backdrop-blur-md w-1/2 font-bold placeholder-white text-xl text-white py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 px-2 outline-none bg-inherit placeholder:font-normal' placeholder='THIS IS A DEMO HEADING OF NPO PAGE' />
+                                                <input value={bannerBackgroundText} onInput={(e) => setBannerBackgroundText(e.target.value)} type="text" className=' text-center  backdrop-blur-md w-1/2 font-bold placeholder-slate-200 text-xl text-white py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 px-2 outline-none bg-inherit placeholder:font-normal' placeholder='TYPE YOUR CONTENT HERE' />
                                             </span>
                                             <label htmlFor='bannerInput' className=' m-0  z-10  cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></label>
                                         </div>
