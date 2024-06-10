@@ -156,7 +156,7 @@ function NpoLogin(props) {
                             <div className='w-2/3 lg:w-1/2 gap-1 flex flex-col'>
                                 <button
                                     type='submit'
-                                    className='text-white mt-1 border-none outline-none bg-slate-400 hover:opacity-75 rounded px-4 py-2'
+                                    className='text-white mt-1 border-none outline-none bg-slate-500 hover:opacity-75 rounded px-4 py-2'
                                 >
                                     {isLoading ? (
                                         <span className='flex w-full items-center justify-center animate-spin py-1'>
