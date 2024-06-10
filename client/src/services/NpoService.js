@@ -69,9 +69,21 @@ const NpoService = CreateApi.injectEndpoints(
                             }
                         )
                     }
+                ),
+
+                GetNpoReport:builder.query(
+                    {
+                        providesTags:['report'],
+                        query:({Id})=>(
+                            {
+                                url:`admin/reports/${Id}`,
+                                method:"POST"
+                            }
+                        )
+                    }
                 )
             }
         )
     }
 );
-export const { useCreateNpoMutation, useAllNpoListQuery, useGetSingleNpoQuery, useUpdateNpoMutation ,useDeleteNpoMutation} = NpoService;
+export const { useCreateNpoMutation,useGetNpoReportQuery, useAllNpoListQuery, useGetSingleNpoQuery, useUpdateNpoMutation ,useDeleteNpoMutation} = NpoService;

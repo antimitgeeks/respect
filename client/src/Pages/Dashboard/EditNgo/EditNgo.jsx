@@ -49,7 +49,7 @@ function EditNgo(
         email: yup.string().strict().email('Enter Valid email').required('email is required').trim("Invalid email"),
         // address: yup.string().required('address is required').trim("Enter valid address").strict(),
         password: yup.string().required('password is required').min(6, "minimum 6 characters required").trim("Invalid password").strict(),
-        number: yup.string().required('number is required').min(10, "Invalid number").max(10, "Invalid number").trim("Invalid number")
+        number: yup.string().min(10, "Invalid number").max(10, "Invalid number").trim("Invalid number")
     });
 
     /* initial values */

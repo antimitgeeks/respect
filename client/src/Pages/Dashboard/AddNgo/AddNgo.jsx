@@ -29,7 +29,7 @@ function AddNgo(
         email: yup.string().strict().email('Enter Valid email').required('email is required').trim("Invalid email"),
         // address: yup.string().required('address is required').trim("Enter valid address").strict(),
         password: yup.string().required('password is required').min(6, "minimum 6 characters required").trim("Invalid password").strict(),
-        number: yup.string().required('number is required').matches(/^[0-9]+$/, "Invalid number").min(10, "Invalid number").max(10, "Invalid number").strict().trim("Invalid number")
+        number: yup.string().matches(/^[0-9]+$/, "Invalid number").min(10, "Invalid number").max(10, "Invalid number").trim("Invalid number")
     });
 
     /* initial values */
@@ -49,6 +49,11 @@ function AddNgo(
         CreateNpo({ data: data })
             .then((res) => {
                 if (res.error) {
+                    if (res.data?.error) {
+                        toast.error(res?.data?.error)
+
+                    }
+                    console.log(res.error)
                     toast.error(res?.error?.data?.message)
                 }
                 else {

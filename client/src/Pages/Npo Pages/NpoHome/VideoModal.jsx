@@ -41,7 +41,7 @@ function VideoModal({ close, onchange }) {
                     onChange={(e) => setVideoData(e.target.value)}
                 />
             </div>
-            <span className='m-auto self-center'>OR</span>
+            {/* <span className='m-auto self-center'>OR</span>
             <div className='items-center justify-between w-full flex'>
                 <span>Select file from system:</span>
                 <span className='self-end pl-6'>
@@ -52,7 +52,7 @@ function VideoModal({ close, onchange }) {
                         accept='video/*'
                     />
                 </span>
-            </div>
+            </div> */}
             <div className='w-full flex justify-end items-center'>
                 <span onClick={handleSave} className='bg-slate-300 py-2 px-4 cursor-pointer'>Save</span>
             </div>

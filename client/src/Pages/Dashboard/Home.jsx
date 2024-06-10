@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import EditNgo from './EditNgo/EditNgo';
 import Switch from '@mui/material/Switch';
 import { toast } from 'react-toastify';
+import { IoWarning, IoWarningOutline } from 'react-icons/io5';
 
 
 function Home() {
@@ -31,10 +32,10 @@ function Home() {
   const navigate = useNavigate();
   const [listData, setListData] = useState();
   const [editOpen, setEditOpen] = useState(false)
-  const [toggleData,setToggleData]= useState()
+  const [toggleData, setToggleData] = useState()
 
   const [UpdateNpo] = useUpdateNpoMutation();
-  const [DeleteNpo]= useDeleteNpoMutation();
+  const [DeleteNpo] = useDeleteNpoMutation();
 
   const DataPerPage = 5
   let offset = (Page - 1) * DataPerPage;
@@ -43,7 +44,7 @@ function Home() {
   const { data: ListData, isLoading: isListLoading, isFetching: isListFetching } = useAllNpoListQuery({
     limit: DataPerPage,
     offset: offset
-  }) 
+  })
   const handleModalOpen = () => {
     setModalOpen(true)
   }
@@ -94,25 +95,25 @@ function Home() {
   const handleDeleteYes = () => {
 
     // DeleteStore({ Id: selectedIndex })
-        DeleteNpo({Id:selectedIndex})
-        .then((res) => {
-            if (res?.error) {
-                console.log(res.error)
-                toast.error("Error Occured")
-            }
-            else if (res.data) {
-                setSelectedIndex('');
-                setActionIndex('');
-                toast.success("Store Successfully Deleted")
-            }
+    DeleteNpo({ Id: selectedIndex })
+      .then((res) => {
+        if (res?.error) {
+          console.log(res.error)
+          toast.error("Error Occured")
+        }
+        else if (res.data) {
+          setSelectedIndex('');
+          setActionIndex('');
+          toast.success("Store Successfully Deleted")
+        }
 
-        })
-        .catch((err)=>toast.error("Internal Server Error"))
+      })
+      .catch((err) => toast.error("Internal Server Error"))
 
   }
 
   const handleDelete = (index) => {
-    AlertComponent({ heading:"Are you sure to Delete ?", handleDeleteYes })
+    AlertComponent({ heading: "Are you sure to Delete ?", handleDeleteYes })
   }
 
   const handleView = (id) => {
@@ -139,7 +140,8 @@ function Home() {
       isActive: e?.target.checked
     }
     console.log(customizedData)
-    AlertComponent({heading:"Are you sure to Change ?",
+    AlertComponent({
+      heading: "Are you sure to Change ?",
       handleDeleteYes: () => {
         UpdateNpo({ Id: data?.id, data: customizedData })
           .then((res) => {
@@ -182,11 +184,11 @@ function Home() {
           <div className='  w-full flex flex-col gap-5 items-center'>
             <div className=' hidden  md:table rounded w-full '>
               <div className='head divide-x-2 bg-slate-300 text-black rounded border-r border-l flex justify-between'>
-                <div className=' w-full font-medium  text-[13.5px] self-center py-3 pl-3 uppercase' >NPO  name</div>
-                <div className=' w-full font-medium text-[13.5px] self-center py-3 pl-3 uppercase'>NPO email</div>
-                <div className=' w-full font-medium text-[13.0px] self-center py-3 pl-3 uppercase'>Npo number</div>
-                <div className=' w-full font-medium text-[13.0px] self-center py-3 pl-3 uppercase'>Status</div>
-                <div className=' w-1/2 font-medium text-[13.5px] self-center py-3 pl-3 uppercase'>Action</div>
+                <div className=' w-full font-medium  text-[13.5px] self-center py-[10.6px] pl-3 uppercase' >NPO  name</div>
+                <div className=' w-full font-medium text-[13.5px] self-center py-[10.6px] pl-3 uppercase'>NPO email</div>
+                <div className=' w-full font-medium text-[13.0px] self-center py-[10.6px] pl-3 uppercase'>Npo number</div>
+                <div className=' w-full font-medium text-[13.0px] self-center py-[10.6px] pl-3 uppercase'>Active</div>
+                <div className=' w-1/2 font-medium text-[13.5px] self-center py-[10.6px] pl-3 uppercase'>Action</div>
               </div>
               <div className=' flex flex-col gap-2 pt-2  '>
                 {
@@ -198,14 +200,17 @@ function Home() {
                     </div>
                     :
                     listData?.length <= 0 || !listData ?
-                      "No data" :
+                      <div className=' py-3 flex items-center justify-center'>
+                        <span className=' w-full border py-[7px]  justify-center flex gap-3 items-center'>No Data Found <IoWarningOutline size={19} /></span>
+                      </div>
+                      :
                       listData?.map((itm, indx) => {
-                        return <div key={indx} className=' w-full  gap-1  border-zinc-400  flex justify-between border   rounded-md  px-1 py-3'>
-                          <span className=' w-[23%]  text-[14.6px] flex items-center   h-6 pl-2 lg:pl-4  '> <span className=' '>{itm?.name}</span> </span>
-                          <span className='  w-[22%] noScroll flex self-center h-6 md:h-7 py-0  text-[14.6px] '>{itm?.email}</span>
-                          <span className=' w-[24%] pl-3  text-[13.6px] h-6'>{itm?.number}</span>
-                          <span className=' w-[22%]  text-[13.6px] h-6'><Switch checked={itm?.isActive} onChange={(e) => handleSwitchToggle(itm, e)} /></span>
-                          <span className=' w-[10%]  text-[14.6px] h-6 relative '> <span className=' hover:opacity-75 w-fit flex items-center pt-1  cursor-pointer' onClick={() => { actionIndex[indx] === true ? handleActionsClose(indx) : handleActions(indx, itm?.id) }}><BsThreeDotsVertical /></span>
+                        return <div key={indx} className=' w-full  gap-1 border  flex justify-between    rounded-md  px-1 py-3'>
+                          <span className=' w-[23%]  text-[14.6px] flex items-center    h-[22px] pl-2 lg:pl-3  '> <span className=' '>{itm?.name?itm?.name:"N/A"}</span> </span>
+                          <span className='  w-[22%] noScroll flex self-center h-[21px] md:h-[26px] py-0  text-[14.6px] '>{itm?.email?itm?.email:"N/A"}</span>
+                          <span className=' w-[23%] pl-3  text-[14.2px] h-[20px]'>{itm?.number?itm?.number:"N/A"}</span>
+                          <span className=' w-[22%] flex items-center text-[13.6px] h-[20px]'><Switch checked={itm?.isActive} onChange={(e) => handleSwitchToggle(itm, e)} /></span>
+                          <span className=' w-[10%]  text-[14.6px] h-[20px] relative '> <span className=' hover:opacity-75 w-fit flex items-center pt-1  cursor-pointer' onClick={() => { actionIndex[indx] === true ? handleActionsClose(indx) : handleActions(indx, itm?.id) }}><BsThreeDotsVertical /></span>
                             {
                               actionIndex[indx] === true ?
                                 <>  <span className=' border select-none rounded-full  lg:left-[20px] w-[115px] divide-x-2  2xl:left-[20px]  gap-1  py-1 px-1 shadow  bottom-0 bg-white absolute flex  items-center justify-between'>
@@ -223,14 +228,14 @@ function Home() {
               </div>
             </div>
             <div className='   md:hidden table rounded '>
-              <div className=' flex flex-col md:flex-row items-start gap-1  '>
+              <div className=' flex flex-col  items-start gap-1  '>
                 {
                   listData?.map((itm, indx) => {
                     return <div key={indx} className=' w-full  items-start bg-white select-none sm:flex-col border-slate-400 flex-col md:flex-row  gap-3 border-2   rounded-md  px-2 py-3'>
-                      <span className=' w-full text-[13.4px]  flex gap-14 '><span className=' font-semibold'> Npo name</span>  {itm?.name} </span>
-                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Npo email : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.email}</span> </span>
-                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Npo number : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.number}</span> </span>
-                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Status : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.status}</span> </span>
+                      <span className=' w-full text-[13.4px]  flex gap-14 '><span className=' font-semibold'> Npo name</span>  {itm?.name?itm?.name:"N/A"} </span>
+                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Npo email : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.email?itm?.email:"N/A"}</span> </span>
+                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Npo number : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.number?itm?.number:"N/A"}</span> </span>
+                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Active : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.status?.itm?.status}</span> </span>
                       {/* <span className=' w-full  text-[13.4px] flex gap-10'><span className=' font-semibold'>Api store Key :</span> {itm.apiKey}</span> */}
                       {/* <span className=' w-full  text-[13.4px] flex gap-10'><span className=' font-semibold'>Api store pass </span>{itm.apiPassword}</span> */}
                       <span className=' w-full  text-[13.4px] gap-20 relative  flex'> <span className=' font-semibold'>Actions  </span> <span className=' pt-1 cursor-pointer' onClick={() => { actionIndex[indx] === true ? handleActionsClose(indx) : handleActions(indx, itm?.id) }}><BsThreeDotsVertical /></span>
@@ -252,15 +257,19 @@ function Home() {
             </div>
           </div>
           <div className=' w-full justify-end flex py-2 self-end'>
-            <Pagination
-              shape="rounded"
-              variant="outlined"
-              color="standard"
-              page={Page}
-              count={count}
-              onChange={handlePageChange}
-            // renderItem={(item) => <PaginationItem {...item}   className=" shadow-md" />}
-            />
+            {
+              listData?.length > 0
+              &&
+              <Pagination
+                shape="rounded"
+                variant="outlined"
+                color="standard"
+                page={Page}
+                count={count}
+                onChange={handlePageChange}
+              // renderItem={(item) => <PaginationItem {...item}   className=" shadow-md" />}
+              />
+            }
           </div>
         </div>
       </div>

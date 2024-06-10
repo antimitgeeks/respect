@@ -69,9 +69,9 @@ function NpoView() {
                   <>
                     <h1 className="text-3xl font-bold mb-4">{NpoData?.name} Details</h1>
                     <div className="bg-white rounded-lg p-6">
-                      <p className="text-[19px] mb-2"><strong>Name:</strong> {NpoData?.name}</p>
-                      <p className="text-[19px] mb-2"><strong>Email:</strong> {NpoData?.email}</p>
-                      <p className="text-[19px]"><strong>Number:</strong> {NpoData?.number}</p>
+                      <p className="text-[19px] mb-2"><strong>Name:</strong> {NpoData?.name? NpoData?.name:"N/A"}</p>
+                      <p className="text-[19px] mb-2"><strong>Email:</strong> {NpoData?.email?NpoData?.email:"N/A"}</p>
+                      <p className="text-[19px]"><strong>Number:</strong> {NpoData?.number?NpoData?.number:"N/A"}</p>
                     </div>
                     <button
                       onClick={toggleDetails}

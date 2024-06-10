@@ -82,10 +82,10 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='instagram'
                             value={linksData?.instagram}
-                            className='w-3/4 px-2 py-2 border outline-none'
+                            className='w-2/3 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        {/* <span>{linksData?.instaSwitch ? "Enabled" : "Disabled"}: <Switch checked={linksData.instaSwitch} name='instaSwitch' onChange={handleInputChange} /></span> */}
+                        <span>{linksData?.instaSwitch ? "Enabled" : "Disabled"}: <Switch checked={linksData.instaSwitch} name='instaSwitch' onChange={handleInputChange} /></span>
                     </div>
                 </div>
                 <div className='flex gap-[71px] items-center'>
@@ -96,10 +96,10 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='facebook'
                             value={linksData?.facebook}
-                            className='w-3/4 px-2 py-2 border outline-none'
+                            className='w-2/3 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        {/* <span>{linksData?.facebookSwitch ? "Enabled" : "Disabled"}: <Switch name='facebookSwitch' checked={linksData?.facebookSwitch} onChange={handleInputChange} /></span> */}
+                        <span>{linksData?.facebookSwitch ? "Enabled" : "Disabled"}: <Switch name='facebookSwitch' checked={linksData?.facebookSwitch} onChange={handleInputChange} /></span>
                     </div>
                 </div>
                 <div className='flex gap-20 items-center'>
@@ -110,10 +110,10 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='youtube'
                             value={linksData?.youtube}
-                            className='w-3/4 px-2 py-2 border outline-none'
+                            className='w-2/3 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        {/* <span>{linksData?.youtubeSwitch ? "Enabled" : "Disabled"}: <Switch name='youtubeSwitch' checked={linksData?.youtubeSwitch} onChange={handleInputChange} /></span> */}
+                        <span>{linksData?.youtubeSwitch ? "Enabled" : "Disabled"}: <Switch name='youtubeSwitch' checked={linksData?.youtubeSwitch} onChange={handleInputChange} /></span>
                     </div>
                 </div>
                 <div className='flex gap-[82px] items-center'>
@@ -124,10 +124,10 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='contactUs'
                             value={linksData?.contactUs}
-                            className='w-3/4 px-2 py-2 border outline-none'
+                            className='w-2/3 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        {/* <span>{linksData?.contactSwitch ? "Enabled" : "Disabled"}: <Switch name='contactSwitch' checked={linksData?.contactSwitch} onChange={handleInputChange} /></span> */}
+                        <span>{linksData?.contactSwitch ? "Enabled" : "Disabled"}: <Switch name='contactSwitch' checked={linksData?.contactSwitch} onChange={handleInputChange} /></span>
                     </div>
                 </div>
                 <div className='flex gap-[62px] items-center'>
@@ -138,10 +138,10 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='websiteLink'
                             value={linksData?.websiteLink}
-                            className='w-3/4 px-2 py-2 border outline-none'
+                            className='w-2/3 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        {/* <span>{linksData?.websiteSwitch ? "Enabled" : "Disabled"}: <Switch name='websiteSwitch' checked={linksData?.websiteSwitch} onChange={handleInputChange} /></span> */}
+                        <span>{linksData?.websiteSwitch ? "Enabled" : "Disabled"}: <Switch name='websiteSwitch' checked={linksData?.websiteSwitch} onChange={handleInputChange} /></span>
                     </div>
                 </div>
                 <hr />

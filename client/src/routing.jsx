@@ -15,6 +15,7 @@ import NpoHome from './Pages/Npo Pages/NpoHome/NpoHome';
 import NpoView from './Pages/Npo Pages/NppView/NpoView';
 import NpoPreview from './Pages/Npo Pages/NpoPagePreview/NpoPreview';
 import WelcomePage from './Pages/WelcomePage';
+import ReportDetail from './Pages/Reports/ReportDetail';
 
 
 function Routing() {
@@ -55,17 +56,18 @@ function Routing() {
                 <Route path="login/npo" element={<NpoLogin auth={setAthenticateLogin} />} />
                 <Route path="/forgot-password/:id" element={<ForgetPassword />} />
                 <Route path="/reset-password" element={<EmailAuth />} />
-                <Route path="*" element={<Login auth={setAthenticateLogin} />} />
+                {/* <Route path="*" element={<Login auth={setAthenticateLogin} />} /> */}
                 <Route path="page/preview" element={<NpoPreview />} />
-                {/* {
-                    authenticateLogin ? */}
+                {
+                    authenticateLogin ?
                         <Route path="/dashboard" element={<Dashboard />} >
                             <Route path='' element={role == 'Admin' ? <Home />:<NpoHome />} />
                             <Route path='reports' element={<Report />} />
+                            <Route path="reports/details/:id" element={<ReportDetail />} />
                             <Route path="npo/details/:id" element={<NpoView />} />
                         </Route>
-                        {/* :"" */}
-                {/* } */}
+                     :"" 
+                }
             </Routes>
         </div>
     )

@@ -193,8 +193,8 @@ function NpoPreview({ Id }) {
                                 }
                             </div>
                         </div>
-                        <div className='w-full gap-1 flex px-3'>
-                            <div className='w-1/2 self-stretch min-h-[320px] h-full px-1 py-1'>
+                        <div className='w-full gap-1 flex flex-col sm:flex-row px-2 sm:px-3'>
+                            <div className=' w-full sm:w-1/2 self-stretch min-h-[320px] h-full px-1 py-1'>
                                 {
                                     imageTextUrl || ReduxPreviewData?.imageTextUrl ?
                                         <img className='rounded self-stretch h-full w-full object-cover' src={ReduxPreviewData?.imageTextUrl || imageTextUrl} alt="" />
@@ -203,7 +203,7 @@ function NpoPreview({ Id }) {
                                         </div>
                                 }
                             </div>
-                            <div className='w-1/2  self-stretch  border my-1 px-3 rounded mr-1 flex items-center justify-center'>
+                            <div className=' w-full sm:w-1/2  self-stretch  border my-1 px-3 rounded mr-1 flex items-center justify-center'>
                                 <div className='w-full flex flex-col gap-3 items-center'>
                                     <span className='font-semibold text-xl mb-2'>{ReduxPreviewData?.imageHeading || PageData?.imageHeading}</span>
                                     <span className='w-full text-center  h-auto overflow-hidden whitespace-pre-wrap break-words'>
@@ -213,7 +213,7 @@ function NpoPreview({ Id }) {
                             </div>
                         </div>
 
-                        <div className=' w-full h-[560px] px-20 py-3'>
+                        <div className=' w-full h-[560px] px-2 sm:px-20 py-3'>
                             {
                                 ReduxPreviewData?.videoData || PageData?.videoData ?
                                     <iframe allowFullScreen src={ReduxPreviewData?.videoData || PageData?.videoData} className=' fullscreen rounded w-full h-full' frameborder="0"></iframe>
@@ -223,7 +223,7 @@ function NpoPreview({ Id }) {
 
                             }
                         </div>
-                        <div className='w-full flex items-center justify-center px-5 py-4'>
+                        <div className='w-full flex items-center justify-center px-2 sm:px-5 py-4'>
                             <div className='flex px-4 w-full flex-col items-center gap-10'>
                                 <span className='font-semibold text-2xl capitalize'>
                                     {ReduxPreviewData?.richHeading || PageData?.richHeading}
@@ -236,7 +236,66 @@ function NpoPreview({ Id }) {
 
 
                         <hr />
-                        <div className=' w-full flex flex-col gap-3 py-3'>
+
+                        <div className=' flex w-full items-center gap-4 mb-4 mt-2 py-3 justify-center'>
+
+                            {
+                                ReduxPreviewData?.linksData?.websiteLink?.show != false || PageData?.linksData?.websiteLink?.show != false
+                                    ?
+                                    <span className=' flex cursor-pointer'>
+
+                                        <span className=' text-[14.9px] font-bold pl-[18.5px]'>
+
+                                            <a target='_blank' href={ReduxPreviewData?.linksData?.websiteLink?.link || PageData?.linksData?.websiteLink?.link}> <u>Website Link</u></a>
+                                        </span>
+                                    </span>
+                                    : ''
+                            }
+                            <div className=' pl-1 flex gap-3 items-center'>
+
+                            {
+                                ReduxPreviewData?.linksData?.facebook?.show != false || PageData?.linksData?.facebook?.show
+                                ?
+                                    <a href={ReduxPreviewData?.linksData?.facebook?.link || PageData?.linksData?.facebook?.link} target='_blank'>
+                                        <img className=' w-fit h-[22px] sm:h-[22px] hover:opacity-80' src={facebook} alt="" />
+                                    </a>
+                                    : ''
+                            }
+                            {
+                                ReduxPreviewData?.linksData?.instagram?.show != false || PageData?.linksData?.instagram?.show
+                                    ?
+                                    <a href={ReduxPreviewData?.linksData?.instagram?.link || PageData?.linksData?.instagram?.link} target='_blank'>
+                                        <img className=' w-[18px] h-[18px] sm:w-[27px] hover:opacity-80 sm:h-[27px]' src={insta} alt="" />
+                                    </a>
+                                    : ''
+                                }
+                            {
+                                ReduxPreviewData?.linksData?.youtube?.show || PageData?.linksData?.youtube?.show
+                                ?
+                                <a href={ReduxPreviewData?.linksData?.youtube?.link || PageData?.linksData?.youtube?.link} target='_blank'>
+                                        <img className=' w-fit h-[17.5px] sm:h-[20.0px] hover:opacity-80' src={ytLogo} alt="" />
+                                    </a>
+                                    : ''
+                                }
+                                </div>
+                            {
+                                ReduxPreviewData?.linksData?.contactUs?.show != false || PageData?.linksData?.contactUs?.show != false
+                                    ?
+                                    <span onClick={() => handleCall(ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link)} >
+                                        <span className=' pl-3'>
+                                            <span className=' text-[14.9px] cursor-pointer font-bold hover:text-blue-600'> <u> Contact Us</u></span>
+                                        </span>
+                                    </span>
+                                    : ''
+                            }
+                            <div className=' flex text-[14.9px] flex-col items-center gap-1'>
+                                <span onClick={() => handleRedirectEmail(ReduxPreviewData?.PageData || PageData?.emailData)} className=' font-bold text-md hover:text-blue-500 cursor-pointer '><u>Email Address</u></span>
+                            </div>
+
+                        </div>
+
+
+                        {/* <div className=' w-full flex flex-col gap-3 py-3'>
                             <div className=' w-full flex items-center justify-center'>
                                 <div className=' flex flex-col items-center gap-1'>
                                     <span className=' font-semibold text-lg capitalize'>
@@ -246,7 +305,7 @@ function NpoPreview({ Id }) {
                                 </div>
                             </div>
                             <hr />
-                            <div className=' w-full flex justify-between px-3 py-2'>
+                            <div className=' w-full flex flex-col sm:flex-row sm:gap-1 gap-5 justify-between px-3 py-2'>
                                 <div className=' flex flex-col gap-2'>
                                     {
                                         ReduxPreviewData?.linksData?.contactUs?.show != false || PageData?.linksData?.contactUs?.show != false
@@ -288,7 +347,7 @@ function NpoPreview({ Id }) {
                                         ReduxPreviewData?.linksData?.instagram?.show != false || PageData?.linksData?.instagram?.show
                                             ?
                                             <a href={ReduxPreviewData?.linksData?.instagram?.link || PageData?.linksData?.instagram?.link} target='_blank'>
-                                                <img className=' w-[53px] h-[50px]' src={insta} alt="" />
+                                                <img className=' w-[38px] h-[38px] sm:w-[53px] sm:h-[50px]' src={insta} alt="" />
                                             </a>
                                             : ''
                                     }
@@ -296,7 +355,7 @@ function NpoPreview({ Id }) {
                                         ReduxPreviewData?.linksData?.facebook?.show != false || PageData?.linksData?.facebook?.show
                                             ?
                                             <a href={ReduxPreviewData?.linksData?.facebook?.link || PageData?.linksData?.facebook?.link} target='_blank'>
-                                                <img className=' w-fit h-[39px]' src={facebook} alt="" />
+                                                <img className=' w-fit h-[28px] sm:h-[39px]' src={facebook} alt="" />
                                             </a>
                                             : ''
                                     }
@@ -304,14 +363,14 @@ function NpoPreview({ Id }) {
                                         ReduxPreviewData?.linksData?.youtube?.show || PageData?.linksData?.youtube?.show
                                             ?
                                             <a href={ReduxPreviewData?.linksData?.youtube?.link || PageData?.linksData?.youtube?.link} target='_blank'>
-                                                <img className=' w-fit h-[35.5px]' src={ytLogo} alt="" />
+                                                <img className=' w-fit h-[28px] sm:h-[35.5px]' src={ytLogo} alt="" />
                                             </a>
                                             : ''
                                     }
                                 </div>
                             </div>
 
-                        </div>
+                        </div> */}
                     </>
 
             }

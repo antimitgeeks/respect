@@ -341,7 +341,7 @@ function NpoHome() {
     }
 
     const handleSave = () => {
-        console.log(linksData?.instaSwitch,"____________-------------------------")
+        console.log(linksData?.instaSwitch, "____________-------------------------")
         let DataForApi = {
             logoUrl: logoUrl,
             bannerUrl: bannerUrl,
@@ -356,25 +356,25 @@ function NpoHome() {
             richHeading: richHeading,
             linksData: {
                 instagram: {
-                    link: localNpoPreviewDataState?.linksData?.instagram?.link|| linksData?.instagram || FinalData?.linksData?.instagram?.link,
-                    show: linksData?.instaSwitch!=undefined? linksData?.instaSwitch==false?false:true : FinalData?.linksData?.instagram?.show==false?false:true
+                    link: localNpoPreviewDataState?.linksData?.instagram?.link || linksData?.instagram || FinalData?.linksData?.instagram?.link,
+                    show: linksData?.instaSwitch != undefined ? linksData?.instaSwitch == false ? false : true : FinalData?.linksData?.instagram?.show == false ? false : true
                 },
                 facebook: {
-                    link: localNpoPreviewDataState?.linksData?.facebook?.link|| linksData?.facebook || FinalData?.linksData?.facebook?.link,
-                    show: linksData?.facebook!=undefined? linksData?.facebookSwitch==false?false:true : FinalData?.linksData?.facebook?.show==false?false:true
+                    link: localNpoPreviewDataState?.linksData?.facebook?.link || linksData?.facebook || FinalData?.linksData?.facebook?.link,
+                    show: linksData?.facebook != undefined ? linksData?.facebookSwitch == false ? false : true : FinalData?.linksData?.facebook?.show == false ? false : true
                 },
                 youtube: {
-                    link: localNpoPreviewDataState?.linksData?.youtube?.link|| linksData?.youtube || FinalData?.linksData?.youtube?.link,
-                    show: linksData?.youtube!=undefined? linksData?.youtubeSwitch==false?false:true : FinalData?.linksData?.youtube?.show==false?false:true
+                    link: localNpoPreviewDataState?.linksData?.youtube?.link || linksData?.youtube || FinalData?.linksData?.youtube?.link,
+                    show: linksData?.youtube != undefined ? linksData?.youtubeSwitch == false ? false : true : FinalData?.linksData?.youtube?.show == false ? false : true
 
                 },
                 contactUs: {
-                    link: localNpoPreviewDataState?.linksData?.contactUs?.link|| linksData?.contactUs || FinalData?.linksData?.contactUs?.link,
-                    show: linksData?.contactUs!=undefined? linksData?.contactSwitch==false?false:true : FinalData?.linksData?.contactUs?.show==false?false:true
+                    link: localNpoPreviewDataState?.linksData?.contactUs?.link || linksData?.contactUs || FinalData?.linksData?.contactUs?.link,
+                    show: linksData?.contactUs != undefined ? linksData?.contactSwitch == false ? false : true : FinalData?.linksData?.contactUs?.show == false ? false : true
                 },
                 websiteLink: {
-                    link: localNpoPreviewDataState?.linksData?.websiteLink?.link ||linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link,
-                    show: linksData?.websiteLink!=undefined? linksData?.websiteSwitch==false?false:true : FinalData?.linksData?.websiteLink?.show==false?false:true
+                    link: localNpoPreviewDataState?.linksData?.websiteLink?.link || linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link,
+                    show: linksData?.websiteLink != undefined ? linksData?.websiteSwitch == false ? false : true : FinalData?.linksData?.websiteLink?.show == false ? false : true
                 }
             }
         }
@@ -509,24 +509,24 @@ function NpoHome() {
             linksData: {
                 instagram: {
                     link: linksData?.instagram || FinalData?.linksData?.instagram?.link,
-                    show: linksData?.instaSwitch!=undefined? linksData?.instaSwitch==false?false:true : FinalData?.linksData?.instagram?.show==false?false:true
+                    show: linksData?.instaSwitch != undefined ? linksData?.instaSwitch == false ? false : true : FinalData?.linksData?.instagram?.show == false ? false : true
                 },
                 facebook: {
                     link: linksData?.facebook || FinalData?.linksData?.facebook?.link,
-                    show: linksData?.facebook!=undefined? linksData?.facebookSwitch==false?false:true : FinalData?.linksData?.facebook?.show==false?false:true
+                    show: linksData?.facebook != undefined ? linksData?.facebookSwitch == false ? false : true : FinalData?.linksData?.facebook?.show == false ? false : true
                 },
                 youtube: {
                     link: linksData?.youtube || FinalData?.linksData?.youtube?.link,
-                    show: linksData?.youtube!=undefined? linksData?.youtubeSwitch==false?false:true : FinalData?.linksData?.youtube?.show==false?false:true
+                    show: linksData?.youtube != undefined ? linksData?.youtubeSwitch == false ? false : true : FinalData?.linksData?.youtube?.show == false ? false : true
 
                 },
                 contactUs: {
                     link: linksData?.contactUs || FinalData?.linksData?.contactUs?.link,
-                    show: linksData?.contactUs!=undefined? linksData?.contactSwitch==false?false:true : FinalData?.linksData?.contactUs?.show==false?false:true
+                    show: linksData?.contactUs != undefined ? linksData?.contactSwitch == false ? false : true : FinalData?.linksData?.contactUs?.show == false ? false : true
                 },
                 websiteLink: {
                     link: linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link,
-                    show: linksData?.websiteLink!=undefined? linksData?.websiteSwitch==false?false:true : FinalData?.linksData?.websiteLink?.show==false?false:true
+                    show: linksData?.websiteLink != undefined ? linksData?.websiteSwitch == false ? false : true : FinalData?.linksData?.websiteLink?.show == false ? false : true
                 }
             }
         };
@@ -587,14 +587,14 @@ function NpoHome() {
                                     bannerUrl && bannerUrl.length > 0
                                         ?
                                         <div className=' z-0   w-full overflow-hidden '>
-                                            <img className=' w-full object-cover h-[480px]' src={bannerUrl} alt="" />
+                                            <img className=' w-full object-cover h-[530px]' src={bannerUrl} alt="" />
                                             <input onChange={(e) => handleBannerInput(e)} type="file" id='bannerInput' className=' w-0 hidden' accept='image/*' />
-                                            <span className='w-full gap-1 absolute top-[200px] flex items-center justify-center left-[0px] self-center'>
+                                            <span className='w-full gap-1 absolute top-[230px] flex items-center justify-center left-[0px] self-center'>
                                                 <input
                                                     value={bannerBackgroundText}
                                                     onInput={(e) => setBannerBackgroundText(e.target.value)}
                                                     type="text"
-                                                    className={`text-center backdrop-blur-sm w-1/2 font-bold placeholder-slate-200 text-xl py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 px-2 outline-none bg-inherit placeholder:font-normal`}
+                                                    className={`text-center  w-1/2 font-bold placeholder-slate-200 text-xl py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 px-2 outline-none bg-inherit placeholder:font-normal`}
                                                     placeholder='TYPE YOUR CONTENT HERE'
                                                     style={{ color: bannerTextColor || 'black' }} // Inline style for text color
                                                 />
@@ -607,14 +607,12 @@ function NpoHome() {
                                                     />
                                                 </span>
 
-
-
                                             </span>
 
                                             <label htmlFor='bannerInput' className=' m-0  z-10  cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></label>
                                         </div>
                                         :
-                                        <div className=' flex  focus:border-2 p-1  focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center bg-slate-300 w-full h-[475px]'>
+                                        <div className=' flex  focus:border-2 p-1  focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center bg-slate-300 w-full h-[535px]'>
                                             <div className=' p-[1px] py-[1px] focus:border-2 rounded focus:border-black focus:border-solid border-dashed border-slate-500 border-2'>
                                                 <input onChange={(e) => handleBannerInput(e)} type="file" id='bannerInput' className=' w-0 hidden' accept='image/*' />
                                                 <label htmlFor='bannerInput' className=' m-0 p-2 rounded cursor-pointer  bg-slate-400 '>Banner image</label>
@@ -623,13 +621,13 @@ function NpoHome() {
                                 }
                             </div>
                             <div className=' w-full justify-between  flex-col md:flex-row flex  '>
-                                <div className='relative h-[350px] border-r-4 self-stretch items-center justify-center flex w-full bg-slate-300'>
+                                <div className='relative h-[380px] border-r-4 self-stretch items-center justify-center flex w-full bg-slate-300'>
                                     {
                                         imageTextUrl && imageTextUrl?.length > 0
                                             ?
                                             <div className='  h-full w-full'>
                                                 <img className=' w-full h-full object-fill' src={imageTextUrl} alt="" />
-                                                <input onInput={(e) => handleImagewithText(e)} id='imageWithText' type="file" accept='image/*' className=' w-0 hidden' />
+                                                <input onInput={(e) => handleImagewithText(e)} id='imageWithText' type="file" accept=' .jpg , .png , .jpeg' className=' w-0 hidden' />
                                                 <label htmlFor={'imageWithText'} className=' text-black m-0  font-bold bg-slate-200 p-[1px] right-[-4px] top-[-10px] cursor-pointer absolute'><FaRegEdit /></label>
                                             </div>
                                             :
@@ -645,34 +643,26 @@ function NpoHome() {
                                     <div className=' px-3 py-1 w-full flex flex-col gap-2 items-center'>
                                         <span className=' relative flex-col gap-2 flex items-center  h-full py-2 justify-center w-full'>
                                             <input value={imageHeading} onInput={(e) => setImageHeading(e.target.value)} type="text" className='font-semibold placeholder-opacity-70 placeholder-slate-400 py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit placeholder:font-normal' placeholder='Heading' />
-                                            {/* {
-                                        imageHeading && imageHeading.length > 0
-                                        &&
-                                        <span onClick={() => setImageHeading('')} className=' cursor-pointer text-red-500 font-semibold absolute right-[-4px] top-[-2px]'>X</span>
-                                    } */}
+
 
                                             <div className=' relative w-full'>
 
                                                 <textarea onInput={(e) => handleImageTextInput(e)} value={imageText} type="text" placeholder='Text' className=' py-2  min-h-[250px]  m-auto w-full h-full flex bg-slate-300 items-center justify-center  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2  px-1 outline-none' />
-                                                {/* {
-                                        imageText && imageText.length > 0
-                                        &&
-                                        <span onClick={() => setImageText('')} className=' cursor-pointer text-red-500 font-semibold absolute right-[-4px] top-[-10px]'>X</span>
-                                    } */}
+
                                             </div>
                                         </span>
                                         {/* <span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis beatae libero iste, ad, dicta dolorum enim neque id quod qui itaque possimus.</span> */}
                                     </div>
                                 </div>
                             </div>
-                            <div className=' w-full py-0  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center   flex  bg-slate-300 h-[450px]'>
+                            <div className=' w-full py-0  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center   flex  bg-slate-300 h-[500px]'>
 
                                 {
                                     systmVideoData && systmVideoData?.length > 0
                                         ?
                                         <>
                                             <div className='w-full relative flex justify-center py-0'>
-                                                <video className=' w-full py-0 h-[440px]' controls>
+                                                <video className=' w-full py-0 h-[500px]' controls>
                                                     <source src={systmVideoData} type="video/mp4" />
                                                     Your browser does not support the video tag.
                                                 </video>
@@ -779,7 +769,7 @@ function NpoHome() {
                                     linksData?.instaSwitch != false
                                     &&
                                     } */}
-                                                        
+
                                         <a href={linksData?.instagram || localNpoPreviewDataState?.linksData?.instagram?.link || FinalData?.linksData?.instagram?.link} target='_blank'>
                                             <img className=' w-[42px] h-[41px]' src={insta} alt="" />
                                         </a>
