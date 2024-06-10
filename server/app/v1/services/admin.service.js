@@ -20,9 +20,10 @@ exports.npoByEmail = async (email) => {
 exports.addNpo = async (details) => {
     // create page in shopify 
     // const pageCreated = await this.addPageInShopify({ title: details.name, body: details.name });
-    // if (!pageCreated) {
+    // if (!pageCreated?.page) {
     //     return false
     // }
+    // details.pageId = pageCreated.page.id;
     const npoDetails = await Npos.create(details);
     return npoDetails;
 }
@@ -50,8 +51,8 @@ exports.addPageInShopify = async (details) => {
 
     try {
         const response = await axios.request(config)
-        console.log('Shopify Page Details : ', response.data);
-        return true;
+        console.log('Shopify Page Details : ', response?.data);
+        return response?.data;
     } catch (error) {
         console.log('Error In Page Create Shopify : ', error);
         return false
@@ -72,6 +73,12 @@ exports.npoList = async (params) => {
 // return npo details by id
 exports.npoById = async (id) => {
     const npoDetails = await Npos.findOne({ where: { id } });
+    return npoDetails;
+}
+
+// return npo details by shopify id
+exports.npoByShopifyId = async (id) => {
+    const npoDetails = await Npos.findOne({ where: { pageId: id } });
     return npoDetails;
 }
 

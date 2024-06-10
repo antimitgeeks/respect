@@ -39,6 +39,23 @@ exports.getPage = async (req, res) => {
     }
 };
 
+// npo page details by id controller
+exports.getPageShopify = async (req, res) => {
+    console.info('***************************************************Npo shopify Page By Id Api************************************************');
+    try {
+        const id = req.params.id;
+        const exist = await adminService.npoByShopifyId(id);
+        if (!exist) {
+            return sendResponse(res, statusCode.BAD_REQUEST, false, `Npo ${ErrorMessage.NOT_FOUND}`);
+        }
+        const result = await service.getPage(exist.id);
+        return sendResponse(res, statusCode.OK, true, `Npo Page ${SuccessMessage.FETCH}`, result);
+    } catch (error) {
+        console.error('Error in shopify page by id api : ', error);
+        return sendResponse(res, statusCode.INTERNAL_SERVER_ERROR, false, ErrorMessage.INTERNAL_SERVER_ERROR, error?.errors);
+    }
+};
+
 // npo page image controller
 exports.getPageImage = async (req, res) => {
     console.info('***************************************************Npo Page Image By Id Api************************************************');
@@ -63,9 +80,42 @@ exports.getPageImage = async (req, res) => {
             res.set('Content-Type', 'image/*');
             res.sendFile(path.resolve(imagePath));
         });
-        // return sendResponse(res, statusCode.OK, true, `Npo Page Image ${SuccessMessage.FETCH}`, result);
     } catch (error) {
-        console.error('Error in Npo page by id api : ', error);
+        console.error('Error in Npo page image by id api : ', error);
+        return sendResponse(res, statusCode.INTERNAL_SERVER_ERROR, false, ErrorMessage.INTERNAL_SERVER_ERROR, error?.errors);
+    }
+};
+
+// npo page image controller
+exports.getShopifyPageImage = async (req, res) => {
+    console.info('***************************************************Npo Shopify Page Image By Id Api************************************************');
+    try {
+        const id = req.params.id;
+        const type = req.query.type;
+        // get npo details by shopify page id
+        const pageDetails = await adminService.npoByShopifyId(id);
+        if (!pageDetails) {
+            return sendResponse(res, statusCode.BAD_REQUEST, false, `Npo ${ErrorMessage.NOT_FOUND}`);
+        }
+        const imageDir = path.join(__dirname, '../utils', 'images', pageDetails.id?.toString());
+        if (!fs.existsSync(imageDir)) {
+            return res.status(404).send('Image not found');
+        }
+        fs.readdir(imageDir, (err, files) => {
+            if (err || files.length === 0) {
+                return res.status(404).send('Image not found');
+            }
+
+            const file = files.find(f => path.basename(f, path.extname(f)) === type);
+            if (!file) {
+                return res.status(404).send('Image not found');
+            }
+            const imagePath = path.join(imageDir, file);
+            res.set('Content-Type', 'image/*');
+            res.sendFile(path.resolve(imagePath));
+        });
+    } catch (error) {
+        console.error('Error in Shopify page image by id api : ', error);
         return sendResponse(res, statusCode.INTERNAL_SERVER_ERROR, false, ErrorMessage.INTERNAL_SERVER_ERROR, error?.errors);
     }
 };
