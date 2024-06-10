@@ -77,7 +77,7 @@ function NpoView() {
                       onClick={toggleDetails}
                       className="text-blue-500 underline mt-4 inline-block"
                     >
-                      {showDetails ? 'Hide NPO Page Details' : 'View NPO Page Details'}
+                      {showDetails ? 'Hide NPO Page ' : 'View NPO Page '}
                     </button>
                     {showDetails && (
                       <div className="mt-4">
@@ -86,8 +86,16 @@ function NpoView() {
                             <div className='border h-[300px] rounded w-full bg-slate-400 animate-pulse'></div>
                           </div>
                         ) : (
+                          <div className=' flex w-full gap-2 flex-col'>
+                            <span className=' capitalize'>
+                              <span className=' font-semibold mr-2'>Page name </span>
+                               :  {NpoData?.name}
+                               </span>
+
+                            <span> <span className=' font-semibold mr-8'>Page no </span>: {NpoData?.id}</span>
                           <div className="bg-white border-2 w-full rounded-lg p-6">
                             <NpoPreview Id={UserId}/>
+                          </div>
                           </div>
                         )}
                       </div>
