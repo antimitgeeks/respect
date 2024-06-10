@@ -39,6 +39,9 @@ module.exports = (sequelize, Sequelize) => {
         role: {
             type: Sequelize.STRING,
             defaultValue: 'npo'
+        },
+        pageId: {
+            type: Sequelize.STRING
         }
     });
 

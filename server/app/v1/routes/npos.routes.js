@@ -11,6 +11,7 @@ const { sendResponse } = require("../utils/sendResponse.js");
 
 router.post('/page/:id', authValidation.id, controllers.addPage);
 router.post('/page-details/:id', authValidation.id, controllers.getPage);
+router.post('/shopify/page-details/:id', controllers.getPageShopify);
 router.post('/upload/:id', authValidation.id, authValidation.npoImageType, (req, res) => {
     upload(req, res, (err) => {
         if (err) {
@@ -25,7 +26,8 @@ router.post('/upload/:id', authValidation.id, authValidation.npoImageType, (req,
         }
     });
 });
-router.post('/image/:id', authValidation.id, authValidation.npoImageType, controllers.getPageImage);
+router.get('/image/:id', authValidation.id, authValidation.npoImageType, controllers.getPageImage);
+router.get('/shopify/image/:id', authValidation.id, authValidation.npoImageType, controllers.getShopifyPageImage);
 
 
 module.exports = router;
