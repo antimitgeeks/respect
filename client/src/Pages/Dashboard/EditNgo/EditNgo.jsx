@@ -116,7 +116,7 @@ function EditNgo(
 
                                                 <InputComponent
                                                     required
-                                                    label={'NGO Name'}
+                                                    label={'Npo name'}
                                                     placeholder={'Enter ngo name'}
                                                     name={'name'}
                                                     onChange={settingsProps.handleChange}
@@ -164,9 +164,8 @@ function EditNgo(
                                     </span> 
                                             </div>
                                             <InputComponent
-                                                required
-                                                label={'Number'}
-                                                placeholder={'Enter ngo number'}
+                                                label={'Contact Number'}
+                                                placeholder={'Enter ngo contact number'}
                                                 name={'number'}
                                                 onChange={settingsProps.handleChange}
                                                 value={settingsProps.values.number}
