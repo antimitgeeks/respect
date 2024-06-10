@@ -53,7 +53,6 @@ function NpoHome() {
         }
         else {
             setLoading(false);
-            console.log(NpoPagedata?.result?.pageJson)
             setFinalData(NpoPagedata?.result?.pageJson ? JSON.parse(NpoPagedata?.result?.pageJson) : null)
         }
     }, [NpoPagedata, ispageDataFetching, ispageDataLoading])
@@ -67,7 +66,7 @@ function NpoHome() {
     const fetchLogoData = () => {
         setLogoLoading(true)
         const config = {
-            method: "POST"
+            method: "GET"
         };
         setLoading(true)
         fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
@@ -103,7 +102,7 @@ function NpoHome() {
     ///////////////////////////////////////////////////////////////////////////////////////////
     const fetchBannerImgData = () => {
         const config = {
-            method: "POST"
+            method: "GET"
         };
         setLoading(true);
         setBannerLoading(true);
@@ -140,7 +139,7 @@ function NpoHome() {
 
     const fetchTextImgData = () => {
         const config = {
-            method: "POST"
+            method: "GET"
         };
         setLoading(true)
         setTextImageLoading(true);
@@ -342,7 +341,7 @@ function NpoHome() {
     }
 
     const handleSave = () => {
-
+        console.log(linksData?.instaSwitch,"____________-------------------------")
         let DataForApi = {
             logoUrl: logoUrl,
             bannerUrl: bannerUrl,
@@ -357,25 +356,25 @@ function NpoHome() {
             richHeading: richHeading,
             linksData: {
                 instagram: {
-                    link: linksData?.instagram || FinalData?.linksData?.instagram?.link,
-                    show: linksData?.instaSwitch || FinalData?.linksData?.instagram?.show
+                    link: localNpoPreviewDataState?.linksData?.instagram?.link|| linksData?.instagram || FinalData?.linksData?.instagram?.link,
+                    show: linksData?.instaSwitch!=undefined? linksData?.instaSwitch==false?false:true : FinalData?.linksData?.instagram?.show==false?false:true
                 },
                 facebook: {
-                    link: linksData?.facebook || FinalData?.linksData?.facebook?.link,
-                    show: linksData?.facebookSwitch || FinalData?.linksData?.facebook?.show
+                    link: localNpoPreviewDataState?.linksData?.facebook?.link|| linksData?.facebook || FinalData?.linksData?.facebook?.link,
+                    show: linksData?.facebook!=undefined? linksData?.facebookSwitch==false?false:true : FinalData?.linksData?.facebook?.show==false?false:true
                 },
                 youtube: {
-                    link: linksData?.youtube || FinalData?.linksData?.youtube?.link,
-                    show: linksData?.youtubeSwitch || FinalData?.linksData?.youtube?.show
+                    link: localNpoPreviewDataState?.linksData?.youtube?.link|| linksData?.youtube || FinalData?.linksData?.youtube?.link,
+                    show: linksData?.youtube!=undefined? linksData?.youtubeSwitch==false?false:true : FinalData?.linksData?.youtube?.show==false?false:true
 
                 },
                 contactUs: {
-                    link: linksData?.contactUs || FinalData?.linksData?.contactUs?.link,
-                    show: linksData?.contactSwitch || FinalData?.linksData?.contactUs?.show
+                    link: localNpoPreviewDataState?.linksData?.contactUs?.link|| linksData?.contactUs || FinalData?.linksData?.contactUs?.link,
+                    show: linksData?.contactUs!=undefined? linksData?.contactSwitch==false?false:true : FinalData?.linksData?.contactUs?.show==false?false:true
                 },
                 websiteLink: {
-                    link: linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link,
-                    show: linksData?.websiteSwitch || FinalData?.linksData?.websiteLink?.show
+                    link: localNpoPreviewDataState?.linksData?.websiteLink?.link ||linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link,
+                    show: linksData?.websiteLink!=undefined? linksData?.websiteSwitch==false?false:true : FinalData?.linksData?.websiteLink?.show==false?false:true
                 }
             }
         }
@@ -510,24 +509,24 @@ function NpoHome() {
             linksData: {
                 instagram: {
                     link: linksData?.instagram || FinalData?.linksData?.instagram?.link,
-                    show: linksData?.instaSwitch || FinalData?.linksData?.instagram?.show
+                    show: linksData?.instaSwitch!=undefined? linksData?.instaSwitch==false?false:true : FinalData?.linksData?.instagram?.show==false?false:true
                 },
                 facebook: {
                     link: linksData?.facebook || FinalData?.linksData?.facebook?.link,
-                    show: linksData?.facebookSwitch || FinalData?.linksData?.facebook?.show
+                    show: linksData?.facebook!=undefined? linksData?.facebookSwitch==false?false:true : FinalData?.linksData?.facebook?.show==false?false:true
                 },
                 youtube: {
                     link: linksData?.youtube || FinalData?.linksData?.youtube?.link,
-                    show: linksData?.youtubeSwitch || FinalData?.linksData?.youtube?.show
+                    show: linksData?.youtube!=undefined? linksData?.youtubeSwitch==false?false:true : FinalData?.linksData?.youtube?.show==false?false:true
 
                 },
                 contactUs: {
                     link: linksData?.contactUs || FinalData?.linksData?.contactUs?.link,
-                    show: linksData?.contactSwitch || FinalData?.linksData?.contactUs?.show
+                    show: linksData?.contactUs!=undefined? linksData?.contactSwitch==false?false:true : FinalData?.linksData?.contactUs?.show==false?false:true
                 },
                 websiteLink: {
                     link: linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link,
-                    show: linksData?.websiteSwitch || FinalData?.linksData?.websiteLink?.show
+                    show: linksData?.websiteLink!=undefined? linksData?.websiteSwitch==false?false:true : FinalData?.linksData?.websiteLink?.show==false?false:true
                 }
             }
         };
@@ -599,14 +598,17 @@ function NpoHome() {
                                                     placeholder='TYPE YOUR CONTENT HERE'
                                                     style={{ color: bannerTextColor || 'black' }} // Inline style for text color
                                                 />
-                                                <span className=''>
+                                                <span className='rounded-full inline-block'>
                                                     <input
-                                                        className=' bg-transparent h-7 w-7  rounded-full'
+                                                        className='bg-transparent h-8 w-10 rounded-full border-none'
                                                         value={bannerTextColor}
                                                         onInput={(e) => setBannerTextColor(e.target.value)}
                                                         type="color"
                                                     />
                                                 </span>
+
+
+
                                             </span>
 
                                             <label htmlFor='bannerInput' className=' m-0  z-10  cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></label>
@@ -766,7 +768,7 @@ function NpoHome() {
 
                                                 <a className='' href={linksData?.websiteLink || "#"}>
                                                     <span>
-                                                        {linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link}
+                                                        {linksData?.websiteLink || localNpoPreviewDataState?.linksData?.websiteLink?.link || FinalData?.linksData?.websiteLink?.link}
                                                     </span>
                                                 </a>
                                             </span>
@@ -777,21 +779,22 @@ function NpoHome() {
                                     linksData?.instaSwitch != false
                                     &&
                                     } */}
-                                        <a href={linksData?.instagram || "https://www.instagram.com/"} target='_blank'>
+                                                        
+                                        <a href={linksData?.instagram || localNpoPreviewDataState?.linksData?.instagram?.link || FinalData?.linksData?.instagram?.link} target='_blank'>
                                             <img className=' w-[42px] h-[41px]' src={insta} alt="" />
                                         </a>
                                         {/* {
                                     linksData?.facebookSwitch != false
                                 }
                                     && */}
-                                        <a href={linksData?.facebook || "https://www.facebook.com/"} target='_blank'>
+                                        <a href={linksData?.facebook || localNpoPreviewDataState?.linksData?.facebook?.link || FinalData?.linksData?.facebook?.link} target='_blank'>
                                             <img className=' w-fit h-[28px]' src={facebook} alt="" />
                                         </a>
                                         {/* {
                                     linksData?.youtubeSwitch != false
                                     &&
                                     } */}
-                                        <a href={linksData?.youtube || "https://www.youtube.com/"} target='_blank'>
+                                        <a href={linksData?.youtube || localNpoPreviewDataState?.linksData?.youtube?.link || FinalData?.linksData?.youtube?.link} target='_blank'>
                                             <img className=' w-fit h-[28px]' src={ytLogo} alt="" />
                                         </a>
                                     </div>

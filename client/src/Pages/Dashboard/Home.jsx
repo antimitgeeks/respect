@@ -4,7 +4,7 @@ import DataTable from '../../components/DataTable'
 import MobileTabel from '../../components/MobileTable';
 import DialogComponent from '../../components/DialogComponent'
 import AddNgo from './AddNgo/AddNgo';
-import { useAllNpoListQuery, useUpdateNpoMutation } from '../../services/NpoService';
+import { useAllNpoListQuery, useDeleteNpoMutation, useUpdateNpoMutation } from '../../services/NpoService';
 import { AiFillDelete } from 'react-icons/ai';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiEdit2Fill } from "react-icons/ri";
@@ -31,8 +31,10 @@ function Home() {
   const navigate = useNavigate();
   const [listData, setListData] = useState();
   const [editOpen, setEditOpen] = useState(false)
-  const [UpdateNpo] = useUpdateNpoMutation();
   const [toggleData,setToggleData]= useState()
+
+  const [UpdateNpo] = useUpdateNpoMutation();
+  const [DeleteNpo]= useDeleteNpoMutation();
 
   const DataPerPage = 5
   let offset = (Page - 1) * DataPerPage;
@@ -92,20 +94,20 @@ function Home() {
   const handleDeleteYes = () => {
 
     // DeleteStore({ Id: selectedIndex })
+        DeleteNpo({Id:selectedIndex})
+        .then((res) => {
+            if (res?.error) {
+                console.log(res.error)
+                toast.error("Error Occured")
+            }
+            else if (res.data) {
+                setSelectedIndex('');
+                setActionIndex('');
+                toast.success("Store Successfully Deleted")
+            }
 
-    //     .then((res) => {
-    //         if (res?.error) {
-    //             console.log(res.error)
-    //             toast.error("Error Occured")
-    //         }
-    //         else if (res.data) {
-    //             setSelectedIndex('');
-    //             setActionIndex('');
-    //             toast.success("Store Successfully Deleted")
-    //         }
-
-    //     })
-    //     .catch((err)=>toast.error("Internal Server Error"))
+        })
+        .catch((err)=>toast.error("Internal Server Error"))
 
   }
 
@@ -180,9 +182,9 @@ function Home() {
           <div className='  w-full flex flex-col gap-5 items-center'>
             <div className=' hidden  md:table rounded w-full '>
               <div className='head divide-x-2 bg-slate-300 text-black rounded border-r border-l flex justify-between'>
-                <div className=' w-full font-medium  text-[13.5px] self-center py-3 pl-3 uppercase' >NGO  name</div>
-                <div className=' w-full font-medium text-[13.5px] self-center py-3 pl-3 uppercase'>NGO email</div>
-                <div className=' w-full font-medium text-[13.0px] self-center py-3 pl-3 uppercase'>Ngo number</div>
+                <div className=' w-full font-medium  text-[13.5px] self-center py-3 pl-3 uppercase' >NPO  name</div>
+                <div className=' w-full font-medium text-[13.5px] self-center py-3 pl-3 uppercase'>NPO email</div>
+                <div className=' w-full font-medium text-[13.0px] self-center py-3 pl-3 uppercase'>Npo number</div>
                 <div className=' w-full font-medium text-[13.0px] self-center py-3 pl-3 uppercase'>Status</div>
                 <div className=' w-1/2 font-medium text-[13.5px] self-center py-3 pl-3 uppercase'>Action</div>
               </div>
@@ -225,9 +227,9 @@ function Home() {
                 {
                   listData?.map((itm, indx) => {
                     return <div key={indx} className=' w-full  items-start bg-white select-none sm:flex-col border-slate-400 flex-col md:flex-row  gap-3 border-2   rounded-md  px-2 py-3'>
-                      <span className=' w-full text-[13.4px]  flex gap-14 '><span className=' font-semibold'> Ngo name</span>  {itm?.name} </span>
-                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Ngo email : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.email}</span> </span>
-                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Ngo number : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.number}</span> </span>
+                      <span className=' w-full text-[13.4px]  flex gap-14 '><span className=' font-semibold'> Npo name</span>  {itm?.name} </span>
+                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Npo email : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.email}</span> </span>
+                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Npo number : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.number}</span> </span>
                       <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Status : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.status}</span> </span>
                       {/* <span className=' w-full  text-[13.4px] flex gap-10'><span className=' font-semibold'>Api store Key :</span> {itm.apiKey}</span> */}
                       {/* <span className=' w-full  text-[13.4px] flex gap-10'><span className=' font-semibold'>Api store pass </span>{itm.apiPassword}</span> */}

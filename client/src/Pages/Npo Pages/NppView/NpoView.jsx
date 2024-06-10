@@ -91,7 +91,6 @@ function NpoView() {
                               <span className=' font-semibold mr-2'>Page name </span>
                                :  {NpoData?.name}
                                </span>
-
                             <span> <span className=' font-semibold mr-8'>Page no </span>: {NpoData?.id}</span>
                           <div className="bg-white border-2 w-full rounded-lg p-6">
                             <NpoPreview Id={UserId}/>

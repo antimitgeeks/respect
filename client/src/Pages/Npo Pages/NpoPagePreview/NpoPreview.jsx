@@ -53,11 +53,14 @@ function NpoPreview({ Id }) {
 
     const handleRedirectEmail = (email) => {
         const emailServiceUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`; // Replace with your email service URL
+        // const mailtoUrl = `mailto:${email}`;
         window.open(emailServiceUrl, '_blank');
     }
 
     const handleCall = (number) => {
-        window.open(`tel:${number}`, '_blank');
+        const tell = `tel:${number}`;
+
+        window.open(tell, '_blank');
     }
 
 
@@ -65,7 +68,7 @@ function NpoPreview({ Id }) {
     const fetchLogoData = () => {
         console.log('----------------------------------------api calling');
         const config = {
-            method: "POST"
+            method: "GET"
         };
 
         fetch(`http://192.168.1.61:8080/api/v1/npos/image/${Id || decodedToken?.id}?type=logo`, config)
@@ -93,7 +96,7 @@ function NpoPreview({ Id }) {
     ///////////////////////////////////////////////////////////////////////////////////////////
     const fetchBannerImgData = () => {
         const config = {
-            method: "POST"
+            method: "GET"
         };
 
         fetch(`http://192.168.1.61:8080/api/v1/npos/image/${Id || decodedToken?.id}?type=banner`, config)
@@ -120,7 +123,7 @@ function NpoPreview({ Id }) {
 
     const fetchTextImgData = () => {
         const config = {
-            method: "POST"
+            method: "GET"
         };
         console.log(Id, 'IDDDDDDDDDDDDDDDDDDDDDDDDD')
         fetch(`http://192.168.1.61:8080/api/v1/npos/image/${Id ? Id : decodedToken?.id}?type=text`, config)
@@ -168,7 +171,7 @@ function NpoPreview({ Id }) {
                                         </>
                                         :
                                         <div className=' bg-slate-400 h-[70px] w-[70px] rounded-full'>
-                                            
+
                                         </div>
                                 }
                             </div>
@@ -178,7 +181,7 @@ function NpoPreview({ Id }) {
                                         <div className=' w-full h-full'>
                                             <img className=' object-cover object-center h-full w-full' src={ReduxPreviewData?.bannerUrl || bannerUrl} alt="" />
                                             <span className=' absolute top-[250px] text-white w-full flex items-center justify-center'>
-                                                <span style={{color:ReduxPreviewData?.bannerTextColor || PageData?.bannerTextColor}} className=' w-full px-16 break-words text-center  backdrop-blur-sm text-slate-50 text-[30px] rounded py-1'>
+                                                <span style={{ color: ReduxPreviewData?.bannerTextColor || PageData?.bannerTextColor }} className=' w-full px-16 break-words text-center text-slate-50 text-[30px] rounded py-1'>
                                                     {ReduxPreviewData?.bannerBackgroundText || PageData?.bannerBackgroundText}
                                                 </span>
                                             </span>
@@ -246,70 +249,64 @@ function NpoPreview({ Id }) {
                             <div className=' w-full flex justify-between px-3 py-2'>
                                 <div className=' flex flex-col gap-2'>
                                     {
-                                        PageData?.linksData?.contactUs?.show != false
-                                        &&
-                                        // <span onClick={() => handleCall(ReduxPreviewData?.linksData?.contactUs?.link ||PageData?.linksData?.contactUs?.link)} className=' flex gap-[32px] cursor-pointer'>
-                                        //     <span>
-                                        //         Contact Us
-                                        //     </span>
-                                        //     <span>
-
-                                        //     :
-                                        //     </span>
-                                        //     <a href={ReduxPreviewData?.linksData?.contactUs?.link|| PageData?.linksData?.contactUs?.link}> <u> { ReduxPreviewData?.linksData?.contactUs?.link ||PageData?.linksData?.contactUs?.link}</u></a>
-                                        // </span>
-                                        <span onClick={() => handleCall(ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link)} >
-                                            <span>
-                                                Contact Us
+                                        ReduxPreviewData?.linksData?.contactUs?.show != false || PageData?.linksData?.contactUs?.show != false
+                                            ?
+                                            <span onClick={() => handleCall(ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link)} >
+                                                <span>
+                                                    Contact Us
+                                                </span>
+                                                <span className=' pl-4'>
+                                                    :
+                                                </span>
+                                                <span className=' pl-3'>
+                                                    <span className=' cursor-pointer hover:text-blue-600'> <u> {ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link}</u></span>
+                                                </span>
                                             </span>
-                                            <span className=' pl-4'>
-                                                :
-                                            </span>
-                                            <span className=' pl-3'>
-                                                <a href={ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link}> <u> {ReduxPreviewData?.linksData?.contactUs?.link || PageData?.linksData?.contactUs?.link}</u></a>
-
-                                            </span>
-                                        </span>
+                                            : ''
                                     }
                                     {
-                                        PageData?.linksData?.websiteLink?.show != false
-                                        &&
-                                        <span className=' flex cursor-pointer'>
-                                            <span>
-                                                Visit Us
-                                            </span>
-                                            <span className=' pl-[50px]'>
+                                        ReduxPreviewData?.linksData?.websiteLink?.show != false || PageData?.linksData?.websiteLink?.show != false
+                                            ?
+                                            <span className=' flex cursor-pointer'>
+                                                <span>
+                                                    Visit Us
+                                                </span>
+                                                <span className=' pl-[50px]'>
 
-                                                :
-                                            </span>
-                                            <span className=' pl-[18.5px]'>
+                                                    :
+                                                </span>
+                                                <span className=' pl-[18.5px]'>
 
-                                                <a target='_blank' href={ReduxPreviewData?.linksData?.websiteLink?.link || PageData?.linksData?.websiteLink?.link}> <u> {ReduxPreviewData?.linksData?.websiteLink?.link || PageData?.linksData?.websiteLink?.link}</u></a>
+                                                    <a target='_blank' href={ReduxPreviewData?.linksData?.websiteLink?.link || PageData?.linksData?.websiteLink?.link}> <u> {ReduxPreviewData?.linksData?.websiteLink?.link || PageData?.linksData?.websiteLink?.link}</u></a>
+                                                </span>
                                             </span>
-                                        </span>
+                                            : ''
                                     }
                                 </div>
                                 <div className=' flex gap-3 items-center h-6'>
                                     {
-                                        PageData?.linksData?.instagram?.show != false
-                                        &&
-                                        <a href={PageData?.linksData?.instagram?.link || "https://www.instagram.com/"} target='_blank'>
-                                            <img className=' w-[53px] h-[50px]' src={insta} alt="" />
-                                        </a>
+                                        ReduxPreviewData?.linksData?.instagram?.show != false || PageData?.linksData?.instagram?.show
+                                            ?
+                                            <a href={ReduxPreviewData?.linksData?.instagram?.link || PageData?.linksData?.instagram?.link} target='_blank'>
+                                                <img className=' w-[53px] h-[50px]' src={insta} alt="" />
+                                            </a>
+                                            : ''
                                     }
                                     {
-                                        PageData?.linksData?.facebook?.show != false
-                                        &&
-                                        <a href={PageData?.linksData?.facebook?.link || "https://www.instagram.com/"} target='_blank'>
-                                            <img className=' w-fit h-[39px]' src={facebook} alt="" />
-                                        </a>
+                                        ReduxPreviewData?.linksData?.facebook?.show != false || PageData?.linksData?.facebook?.show
+                                            ?
+                                            <a href={ReduxPreviewData?.linksData?.facebook?.link || PageData?.linksData?.facebook?.link} target='_blank'>
+                                                <img className=' w-fit h-[39px]' src={facebook} alt="" />
+                                            </a>
+                                            : ''
                                     }
                                     {
-                                        PageData?.linksData?.youtube?.show != false
-                                        &&
-                                        <a href={PageData?.linksData?.youtube?.link || "https://www.instagram.com/"} target='_blank'>
-                                            <img className=' w-fit h-[35.5px]' src={ytLogo} alt="" />
-                                        </a>
+                                        ReduxPreviewData?.linksData?.youtube?.show || PageData?.linksData?.youtube?.show
+                                            ?
+                                            <a href={ReduxPreviewData?.linksData?.youtube?.link || PageData?.linksData?.youtube?.link} target='_blank'>
+                                                <img className=' w-fit h-[35.5px]' src={ytLogo} alt="" />
+                                            </a>
+                                            : ''
                                     }
                                 </div>
                             </div>
