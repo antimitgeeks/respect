@@ -192,13 +192,13 @@ function Home() {
               </div>
               <div className=' flex flex-col gap-2 pt-2  '>
                 {
-                  loading ?
-                    <div className=' w-full flex flex-col gap-2'>
-                      {Array(5).fill(0).map((itm, indx) => {
-                        return <div key={indx} className=' border h-[60px] rounded w-full bg-slate-400 animate-pulse'></div>
-                      })}
-                    </div>
-                    :
+                  // loading ?
+                  //   <div className=' w-full flex flex-col gap-2'>
+                  //     {Array(5).fill(0).map((itm, indx) => {
+                  //       return <div key={indx} className=' border h-[60px] rounded w-full bg-slate-400 animate-pulse'></div>
+                  //     })}
+                  //   </div>
+                  //   :
                     listData?.length <= 0 || !listData ?
                       <div className=' py-3 flex items-center justify-center'>
                         <span className=' w-full border py-[7px]  justify-center flex gap-3 items-center'>No Data Found <IoWarningOutline size={19} /></span>
