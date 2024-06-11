@@ -43,8 +43,7 @@ function Dashboard() {
   /////// handling user logout /////////
   const handleLogout = () => {
     localStorage.removeItem('IsUserLogged');
-    localStorage.removeItem('previewData')
-    // Cookies.remove("AuthLogin");
+    localStorage.removeItem('previewData');
     Cookies.remove("isLogged");
 
     setTimeout(() => {
@@ -121,7 +120,7 @@ function Dashboard() {
                   </>
                   :
                   <>
-                    <span className={` ${ActivePath.includes('dashboard') ? "bg-white text-black" : "bg-slate-300"} cursor-pointer border rounded-lg py-2 flex gap-2 sm:w-full w-full  items-center pl-[5.5px] sm:pr-12 sm:pl-4 pr-[5.5px]`} onClick={() => { navigate('') }}>
+                    <span className={` ${ActivePath.includes('dashboard') ? "bg-white text-black" : "bg-slate-300"} cursor-pointer border rounded-lg py-2 flex gap-2 sm:w-full  items-center pl-[4.8px] sm:pr-12 sm:pl-4 pr-[4.5px]`} onClick={() => { navigate('') }}>
                       <IoHomeOutline />{sideBarToggle ? <span className='m-0 p-0'>Page</span> : ''}
                     </span>
                   </>

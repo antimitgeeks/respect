@@ -237,7 +237,7 @@ function NpoPreview({ Id }) {
 
                         <hr />
 
-                        <div className=' flex w-full items-center gap-4 mb-4 mt-2 py-3 justify-center'>
+                        <div className=' flex-wrap flex w-full items-center gap-4 mb-4 mt-2 py-3 justify-center'>
 
                             {
                                 ReduxPreviewData?.linksData?.websiteLink?.show != false || PageData?.linksData?.websiteLink?.show != false

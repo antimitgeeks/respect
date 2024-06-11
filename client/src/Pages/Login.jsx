@@ -110,7 +110,7 @@ function Login(props) {
             >
                 {(loginProps) => (
                     <Form className='w-full flex items-center justify-center'>
-                        <div className='flex bg-white justify-center flex-col gap-8 items-center lg:w-1/2 w-5/6 border rounded-lg shadow px-2 mb-20 py-4'>
+                        <div className='flex bg-white justify-center flex-col gap-8 items-center lg:w-1/2 w-5/6 border rounded-lg shadow px-0 sm:px-2 mb-20 py-4'>
                             <div>
                                 <span className='font-mono text-[26px] tracking-wide'>ADMIN LOGIN</span>
                             </div>
@@ -133,7 +133,7 @@ function Login(props) {
                                     />
                                 </div>
                                 <div className='w-2/3 lg:w-1/2 flex flex-col mx-auto self-center gap-0'>
-                                    <div className='w-full flex gap-1 items-center justify-between'>
+                                    <div className='w-full flex gap-1 items-center flex-col sm:flex-row justify-between'>
                                         <div className='gap-2 flex items-center'>
                                             <input
                                                 type="checkbox"

@@ -37,7 +37,7 @@ function Home() {
   const [UpdateNpo] = useUpdateNpoMutation();
   const [DeleteNpo] = useDeleteNpoMutation();
 
-  const DataPerPage = 5
+  const DataPerPage = 5;
   let offset = (Page - 1) * DataPerPage;
 
 

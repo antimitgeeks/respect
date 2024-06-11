@@ -81,7 +81,6 @@ function EditNgo(
                 console.log(err)
                 setUpdateLoading(false)
             })
-
     };
 
     return (

@@ -788,7 +788,6 @@ function NpoHome() {
                                             <img className=' w-fit h-[28px]' src={ytLogo} alt="" />
                                         </a>
                                     </div>
-
                                 </div>
                             </div>
                             <DialogComponent open={linksModalOpen} maxWidth={'md'}>
