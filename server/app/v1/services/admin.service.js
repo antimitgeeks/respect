@@ -19,11 +19,11 @@ exports.npoByEmail = async (email) => {
 // add new store 
 exports.addNpo = async (details) => {
     // create page in shopify 
-    // const pageCreated = await this.addPageInShopify({ title: details.name, body: details.name });
-    // if (!pageCreated?.page) {
-    //     return false
-    // }
-    // details.pageId = pageCreated.page.id;
+    const pageCreated = await this.addPageInShopify({ title: details.name, body: details.name });
+    if (!pageCreated?.page) {
+        return false
+    }
+    details.pageId = pageCreated.page.id;
     const npoDetails = await Npos.create(details);
     return npoDetails;
 }

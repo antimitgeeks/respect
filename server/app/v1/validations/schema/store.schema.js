@@ -5,6 +5,6 @@ exports.addNopSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
     isActive: Joi.boolean().optional(),
-    number: Joi.string().required(),
+    number: Joi.string().allow(null, '').optional(),
 });
 
