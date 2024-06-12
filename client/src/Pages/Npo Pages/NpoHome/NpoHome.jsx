@@ -69,7 +69,7 @@ function NpoHome() {
             method: "GET"
         };
         setLoading(true)
-        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
+        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -81,7 +81,7 @@ function NpoHome() {
                 console.log(blob);
                 const imgURL = blob ? URL.createObjectURL(blob) : '';
                 console.log(imgURL);
-                setLogoUrl(localNpoPreviewDataState?.logoUrl?.length > 0 ? localNpoPreviewDataState?.logoUrl : imgURL);
+                setLogoUrl(localNpoPreviewDataState?.logoUrl!=undefined ? localNpoPreviewDataState?.logoUrl : imgURL);
                 console.log(blob, "res");
                 setLoading(false);
                 setLogoLoading(false);
@@ -107,7 +107,7 @@ function NpoHome() {
         setLoading(true);
         setBannerLoading(true);
 
-        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
+        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Image not found');
@@ -116,7 +116,7 @@ function NpoHome() {
             })
             .then(blob => {
                 const imgURL = blob ? URL.createObjectURL(blob) : '';
-                setBannerUrl(localNpoPreviewDataState?.bannerUrl?.length > 0 ? localNpoPreviewDataState?.bannerUrl : imgURL);
+                setBannerUrl(localNpoPreviewDataState?.bannerUrl!=undefined ?localNpoPreviewDataState?.bannerUrl: imgURL);
                 console.log(blob, "res");
                 setLoading(false);
                 setBannerLoading(false)
@@ -143,7 +143,7 @@ function NpoHome() {
         };
         setLoading(true)
         setTextImageLoading(true);
-        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
+        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -152,7 +152,7 @@ function NpoHome() {
             })
             .then(blob => {
                 const imgURL = blob ? URL.createObjectURL(blob) : '';
-                setImageTextUrl(localNpoPreviewDataState?.imageTextUrl?.length > 0 ? localNpoPreviewDataState?.imageTextUrl : imgURL);
+                setImageTextUrl(localNpoPreviewDataState?.imageTextUrl!=undefined? localNpoPreviewDataState?.imageTextUrl : imgURL);
                 console.log(blob, "res");
                 setLoading(false);
                 setTextImageLoading(false)
@@ -183,13 +183,13 @@ function NpoHome() {
 
     }, [FinalData, localNpoPreviewDataState])
 
-    const [logoUrl, setLogoUrl] = useState(NpoReduxData?.data?.logoUrl || '');
+    const [logoUrl, setLogoUrl] = useState(localNpoPreviewDataState?.logoUrl || '');
     const [bannerUrl, setBannerUrl] = useState(NpoReduxData?.data?.bannerUrl || '');
     const [bannerBackgroundText, setBannerBackgroundText] = useState(localNpoPreviewDataState?.bannerBackgroundText || FinalData?.bannerBackgroundText || '');
     const [bannerTextColor, setBannerTextColor] = useState('#ffffff');
     const [imageTextUrl, setImageTextUrl] = useState(NpoReduxData?.data?.imageTextUrl || '');
     const [imageText, setImageText] = useState(NpoReduxData?.data?.imageText || '');
-    const [videoModalData, setVideoModalData] = useState(FinalData?.videoData || '')
+    const [videoModalData, setVideoModalData] = useState(NpoReduxData?.data?.videoData || '')
     const [richHeading, setRichHeading] = useState(NpoReduxData?.data?.richHeading || '')
     const [richBody, setRichBody] = useState(NpoReduxData?.data?.richBody || '');
     const [emailData, setEmailData] = useState(NpoReduxData?.data.emailData || '');
@@ -207,17 +207,17 @@ function NpoHome() {
     const [UploadFile] = useUploadFileMutation();
 
     useEffect(() => {
-        setImageHeading(localNpoPreviewDataState?.imageHeading || FinalData?.imageHeading)
-        setImageText(localNpoPreviewDataState?.imageText || FinalData?.imageText);
-        setVideoModalData(localNpoPreviewDataState?.videoData || FinalData?.videoData);
-        setRichHeading(localNpoPreviewDataState?.richHeading || FinalData?.richHeading);
-        setRichBody(localNpoPreviewDataState?.richBody || FinalData?.richBody);
-        setEmailData(localNpoPreviewDataState?.emailData || FinalData?.emailData);
-        setLogoUrl(localNpoPreviewDataState?.logoUrl || logoUrl);
-        setBannerUrl(localNpoPreviewDataState?.bannerUrl || bannerUrl);
-        setImageTextUrl(localNpoPreviewDataState?.imageTextUrl || imageTextUrl);
-        setBannerBackgroundText(localNpoPreviewDataState?.bannerBackgroundText || FinalData?.bannerBackgroundText);
-        setBannerTextColor(localNpoPreviewDataState?.bannerTextColor || FinalData?.bannerTextColor)
+        setImageHeading(localNpoPreviewDataState?.imageHeading != undefined ? localNpoPreviewDataState?.imageHeading : FinalData?.imageHeading)
+        setImageText(localNpoPreviewDataState?.imageText != undefined ? localNpoPreviewDataState?.imageText : FinalData?.imageText);
+        setVideoModalData(localNpoPreviewDataState?.videoData != undefined ? localNpoPreviewDataState?.videoData : FinalData?.videoData);
+        setRichHeading(localNpoPreviewDataState?.richHeading != undefined ? localNpoPreviewDataState?.richHeading : FinalData?.richHeading);
+        setRichBody(localNpoPreviewDataState?.richBody != undefined ? localNpoPreviewDataState?.richBody : FinalData?.richBody);
+        setEmailData(localNpoPreviewDataState?.emailData != undefined ? localNpoPreviewDataState?.emailData : FinalData?.emailData);
+        setLogoUrl(localNpoPreviewDataState?.logoUrl!=undefined ? localNpoPreviewDataState?.logoUrl : logoUrl);
+        setBannerUrl(localNpoPreviewDataState?.bannerUrl != undefined ? localNpoPreviewDataState?.bannerUrl : bannerUrl);
+        setImageTextUrl(localNpoPreviewDataState?.imageTextUrl != undefined ? localNpoPreviewDataState?.imageTextUrl : imageTextUrl);
+        setBannerBackgroundText(localNpoPreviewDataState?.bannerBackgroundText != undefined ? localNpoPreviewDataState?.bannerBackgroundText : FinalData?.bannerBackgroundText);
+        setBannerTextColor(localNpoPreviewDataState?.bannerTextColor != undefined ? localNpoPreviewDataState?.bannerTextColor : FinalData?.bannerTextColor)
     }, [localNpoPreviewDataState, FinalData])
 
     useEffect(() => {
@@ -240,26 +240,67 @@ function NpoHome() {
     const navigate = useNavigate()
 
     /* Logo ImageUplaod handle*/
+    // const handleLogoInput = (ev) => {
+    //     // setLogoUrl(logoUrl)
+    //     if (ev) {
+    //         const file = ev?.target?.files[0];
+    //         const formData = new FormData();
+    //         console.log(formData)
+    //         formData.append('image', file);
+    //         const newLogoUrl = file ? URL?.createObjectURL(file) : '';
+    //         setLogoUrl(newLogoUrl);
+    //         setLogoFormData(formData)
+    //     }
+    //     else {
+    //         const formData = new FormData();
+    //         formData.append('image', '');
+    //         setLogoFormData(formData)
+
+    //     }
+
+    // };
     const handleLogoInput = (ev) => {
-        // setLogoUrl(logoUrl)
-        const file = ev?.target?.files[0];
-        const formData = new FormData();
-        formData.append('image', file);
-        const newLogoUrl = file ? URL?.createObjectURL(file) : '';
-        setLogoUrl(newLogoUrl);
-        setLogoFormData(formData)
+        if (ev) {
+            const file = ev?.target?.files[0];
+            if (file && file.size >= 5 * 1024 * 1024) {
+                toast.error("Image size must be less than 5mb");
+                return;
+            }
+            setLogoFormData('')
+            const formData = new FormData();
+            formData.append('image', file);
+            const newLogoUrl = file ? URL?.createObjectURL(file) : '';
+            setLogoUrl(newLogoUrl);
+            setLogoFormData(formData);
+        } else {
+            setLogoFormData('');
 
+            const formData = new FormData();
+            formData.append('image', '');
+            setLogoFormData(formData);
+        }
     };
-
 
     /* Banner Image upload handle */
     const handleBannerInput = (ev) => {
-        const file = ev?.target?.files[0];
-        const newLogoUrl = URL?.createObjectURL(file);
-        const formData = new FormData();
-        formData.append('image', file);
-        setBannerUrl(newLogoUrl);
-        setBannerFormData(formData)
+        if (ev) {
+            const file = ev?.target?.files[0];
+            if (file && file.size >= 5 * 1024 * 1024) {
+                toast.error("Image size must be less than 5mb");
+                return;
+            }
+            const newLogoUrl = URL?.createObjectURL(file);
+            const formData = new FormData();
+            formData.append('image', file);
+            setBannerUrl(newLogoUrl);
+            setBannerFormData(formData)
+        }
+        else {
+            const formData = new FormData();
+            formData.append('image', '');
+            setBannerFormData(formData)
+
+        }
         // UploadFile({ Id: decodedToken?.id, data: formData, type: 'banner' })
         //     .then((res) => {
         //         if (res?.error) {
@@ -281,13 +322,26 @@ function NpoHome() {
     /* Handle Image with text upload */
     const handleImagewithText = (ev) => {
 
-        const file = ev?.target?.files[0];
-        const formData = new FormData();
+        if (ev) {
 
-        formData.append('image', file);
-        const newLogoUrl = URL?.createObjectURL(file);
-        setImageTextUrl(newLogoUrl)
-        setTextFormData(formData)
+            const file = ev?.target?.files[0];
+            if (file && file.size >= 5 * 1024 * 1024) {
+                toast.error("Image size must be less than 5mb");
+                return;
+            }
+            const formData = new FormData();
+
+            formData.append('image', file);
+            const newLogoUrl = URL?.createObjectURL(file);
+            setImageTextUrl(newLogoUrl)
+            setTextFormData(formData)
+        }
+        else {
+            const formData = new FormData();
+            formData.append('image', '');
+            setTextFormData(formData)
+
+        }
         // UploadFile({ Id: decodedToken?.id, data: formData, type: 'text' })
         //     .then((res) => {
         //         if (res?.error) {
@@ -314,8 +368,7 @@ function NpoHome() {
     };
 
     const handleVideoModalClose = (data) => {
-
-        if (data) {
+        if (data != undefined) {
             console.log(data)
 
             if (data?.includes('embed')) {
@@ -326,14 +379,21 @@ function NpoHome() {
             }
 
             else {
+                if (data.length > 5) {
 
-                const getYouTubeEmbedUrl = (url) => {
-                    const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-                    const match = url.match(youtubeRegex);
-                    return match ? `https://www.youtube.com/embed/${match[1]}` : null;
-                };
-                const youtubeEmbedUrl = getYouTubeEmbedUrl(data);
-                setVideoModalData(youtubeEmbedUrl)
+                    const getYouTubeEmbedUrl = (url) => {
+                        console.log(url)
+                        const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+                        const match = url.match(youtubeRegex);
+                        return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+                    };
+                    const youtubeEmbedUrl = getYouTubeEmbedUrl(data);
+                    console.log(youtubeEmbedUrl)
+                    setVideoModalData(youtubeEmbedUrl)
+                }
+                else {
+                    setVideoModalData(data)
+                }
             }
 
         }
@@ -342,6 +402,7 @@ function NpoHome() {
 
     const handleSave = () => {
         console.log(linksData?.instaSwitch, "____________-------------------------")
+        console.log(logoUrl, "____________-------------------------")
         let DataForApi = {
             logoUrl: logoUrl,
             bannerUrl: bannerUrl,
@@ -356,103 +417,103 @@ function NpoHome() {
             richHeading: richHeading,
             linksData: {
                 instagram: {
-                    link: localNpoPreviewDataState?.linksData?.instagram?.link || linksData?.instagram || FinalData?.linksData?.instagram?.link,
+                    link: localNpoPreviewDataState?.linksData?.instagram?.link != undefined ? localNpoPreviewDataState?.linksData?.instagram?.link : linksData?.instagram != undefined ? linksData?.instagram : FinalData?.linksData?.instagram?.link,
                     show: linksData?.instaSwitch != undefined ? linksData?.instaSwitch == false ? false : true : FinalData?.linksData?.instagram?.show == false ? false : true
                 },
                 facebook: {
-                    link: localNpoPreviewDataState?.linksData?.facebook?.link || linksData?.facebook || FinalData?.linksData?.facebook?.link,
+                    link: localNpoPreviewDataState?.linksData?.facebook?.link != undefined ? localNpoPreviewDataState?.linksData?.facebook?.link : linksData?.facebook != undefined ? linksData?.facebook : FinalData?.linksData?.facebook?.link,
                     show: linksData?.facebook != undefined ? linksData?.facebookSwitch == false ? false : true : FinalData?.linksData?.facebook?.show == false ? false : true
                 },
                 youtube: {
-                    link: localNpoPreviewDataState?.linksData?.youtube?.link || linksData?.youtube || FinalData?.linksData?.youtube?.link,
+                    link: localNpoPreviewDataState?.linksData?.youtube?.link != undefined ? localNpoPreviewDataState?.linksData?.youtube?.link : linksData?.youtube != undefined ? linksData?.youtube : FinalData?.linksData?.youtube?.link,
                     show: linksData?.youtube != undefined ? linksData?.youtubeSwitch == false ? false : true : FinalData?.linksData?.youtube?.show == false ? false : true
 
                 },
                 contactUs: {
-                    link: localNpoPreviewDataState?.linksData?.contactUs?.link || linksData?.contactUs || FinalData?.linksData?.contactUs?.link,
+                    link: localNpoPreviewDataState?.linksData?.contactUs?.link != undefined ? localNpoPreviewDataState?.linksData?.contactUs?.link : linksData?.contactUs != undefined ? linksData?.contactUs : FinalData?.linksData?.contactUs?.link,
                     show: linksData?.contactUs != undefined ? linksData?.contactSwitch == false ? false : true : FinalData?.linksData?.contactUs?.show == false ? false : true
                 },
                 websiteLink: {
-                    link: localNpoPreviewDataState?.linksData?.websiteLink?.link || linksData?.websiteLink || FinalData?.linksData?.websiteLink?.link,
+                    link: localNpoPreviewDataState?.linksData?.websiteLink?.link != undefined ? localNpoPreviewDataState?.linksData?.websiteLink?.link : linksData?.websiteLink != undefined ? linksData?.websiteLink : FinalData?.linksData?.websiteLink?.link,
                     show: linksData?.websiteLink != undefined ? linksData?.websiteSwitch == false ? false : true : FinalData?.linksData?.websiteLink?.show == false ? false : true
                 }
             }
         }
         console.log(DataForApi, "%%%")
 
-        if (
-            DataForApi?.logoUrl == '' || DataForApi?.bannerUrl == '' || DataForApi?.imageTextUrl == '' ||
-            DataForApi?.imageText == ''
-            || DataForApi?.videoData == '' || DataForApi?.richHeading == '' || DataForApi?.richBody == '' || DataForApi?.emailData == ''
-            || DataForApi?.logoUrl == undefined || DataForApi?.bannerUrl == undefined || DataForApi?.imageTextUrl == undefined || DataForApi?.imageText == undefined
-            || DataForApi?.videoData == undefined || DataForApi?.richHeading == undefined || DataForApi?.richBody == undefined || DataForApi?.emailData == undefined
-        ) {
-            toast.error("Fill all the details first")
-        }
-        else {
-            UploadFile({ Id: decodedToken?.id, data: textFormData, type: 'text' })
-                .then((res) => {
-                    if (res?.error) {
-                        toast.error(res?.error?.data?.message);
-                        console.log(res?.error);
-                        setImageTextUrl('')
-                    }
-                    else {
-                        console.log(res);
-
-                    }
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            UploadFile({ Id: decodedToken?.id, data: bannerFormData, type: 'banner' })
-                .then((res) => {
-                    if (res?.error) {
-                        toast.error(res?.error?.data?.message);
-                        setBannerUrl('')
-                    }
-                    else {
-                        console.log(res);
-
-                    }
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-
-            UploadFile({ Id: decodedToken?.id, data: logoFormData, type: 'logo' })
-                .then((res) => {
-                    if (res?.error) {
-                        toast.error(res?.error?.data?.message);
-                        console.log(res?.error)
-                    }
-                    else {
-                        console.log(res);
-                    }
-                })
-                .catch((err) => {
-                    console.log(err)
-                });
-            AddPage({ Id: decodedToken?.id, data: DataForApi })
-                .then((res) => {
+        // if (
+        //     DataForApi?.logoUrl == '' || DataForApi?.bannerUrl == '' || DataForApi?.imageTextUrl == '' ||
+        //     DataForApi?.imageText == ''
+        //     || DataForApi?.videoData == '' || DataForApi?.richHeading == '' || DataForApi?.richBody == '' || DataForApi?.emailData == ''
+        //     || DataForApi?.logoUrl == undefined || DataForApi?.bannerUrl == undefined || DataForApi?.imageTextUrl == undefined || DataForApi?.imageText == undefined
+        //     || DataForApi?.videoData == undefined || DataForApi?.richHeading == undefined || DataForApi?.richBody == undefined || DataForApi?.emailData == undefined
+        // ) {
+        //     toast.error("Fill all the details first")
+        // }
+        // else {
+        UploadFile({ Id: decodedToken?.id, data: textFormData, type: 'text' })
+            .then((res) => {
+                if (res?.error) {
+                    toast.error(res?.error?.data?.message);
+                    console.log(res?.error);
+                    setImageTextUrl('')
+                }
+                else {
                     console.log(res);
-                    if (res.error) {
-                        toast.error('An Error Occured')
-                    }
-                    else {
-                        dispatch(setNpoData(DataForApi));
-                        dispatch(setLinkData(linksData));
-                        toast.success(res.data.message);
-                        localStorage.setItem('previewData', JSON.stringify(DataForApi));
 
-                    }
-                })
-                .catch((err) => {
-                    console.log(err, "-----------------")
-                    toast.error("Error")
-                })
-            console.log(DataForApi)
-        }
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        UploadFile({ Id: decodedToken?.id, data: bannerFormData, type: 'banner' })
+            .then((res) => {
+                if (res?.error) {
+                    toast.error(res?.error?.data?.message);
+                    setBannerUrl('')
+                }
+                else {
+                    console.log(res);
+
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+        UploadFile({ Id: decodedToken?.id, data: logoFormData, type: 'logo' })
+            .then((res) => {
+                if (res?.error) {
+                    toast.error(res?.error?.data?.message);
+                    console.log(res?.error)
+                }
+                else {
+                    console.log(res);
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+        AddPage({ Id: decodedToken?.id, data: DataForApi })
+            .then((res) => {
+                console.log(res);
+                if (res.error) {
+                    toast.error('An Error Occured')
+                }
+                else {
+                    dispatch(setNpoData(DataForApi));
+                    dispatch(setLinkData(linksData));
+                    toast.success(res.data.message);
+                    localStorage.setItem('previewData', JSON.stringify(DataForApi));
+
+                }
+            })
+            .catch((err) => {
+                console.log(err, "-----------------")
+                toast.error("Error")
+            })
+        console.log(DataForApi)
+        // }
 
     }
 
@@ -493,7 +554,7 @@ function NpoHome() {
         //     toast.error('Page details incomplete')
         //     :
         //     navigate('/page/preview')
-
+        console.log(videoModalData)
         let DataForRedux = {
             logoUrl: logoUrl,
             bannerUrl: bannerUrl,
@@ -508,11 +569,13 @@ function NpoHome() {
             richHeading: richHeading,
             linksData: {
                 instagram: {
-                    link: linksData?.instagram || FinalData?.linksData?.instagram?.link,
+                    // link: linksData?.instagram || FinalData?.linksData?.instagram?.link,
+                    link: linksData?.instagram,
                     show: linksData?.instaSwitch != undefined ? linksData?.instaSwitch == false ? false : true : FinalData?.linksData?.instagram?.show == false ? false : true
                 },
                 facebook: {
-                    link: linksData?.facebook || FinalData?.linksData?.facebook?.link,
+                    // link: linksData?.facebook || FinalData?.linksData?.facebook?.link,
+                    link: linksData?.facebook,
                     show: linksData?.facebook != undefined ? linksData?.facebookSwitch == false ? false : true : FinalData?.linksData?.facebook?.show == false ? false : true
                 },
                 youtube: {
@@ -573,8 +636,8 @@ function NpoHome() {
                                         logoUrl && logoUrl?.length > 0 ?
                                             <div className=' z-[1000] relative w-full h-full'>
                                                 <img className='  border-4 border-black w-[70px] h-[70px]  rounded-full' src={logoUrl} alt="" />
-                                                <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
-                                                <label htmlFor='logoInput' className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></label>
+                                                {/* <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' /> */}
+                                                <label onClick={() => { setLogoUrl(''); setLogoFormData() }} htmlFor='logoInput' className=' absolute top-[-2px] right-[-5px] font-bold text-black bg-slate-200 p-[1.5px] flex items-center justify-center cursor-pointer   m-0'><FaRegEdit /></label>
                                             </div>
                                             :
                                             <div className=' cursor-pointer p-[1px]  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-500 border-2  rounded-full'> <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
@@ -588,7 +651,7 @@ function NpoHome() {
                                         ?
                                         <div className=' z-0   w-full overflow-hidden '>
                                             <img className=' w-full object-cover h-[530px]' src={bannerUrl} alt="" />
-                                            <input onChange={(e) => handleBannerInput(e)} type="file" id='bannerInput' className=' w-0 hidden' accept='image/*' />
+                                            <input onInput={(e) => handleBannerInput(e)} type="file" id='bannerInput' className=' w-0 hidden' accept='image/*' />
                                             <span className='w-full gap-1 absolute top-[230px] flex items-center justify-center left-[0px] self-center'>
                                                 <input
                                                     value={bannerBackgroundText}
@@ -609,7 +672,7 @@ function NpoHome() {
 
                                             </span>
 
-                                            <label htmlFor='bannerInput' className=' m-0  z-10  cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></label>
+                                            <label onClick={() => { setBannerUrl(''); setBannerFormData(''); }} className=' m-0  z-10  cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></label>
                                         </div>
                                         :
                                         <div className=' flex  focus:border-2 p-1  focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center bg-slate-300 w-full h-[535px]'>
@@ -627,8 +690,8 @@ function NpoHome() {
                                             ?
                                             <div className='  h-full w-full'>
                                                 <img className=' w-full h-full object-fill' src={imageTextUrl} alt="" />
-                                                <input onInput={(e) => handleImagewithText(e)} id='imageWithText' type="file" accept=' .jpg , .png , .jpeg' className=' w-0 hidden' />
-                                                <label htmlFor={'imageWithText'} className=' text-black m-0  font-bold bg-slate-200 p-[1px] right-[-4px] top-[-10px] cursor-pointer absolute'><FaRegEdit /></label>
+                                                {/* <input onInput={(e) => handleImagewithText(e)} id='imageWithText' type="file" accept=' .jpg , .png , .jpeg' className=' w-0 hidden' /> */}
+                                                <label onClick={() => { setImageTextUrl(''); setTextFormData('') }} className=' text-black m-0  font-bold bg-slate-200 p-[1px] right-[-4px] top-[-10px] cursor-pointer absolute'><FaRegEdit /></label>
                                             </div>
                                             :
                                             <div className=' w-full py-1  focus:border-2 h-full focus:border-black focus:border-solid border-dashed border-slate-400 border-2  flex items-center justify-center'>

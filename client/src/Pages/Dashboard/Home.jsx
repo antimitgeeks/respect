@@ -65,7 +65,7 @@ function Home() {
       setTimeout(() => {
 
         setLoading(false)
-      }, 500);
+      }, 300);
     }
 
   }, [ListData, isListFetching, isListLoading])

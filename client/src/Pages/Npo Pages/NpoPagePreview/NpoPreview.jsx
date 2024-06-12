@@ -71,7 +71,7 @@ function NpoPreview({ Id }) {
             method: "GET"
         };
 
-        fetch(`http://localhost:8080/api/v1/npos/image/${Id || decodedToken?.id}?type=logo`, config)
+        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${Id || decodedToken?.id}?type=logo`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -99,7 +99,7 @@ function NpoPreview({ Id }) {
             method: "GET"
         };
 
-        fetch(`http://localhost:8080/api/v1/npos/image/${Id || decodedToken?.id}?type=banner`, config)
+        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${Id || decodedToken?.id}?type=banner`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -126,7 +126,7 @@ function NpoPreview({ Id }) {
             method: "GET"
         };
         console.log(Id, 'IDDDDDDDDDDDDDDDDDDDDDDDDD')
-        fetch(`http://localhost:8080/api/v1/npos/image/${Id ? Id : decodedToken?.id}?type=text`, config)
+        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${Id ? Id : decodedToken?.id}?type=text`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -165,30 +165,55 @@ function NpoPreview({ Id }) {
                         <div className=' relative w-full  '>
                             <div className=' py-3 px-3 w-full absolute'>
                                 {
-                                    logoUrl || ReduxPreviewData?.logoUrl ?
-                                        <>
-                                            <img className=' w-[70px] h-[70px] rounded-full' src={ReduxPreviewData?.logoUrl || logoUrl} alt="" />
-                                        </>
-                                        :
-                                        <div className=' bg-slate-400 h-[70px] w-[70px] rounded-full'>
+                                    ReduxPreviewData?.logoUrl == undefined || ReduxPreviewData?.logoUrl == '' || PageData?.logoUrl == undefined
+                                        ?
+                                        // logoUrl!='' || ReduxPreviewData?.logoUrl!='' ?
+                                        PageData?.logoUrl ?
+                                            ReduxPreviewData?.logoUrl?.length == 0 ?
+                                                <div className=' bg-slate-400 h-[70px] w-[70px] rounded-full'>
 
-                                        </div>
+                                                </div>
+                                                :
+                                                <img className=' w-[70px] h-[70px] rounded-full' src={ReduxPreviewData?.logoUrl || logoUrl} alt="" />
+                                            :
+                                            <>
+                                                <div className=' bg-slate-400 h-[70px] w-[70px] rounded-full'>
+
+                                                </div>
+                                            </>
+                                        :
+                                        <img className=' w-[70px] h-[70px] rounded-full' src={ReduxPreviewData?.logoUrl || logoUrl} alt="" />
                                 }
                             </div>
                             <div className=' w-full h-[580px]'>
                                 {
-                                    bannerUrl || ReduxPreviewData?.bannerUrl ?
+                                    ReduxPreviewData?.bannerUrl == undefined || ReduxPreviewData?.bannerUrl == '' || PageData?.bannerUrl == undefined
+                                        ?
+                                        PageData?.bannerUrl ?
+                                            ReduxPreviewData?.bannerUrl?.length == 0 ?
+                                                <div className=' bg-slate-300  w-full h-full'>
+
+                                                </div>
+                                                :
+                                                <div className=' w-full h-full'>
+                                                    <img className=' object-cover object-center h-full w-full' src={ReduxPreviewData?.bannerUrl || bannerUrl} alt="" />
+                                                    <span className=' absolute top-[250px] text-white w-full flex items-center justify-center'>
+                                                        <span style={{ color: ReduxPreviewData?.bannerTextColor != undefined ? ReduxPreviewData?.bannerTextColor : PageData?.bannerTextColor }} className=' w-full px-16 break-words text-center text-slate-50 text-[30px] rounded py-1'>
+                                                            {ReduxPreviewData?.bannerBackgroundText != undefined ? ReduxPreviewData?.bannerBackgroundText : PageData?.bannerBackgroundText}
+                                                        </span>
+                                                    </span>
+                                                </div> :
+                                            <div className=' bg-slate-300  w-full h-full'>
+
+                                            </div>
+                                        :
                                         <div className=' w-full h-full'>
                                             <img className=' object-cover object-center h-full w-full' src={ReduxPreviewData?.bannerUrl || bannerUrl} alt="" />
                                             <span className=' absolute top-[250px] text-white w-full flex items-center justify-center'>
-                                                <span style={{ color: ReduxPreviewData?.bannerTextColor || PageData?.bannerTextColor }} className=' w-full px-16 break-words text-center text-slate-50 text-[30px] rounded py-1'>
-                                                    {ReduxPreviewData?.bannerBackgroundText || PageData?.bannerBackgroundText}
+                                                <span style={{ color: ReduxPreviewData?.bannerTextColor != undefined ? ReduxPreviewData?.bannerTextColor : PageData?.bannerTextColor }} className=' w-full px-16 break-words text-center text-slate-50 text-[30px] rounded py-1'>
+                                                    {ReduxPreviewData?.bannerBackgroundText != undefined ? ReduxPreviewData?.bannerBackgroundText : PageData?.bannerBackgroundText}
                                                 </span>
                                             </span>
-                                        </div>
-                                        :
-                                        <div className=' bg-slate-300  w-full h-full'>
-
                                         </div>
                                 }
                             </div>
@@ -196,18 +221,28 @@ function NpoPreview({ Id }) {
                         <div className='w-full gap-1 flex flex-col sm:flex-row px-2 sm:px-3'>
                             <div className=' w-full sm:w-1/2 self-stretch min-h-[320px] h-full px-1 py-1'>
                                 {
-                                    imageTextUrl || ReduxPreviewData?.imageTextUrl ?
-                                        <img className='rounded self-stretch h-full w-full object-cover' src={ReduxPreviewData?.imageTextUrl || imageTextUrl} alt="" />
+                                    ReduxPreviewData?.imageTextUrl == undefined || ReduxPreviewData?.imageTextUrl == '' || PageData?.imageTextUrl == undefined
+                                        ?
+                                        PageData?.imageTextUrl ?
+                                            ReduxPreviewData?.imageTextUrl?.length == 0 ?
+                                                <div className='bg-slate-300 min-h-[400px] rounded h-full w-full'>
+                                                </div>
+                                                :
+
+                                                <img className='rounded self-stretch h-full w-full object-cover' src={ReduxPreviewData?.imageTextUrl || imageTextUrl} alt="" />
+
+                                            :
+                                            <div className='bg-slate-300 min-h-[400px] rounded h-full w-full'>
+                                            </div>
                                         :
-                                        <div className='bg-slate-300 min-h-[400px] rounded h-full w-full'>
-                                        </div>
+                                        <img className='rounded self-stretch h-full w-full object-cover' src={ReduxPreviewData?.imageTextUrl || imageTextUrl} alt="" />
                                 }
                             </div>
                             <div className=' w-full sm:w-1/2  self-stretch  border my-1 px-3 rounded mr-1 flex items-center justify-center'>
                                 <div className='w-full flex flex-col gap-3 items-center'>
-                                    <span className='font-semibold text-xl mb-2'>{ReduxPreviewData?.imageHeading || PageData?.imageHeading}</span>
+                                    <span className='font-semibold text-xl mb-2'>{ReduxPreviewData?.imageHeading != undefined ? ReduxPreviewData?.imageHeading : PageData?.imageHeading}</span>
                                     <span className='w-full text-center  h-auto overflow-hidden whitespace-pre-wrap break-words'>
-                                        {ReduxPreviewData?.imageText || PageData?.imageText}
+                                        {ReduxPreviewData?.imageText != undefined ? ReduxPreviewData?.imageText : PageData?.imageText}
                                     </span>
                                 </div>
                             </div>
@@ -215,21 +250,29 @@ function NpoPreview({ Id }) {
 
                         <div className=' w-full h-[560px] px-2 sm:px-20 py-3'>
                             {
-                                ReduxPreviewData?.videoData || PageData?.videoData ?
-                                    <iframe allowFullScreen src={ReduxPreviewData?.videoData || PageData?.videoData} className=' fullscreen rounded w-full h-full' frameborder="0"></iframe>
+                                ReduxPreviewData?.videoData == undefined || ReduxPreviewData?.videoData == '' || PageData?.videoData == undefined ?
+                                    PageData?.videoData ?
+                                        ReduxPreviewData?.videoData?.length < 5 ?
+                                            <div className=' w-full h-full bg-slate-300 rounded'>
+                                            </div>
+                                            :
+                                            <iframe allowFullScreen src={ReduxPreviewData?.videoData != undefined ? ReduxPreviewData?.videoData : PageData?.videoData} className=' fullscreen rounded w-full h-full' frameborder="0"></iframe>
+
+                                        :
+                                        <div className=' w-full h-full bg-slate-300 rounded'>
+                                        </div>
                                     :
-                                    <div className=' w-full h-full bg-slate-300 rounded'>
-                                    </div>
+                                    <iframe allowFullScreen src={ReduxPreviewData?.videoData != undefined ? ReduxPreviewData?.videoData : PageData?.videoData} className=' fullscreen rounded w-full h-full' frameborder="0"></iframe>
 
                             }
                         </div>
                         <div className='w-full flex items-center justify-center px-2 sm:px-5 py-4'>
                             <div className='flex px-4 w-full flex-col items-center gap-10'>
                                 <span className='font-semibold text-2xl capitalize'>
-                                    {ReduxPreviewData?.richHeading || PageData?.richHeading}
+                                    {ReduxPreviewData?.richHeading != undefined ? ReduxPreviewData?.richHeading : PageData?.richHeading}
                                 </span>
                                 <span className='w-full break-words text-center whitespace-normal'>
-                                    {ReduxPreviewData?.richBody || PageData?.richBody}
+                                    {ReduxPreviewData?.richBody != undefined ? ReduxPreviewData?.richBody : PageData?.richBody}
                                 </span>
                             </div>
                         </div>
@@ -253,31 +296,31 @@ function NpoPreview({ Id }) {
                             }
                             <div className=' pl-1 flex gap-3 items-center'>
 
-                            {
-                                ReduxPreviewData?.linksData?.facebook?.show != false || PageData?.linksData?.facebook?.show
-                                ?
-                                    <a href={ReduxPreviewData?.linksData?.facebook?.link || PageData?.linksData?.facebook?.link} target='_blank'>
-                                        <img className=' w-fit h-[22px] sm:h-[22px] hover:opacity-80' src={facebook} alt="" />
-                                    </a>
-                                    : ''
-                            }
-                            {
-                                ReduxPreviewData?.linksData?.instagram?.show != false || PageData?.linksData?.instagram?.show
-                                    ?
-                                    <a href={ReduxPreviewData?.linksData?.instagram?.link || PageData?.linksData?.instagram?.link} target='_blank'>
-                                        <img className=' w-[18px] h-[18px] sm:w-[27px] hover:opacity-80 sm:h-[27px]' src={insta} alt="" />
-                                    </a>
-                                    : ''
+                                {
+                                    ReduxPreviewData?.linksData?.facebook?.show != false || PageData?.linksData?.facebook?.show
+                                        ?
+                                        <a href={ReduxPreviewData?.linksData?.facebook?.link || PageData?.linksData?.facebook?.link} target='_blank'>
+                                            <img className=' w-fit h-[22px] sm:h-[22px] hover:opacity-80' src={facebook} alt="" />
+                                        </a>
+                                        : ''
                                 }
-                            {
-                                ReduxPreviewData?.linksData?.youtube?.show || PageData?.linksData?.youtube?.show
-                                ?
-                                <a href={ReduxPreviewData?.linksData?.youtube?.link || PageData?.linksData?.youtube?.link} target='_blank'>
-                                        <img className=' w-fit h-[17.5px] sm:h-[20.0px] hover:opacity-80' src={ytLogo} alt="" />
-                                    </a>
-                                    : ''
+                                {
+                                    ReduxPreviewData?.linksData?.instagram?.show != false || PageData?.linksData?.instagram?.show
+                                        ?
+                                        <a href={ReduxPreviewData?.linksData?.instagram?.link || PageData?.linksData?.instagram?.link} target='_blank'>
+                                            <img className=' w-[18px] h-[18px] sm:w-[27px] hover:opacity-80 sm:h-[27px]' src={insta} alt="" />
+                                        </a>
+                                        : ''
                                 }
-                                </div>
+                                {
+                                    ReduxPreviewData?.linksData?.youtube?.show || PageData?.linksData?.youtube?.show
+                                        ?
+                                        <a href={ReduxPreviewData?.linksData?.youtube?.link || PageData?.linksData?.youtube?.link} target='_blank'>
+                                            <img className=' w-fit h-[17.5px] sm:h-[20.0px] hover:opacity-80' src={ytLogo} alt="" />
+                                        </a>
+                                        : ''
+                                }
+                            </div>
                             {
                                 ReduxPreviewData?.linksData?.contactUs?.show != false || PageData?.linksData?.contactUs?.show != false
                                     ?

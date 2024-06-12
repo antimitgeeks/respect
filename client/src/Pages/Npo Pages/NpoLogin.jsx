@@ -62,7 +62,7 @@ function NpoLogin(props) {
     };
 
     const validationSchema = yup.object().shape({
-        email: yup.string().trim("Enter valid email").required("email is required").email().strict(),
+        email: yup.string().trim("Enter valid email").required("email is required").email(),
         password: yup.string().trim("Enter valid password").required("password is required").strict(),
     });
 

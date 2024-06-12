@@ -48,7 +48,7 @@ function Dashboard() {
 
     setTimeout(() => {
       role === 'npo' ? navigate('/login/npo') : navigate('/login/admin')
-    }, 500);
+    }, 300);
   }
 
   //////// handle sidebar toggle ////////

@@ -61,7 +61,7 @@ function Routing() {
                 {
                     authenticateLogin ?
                         <Route path="/dashboard" element={<Dashboard />} >
-                            <Route path='' element={role == 'Admin' ? <Home />:<NpoHome />} />
+                            <Route path='' element={role == 'Admin' ? <Home />:<NpoHome />} />  
                             <Route path='reports' element={<Report />} />
                             <Route path="reports/details/:id" element={<ReportDetail />} />
                             <Route path="npo/details/:id" element={<NpoView />} />

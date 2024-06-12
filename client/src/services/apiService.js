@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 const CreateApi = createApi({
   
         baseQuery:fetchBaseQuery({
-            baseUrl:"http://localhost:8080/api/v1",
+            baseUrl:"http://192.168.1.61:8080/api/v1",
             prepareHeaders: (headers) => {
                 const user =Cookies.get('isLogged');
                 console.log(user)

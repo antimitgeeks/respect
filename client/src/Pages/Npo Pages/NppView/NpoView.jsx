@@ -45,7 +45,7 @@ function NpoView() {
       setNpoData(singleData?.result);
       setTimeout(() => {
         setLoading(false)
-      }, 500);
+      }, 300);
     }
 
   }, [singleData, isdataLoading, isdataFetching])
