@@ -69,7 +69,7 @@ function NpoHome() {
             method: "GET"
         };
         setLoading(true)
-        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
+        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -107,7 +107,7 @@ function NpoHome() {
         setLoading(true);
         setBannerLoading(true);
 
-        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
+        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Image not found');
@@ -143,7 +143,7 @@ function NpoHome() {
         };
         setLoading(true)
         setTextImageLoading(true);
-        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
+        fetch(`http://localhost:8080/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
