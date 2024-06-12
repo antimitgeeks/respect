@@ -14,7 +14,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa6";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LiaClipboardListSolid } from "react-icons/lia";
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 function Dashboard() {
   const LoginData = useSelector(state => state.loginSlice.data)
@@ -93,8 +93,11 @@ function Dashboard() {
             <img className='object-cover w-32' src="https://53bc37-e5.myshopify.com/cdn/shop/files/Screenshot_2024-05-07_at_7.14.21_PM.png?v=1715134582" alt="" />
           </span>
         </span>
-        <span onClick={() => handleProfileToggle()} className={` ${ToggleProfile ? "shadow" : ""} select-none cursor-pointer flex items-center justify-center text-white w-8 h-8 bg-slate-400 rounded-full font-semibold`}>
-          {role === 'Admin' ? 'A' : 'N'}
+        <span onClick={() => handleProfileToggle()} className=' w-full flex justify-end cursor-pointer'>
+
+          <span className={` ${ToggleProfile ? "shadow" : ""} select-none cursor-pointer flex items-center justify-center text-white w-8 h-8 bg-slate-400 rounded-full font-semibold`}>
+            {role === 'Admin' ? 'A' : 'N'}
+          </span>
         </span>
         {
           <div className={` ${ToggleProfile ? "mymove" : "mymoveReverse"} transition-all duration-500 top-[45px] px-2 mt-[14.2px] select-none text-white h-[41px] flex flex-col gap-2 absolute mr-2 w-[104.6px] z-[500] rounded py-2 bg-slate-500`}>
