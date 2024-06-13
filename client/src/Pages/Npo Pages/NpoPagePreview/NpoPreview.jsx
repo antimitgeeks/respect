@@ -165,15 +165,15 @@ function NpoPreview({ Id }) {
                         <div className=' relative w-full  '>
                             <div className=' py-3 px-3 w-full absolute'>
                                 {
-                                    ReduxPreviewData?.logoUrl == undefined || ReduxPreviewData?.logoUrl == '' || PageData?.logoUrl == undefined
+                                    ReduxPreviewData?.logoUrl == undefined || ReduxPreviewData?.logoUrl == '' ||  logoUrl|| PageData?.logoUrl == undefined
                                         ?
                                         // logoUrl!='' || ReduxPreviewData?.logoUrl!='' ?
-                                        PageData?.logoUrl ?
-                                            ReduxPreviewData?.logoUrl?.length == 0 ?
-                                                <div className=' bg-slate-400 h-[70px] w-[70px] rounded-full'>
+                                          logoUrl ?
+                                            // ReduxPreviewData?.logoUrl?.length == 0 ?
+                                            //     <div className=' bg-slate-400 h-[70px] w-[70px] rounded-full'>
 
-                                                </div>
-                                                :
+                                            //     </div>
+                                                // :
                                                 <img className=' w-[70px] h-[70px] rounded-full' src={ReduxPreviewData?.logoUrl || logoUrl} alt="" />
                                             :
                                             <>
