@@ -26,7 +26,7 @@ function NpoView() {
 
 
   const { data: singleData, isFetching: isdataFetching, isLoading: isdataLoading } = useGetSingleNpoQuery({ Id: UserId })
-
+  
   // const { data: NpoPagedata, error, isFetching, isLoading } = useGetPageByIdQuery(
   //   { Id: NpoData?.id },
   //   { skip: !showDetails } // Only fetch when showDetails is true
@@ -51,7 +51,6 @@ function NpoView() {
 
   return (
     <>
-
       <div className=' h-full overflow-y-scroll flex flex-col gap-2 pt-2  '>
         {
           loading ?
