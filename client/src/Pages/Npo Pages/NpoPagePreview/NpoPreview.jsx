@@ -174,7 +174,7 @@ function NpoPreview({ Id }) {
 
                                             //     </div>
                                                 // :
-                                                <img className=' w-[70px] h-[70px] rounded-full' src={ReduxPreviewData?.logoUrl || logoUrl} alt="" />
+                                                <img className=' sm:w-[70px] w-[45px] h-[45px] sm:h-[70px] rounded-full' src={ReduxPreviewData?.logoUrl || logoUrl} alt="" />
                                             :
                                             <>
                                                 <div className=' bg-slate-400 h-[70px] w-[70px] rounded-full'>
@@ -185,7 +185,7 @@ function NpoPreview({ Id }) {
                                         <img className=' w-[70px] h-[70px] rounded-full' src={ReduxPreviewData?.logoUrl || logoUrl} alt="" />
                                 }
                             </div>
-                            <div className=' w-full h-[580px]'>
+                            <div className=' w-full h-[380px] sm:h-[580px]'>
                                 {
                                     ReduxPreviewData?.bannerUrl == undefined || ReduxPreviewData?.bannerUrl == '' || PageData?.bannerUrl == undefined
                                         ?
@@ -197,7 +197,7 @@ function NpoPreview({ Id }) {
                                                 :
                                                 <div className=' w-full h-full'>
                                                     <img className=' object-cover object-center h-full w-full' src={ReduxPreviewData?.bannerUrl || bannerUrl} alt="" />
-                                                    <span className=' absolute top-[250px] text-white w-full flex items-center justify-center'>
+                                                    <span className=' absolute top-[175px] sm:top-[250px] text-white w-full flex items-center justify-center'>
                                                         <span style={{ color: ReduxPreviewData?.bannerTextColor != undefined ? ReduxPreviewData?.bannerTextColor : PageData?.bannerTextColor }} className=' w-full px-16 break-words text-center text-slate-50 text-[30px] rounded py-1'>
                                                             {ReduxPreviewData?.bannerBackgroundText != undefined ? ReduxPreviewData?.bannerBackgroundText : PageData?.bannerBackgroundText}
                                                         </span>
@@ -219,7 +219,7 @@ function NpoPreview({ Id }) {
                             </div>
                         </div>
                         <div className='w-full gap-1 flex flex-col sm:flex-row px-2 sm:px-3'>
-                            <div className=' w-full sm:w-1/2 self-stretch min-h-[320px] h-full px-1 py-1'>
+                            <div className=' w-full sm:w-1/2 self-stretch min-h-[220px] sm:min-h-[320px] h-full px-1 py-1'>
                                 {
                                     ReduxPreviewData?.imageTextUrl == undefined || ReduxPreviewData?.imageTextUrl == '' || PageData?.imageTextUrl == undefined
                                         ?
@@ -248,7 +248,7 @@ function NpoPreview({ Id }) {
                             </div>
                         </div>
 
-                        <div className=' w-full h-[560px] px-2 sm:px-20 py-3'>
+                        <div className=' w-full h-[380px] sm:h-[580px] px-2 sm:px-20 py-3'>
                             {
                                 ReduxPreviewData?.videoData == undefined || ReduxPreviewData?.videoData == '' || PageData?.videoData == undefined ?
                                     PageData?.videoData ?
@@ -268,10 +268,10 @@ function NpoPreview({ Id }) {
                         </div>
                         <div className='w-full flex items-center justify-center px-2 sm:px-5 py-4'>
                             <div className='flex px-4 w-full flex-col items-center gap-10'>
-                                <span className='font-semibold text-2xl capitalize'>
+                                <span className='font-semibold text-md sm:text-2xl capitalize'>
                                     {ReduxPreviewData?.richHeading != undefined ? ReduxPreviewData?.richHeading : PageData?.richHeading}
                                 </span>
-                                <span className='w-full break-words text-center whitespace-normal'>
+                                <span className='w-full sm:text-md text-sm break-words text-center whitespace-normal'>
                                     {ReduxPreviewData?.richBody != undefined ? ReduxPreviewData?.richBody : PageData?.richBody}
                                 </span>
                             </div>

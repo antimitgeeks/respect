@@ -146,11 +146,13 @@ function Home() {
         UpdateNpo({ Id: data?.id, data: customizedData })
           .then((res) => {
             if (res.error) {
-              toast.error(res?.error?.data?.message)
+              // toast.error(res?.error?.data?.message)
+               console.log(res?.error?.data?.message)
             }
             else {
               // close()
-              toast.success(res?.data?.message)
+              //  toast.success(res?.data?.message)
+               console.log(res?.data?.message)
             }
             // setUpdateLoading(false)
           })

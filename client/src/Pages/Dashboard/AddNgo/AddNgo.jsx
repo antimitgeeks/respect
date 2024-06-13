@@ -92,7 +92,7 @@ function AddNgo(
                                     <InputComponent
                                         auto={'off'}
                                         required
-                                        label={'Npo name'}
+                                        label={'Name'}
                                         placeholder={'Enter npo name'}
                                         name={'name'}
                                         onChange={settingsProps.handleChange}
