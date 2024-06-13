@@ -715,9 +715,8 @@ function NpoHome() {
             {
                 !AllowEdit ?
                     <div className=' w-full flex justify-center py-4 items-center'>
-                        <span className=' font-semibold text-lg pt-4'>
-
-                            You dont have access to edit the page
+                        <span className=' font-semibold text-lg pt-4 capitalize'>
+                            Your Page is disabled by the admin
                         </span>
                     </div>
                     :

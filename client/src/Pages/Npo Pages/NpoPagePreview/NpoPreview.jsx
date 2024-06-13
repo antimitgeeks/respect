@@ -256,13 +256,13 @@ function NpoPreview({ Id }) {
                                             <div className=' w-full h-full bg-slate-300 rounded'>
                                             </div>
                                             :
-                                            <iframe allowFullScreen src={ReduxPreviewData?.videoData != undefined ? ReduxPreviewData?.videoData : PageData?.videoData} className=' fullscreen rounded w-full h-full' frameborder="0"></iframe>
+                                            <iframe allowFullScreen src={ReduxPreviewData?.videoData != undefined ? ReduxPreviewData?.videoData : PageData?.videoData} className=' fullscreen rounded w-full h-full' ></iframe>
 
                                         :
                                         <div className=' w-full h-full bg-slate-300 rounded'>
                                         </div>
                                     :
-                                    <iframe allowFullScreen src={ReduxPreviewData?.videoData != undefined ? ReduxPreviewData?.videoData : PageData?.videoData} className=' fullscreen rounded w-full h-full' frameborder="0"></iframe>
+                                    <iframe allowFullScreen src={ReduxPreviewData?.videoData != undefined ? ReduxPreviewData?.videoData : PageData?.videoData} className=' fullscreen rounded w-full h-full' ></iframe>
 
                             }
                         </div>
