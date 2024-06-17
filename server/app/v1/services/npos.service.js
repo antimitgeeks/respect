@@ -40,3 +40,22 @@ exports.getPageImage = async (id, type) => {
     });
     return filePath;
 }
+
+exports.findImageName = async (fullPath, imageType) => {
+    const images = []
+    let files =
+        fs.readdirSync(fullPath);
+
+    files.forEach(file => {
+        images.push(file)
+    });
+    if (!images.length) {
+        return false;
+    }
+    for (const element of images) {
+        if (element.includes(imageType)) {
+            return element;
+        }
+    }
+    return false;
+}
