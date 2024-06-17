@@ -121,3 +121,36 @@ exports.getShopifyPageImage = async (req, res) => {
 };
 
 
+// order complete web hook
+exports.orderCompleteWebhook = async (req, res) => {
+    console.info('***************************************************Order Complete Webhook************************************************');
+    try {
+        const payload = req.body;
+        await service.orderComplete(payload);
+        return sendResponse(res, statusCode.OK, true, SuccessMessage.CREATED);
+    } catch (error) {
+        console.error('Error in order complete : ', error);
+        return sendResponse(res, statusCode.INTERNAL_SERVER_ERROR, false, ErrorMessage.INTERNAL_SERVER_ERROR, error?.errors);
+    }
+};
+
+// records controller
+exports.records = async (req, res) => {
+    console.info('***************************************************NPO Record Api************************************************');
+    try {
+        const npoId = req.params.id;
+        const details = req.body;
+        // check npo exist or not   
+        const exist = await adminService.npoById(npoId);
+        if (!exist) {
+            return sendResponse(res, statusCode.BAD_REQUEST, false, `Npo ${ErrorMessage.NOT_FOUND}`);
+        }
+        const result = await service.records(npoId, details);
+        return sendResponse(res, statusCode.OK, true, `Npo Record ${SuccessMessage.LIST_FETCH}`, result);
+    } catch (error) {
+        console.error('Error in npo record api: ', error);
+        return sendResponse(res, statusCode.INTERNAL_SERVER_ERROR, false, ErrorMessage.INTERNAL_SERVER_ERROR, error?.errors);
+    }
+};
+
+
