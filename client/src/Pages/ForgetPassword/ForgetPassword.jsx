@@ -14,7 +14,6 @@ function ForgetPassword() {
     const [loading, setLoading] = useState(false)
 
     /* code for getting email from url */
-    // const urlParams = new URLSearchParams(window.location.search);
 
     const paramEmail = useParams()
     console.log(paramEmail);
@@ -38,7 +37,6 @@ function ForgetPassword() {
     const handleSubmit = (data, { resetForm }) => {
         setLoading(true)
         setUserData(data)
-        // authService.forgotPassword(data,paramEmail.id)
         forgotPassword({ data, Id: paramEmail?.id })
             .then((res) => {
                 if (res?.data) {
@@ -96,15 +94,7 @@ function ForgetPassword() {
                                     />
                                 </div>
                                 <div className='relative w-1/2 self-center  mx-auto'>
-                                    {/* <input
-                                        value={loginProps.values.confirmPassword}
-                                        name='confirmPassword'
-                                        onChange={loginProps.handleChange}
-                                        className='px-2 py-2 rounded w-full border outline-none'
-                                        type="password"
-                                        placeholder='Confirm your Password'
-                                    />
-                                    <ErrorMessage className='text-red-400 absolute  text-[14px]   mt-0' name='confirmPassword' component='div' /> */}
+                                    
                                     <InputComponent
                                         value={loginProps.values.confirmPassword}
                                         name='confirmPassword'

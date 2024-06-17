@@ -13,7 +13,6 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 
 const myfunc=()=>
   {
-      console.log("HII")
       localStorage.clear('previewData')
   }
 window.onload= myfunc();

@@ -69,7 +69,7 @@ function NpoLogin(props) {
     const handleSubmit = (data) => {
         setLoading(true);
         const loginData = { email: data?.email, password: data?.password ,role:'npo' };
-        console.log(data)
+        // console.log(data)
         LoginUser({ data: loginData })
             .then((res) => {
                 setLoading(false)

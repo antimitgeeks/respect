@@ -79,7 +79,7 @@ function NpoHome() {
             method: "GET"
         };
         setLoading(true)
-        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
+        fetch(`http://192.168.1.64:8080/api/v1/npos/image/${decodedToken?.id}?type=logo`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -117,7 +117,7 @@ function NpoHome() {
         setLoading(true);
         setBannerLoading(true);
 
-        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
+        fetch(`http://192.168.1.64:8080/api/v1/npos/image/${decodedToken?.id}?type=banner`, config)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Image not found');
@@ -153,7 +153,7 @@ function NpoHome() {
         };
         setLoading(true)
         setTextImageLoading(true);
-        fetch(`http://192.168.1.61:8080/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
+        fetch(`http://192.168.1.64:8080/api/v1/npos/image/${decodedToken?.id}?type=text`, config)
             .then(response => {
                 if (!response?.ok) {
                     throw new Error('Image not found');
@@ -703,7 +703,6 @@ function NpoHome() {
 
         navigate('/page/preview')
 
-
     }
 
     const handleCall = (number) => {
@@ -715,8 +714,8 @@ function NpoHome() {
             {
                 !AllowEdit ?
                     <div className=' w-full flex justify-center py-4 items-center'>
-                        <span className=' font-semibold text-lg pt-4 capitalize'>
-                            Your Page is disabled by the admin
+                        <span className=' font-semibold text-lg pt-4 '>
+                            Your page is disabled by the admin
                         </span>
                     </div>
                     :
@@ -927,6 +926,7 @@ function NpoHome() {
 
                                                                 {linksData?.contactUs || localNpoPreviewDataState?.linksData?.contactUs?.link || FinalData?.linksData?.contactUs?.link}
                                                             </span>
+                                                            <span></span>
                                                         </span>
                                                     </span>
                                                     <span className=' flex'>

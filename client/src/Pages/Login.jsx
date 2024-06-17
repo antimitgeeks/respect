@@ -45,7 +45,7 @@ function Login(props) {
         }
     }, [userToken]);
     
-    console.log(decodedToken)
+    // console.log(decodedToken)
     useEffect(() => {
         if (isLogged) {
             props.auth(true);
@@ -55,7 +55,7 @@ function Login(props) {
 
     const [LoginUser] = useLoginMutation();
 
-    console.log(isLogged)
+    // console.log(isLogged)
     const initialValues = {
         email: decodedToken?.email?.toLowerCase() || '',
         password: userLoginData?.password || '',
@@ -63,7 +63,7 @@ function Login(props) {
     };
 
     const validationSchema = yup.object().shape({
-        email: yup.string().trim("Enter valid email").required("email is required").email().strict(),
+        email: yup.string().trim("Enter valid email").required("email is required").email(),
         password: yup.string().trim("Enter valid password").required("password is required").strict(),
     });
 
@@ -118,7 +118,7 @@ function Login(props) {
                                 <div className='w-2/3 lg:w-1/2 relative mx-auto'>
                                     <InputComponent
                                         name='email'
-                                        onChange={loginProps.handleChange}
+                                        onChange={(e)=>loginProps.setFieldValue('email',e.target.value?.trim())}
                                         placeholder='Enter your Email'
                                         value={loginProps.values.email}
                                     />

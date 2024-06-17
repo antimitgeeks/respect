@@ -67,7 +67,7 @@ function Routing() {
                             <Route path="reports/details/:id" element={<ReportDetail />} />
                             <Route path="npo/details/:id" element={<NpoView />} />
                         </Route>
-                      :"" 
+                       :"" 
                 } 
             </Routes>
         </div>

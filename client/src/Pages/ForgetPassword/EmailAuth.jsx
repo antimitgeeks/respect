@@ -97,7 +97,7 @@ function EmailAuth() {
                                         placeholder={'Enter your email'}
                                     />
                                     <div className=' w-full flex end justify-end'>
-                                        <span className='  text-black cursor-pointer ' onClick={()=>navigate('/')} > <u>Login ? </u></span>
+                                        <span className='  text-black cursor-pointer ' onClick={()=>navigate('/login/npo')} > <u>Login ? </u></span>
                                     </div>
                                 </div>
 
