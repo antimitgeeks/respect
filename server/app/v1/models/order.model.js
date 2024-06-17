@@ -16,39 +16,25 @@ module.exports = (sequelize, Sequelize) => {
     /**
      * @type {Model}
      */
-    const Npos = sequelize.define("npos", {
+    const Order = sequelize.define("order", {
         id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        name: {
+        orderId: {
             type: Sequelize.STRING,
         },
-        email: {
-            type: Sequelize.STRING,
+        amount: {
+            type: Sequelize.INTEGER,
         },
-        password: {
-            type: Sequelize.STRING,
+        orderDate: {
+            type: Sequelize.DATE,
         },
-        // address: {
-        //     type: Sequelize.STRING,
-        // },
-        number: {
-            type: Sequelize.STRING,
+        customerDetails: {
+            type: Sequelize.JSON,
         },
-        isActive: {
-            type: Sequelize.BOOLEAN,
-            defaultValue: true
-        },
-        role: {
-            type: Sequelize.STRING,
-            defaultValue: 'npo'
-        },
-        pageId: {
-            type: Sequelize.STRING
-        }
     });
 
-    return Npos;
+    return Order;
 };

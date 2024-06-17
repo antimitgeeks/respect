@@ -36,6 +36,8 @@ router.post('/upload/:id', authValidation.id, authValidation.npoImageType, (req,
 });
 router.get('/image/:id', authValidation.id, authValidation.npoImageType, controllers.getPageImage);
 router.get('/shopify/image/:id', authValidation.id, authValidation.npoImageType, controllers.getShopifyPageImage);
+router.post('/webhook/order-complete', controllers.orderCompleteWebhook);
+router.post('/records/:id', authValidation.list, controllers.records);
 
 
 module.exports = router;
