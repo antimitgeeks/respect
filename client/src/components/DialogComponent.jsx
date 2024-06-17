@@ -32,4 +32,4 @@ function DialogComponent(
   )
 }
 
-export default DialogComponent
+export default DialogComponent;

@@ -145,12 +145,12 @@ function NpoPreview({ Id }) {
         if (decodedToken?.id || Id) fetchTextImgData()
     }, [decodedToken])
 
-
+    console.log(PageData)
 
     return (
         <div className=' flex flex-col gap-2 pb-3 relative  w-full h-full'>
             {
-                Id && !PageData ?
+                Id && !PageData || PageData?.length==0 ?
                     <>
                         <span className=' w-full flex items-center justify-center font-semibold'> No Data Found      </span>
                     </>

@@ -65,7 +65,7 @@ function NpoView() {
               {
                 NpoData ?
                   <>
-                    <h1 className="text-3xl font-bold mb-4">{NpoData?.name} Details</h1>
+                    <h1 className="text-2xl font-bold mb-4">{NpoData?.name} Details</h1>
                     <div className="bg-white rounded-lg p-6">
                       <p className="text-[19px] mb-2"><strong>Name:</strong> {NpoData?.name ? NpoData?.name : "N/A"}</p>
                       <p className="text-[19px] mb-2"><strong>Email:</strong> {NpoData?.email ? NpoData?.email : "N/A"}</p>

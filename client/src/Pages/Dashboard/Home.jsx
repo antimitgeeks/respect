@@ -246,7 +246,7 @@ function Home() {
                             <>  <span className=' select-none rounded-full left-[145px] sm:left-[200px] lg:left-[80px] w-[130px] divide-x-2 2xl:right-[100px]  gap-1  py-1 px-2 shadow  right-5 bottom-0 bg-white absolute flex  items-center justify-between'>
                               <span className=' cursor-pointer w-full flex items-center justify-center'><RiEdit2Fill size={17} /></span>
                               {/* <span onClick={() => handleDelete(indx)} className=' cursor-pointer w-full flex items-center justify-center'><AiFillDelete size={16} /></span> */}
-                              <span onClick={() => handleView()} className=' cursor-pointer w-full flex items-center justify-center'><IoMdEye size={17} /></span>
+                              <span onClick={() => handleView(itm.id)} className=' cursor-pointer w-full flex items-center justify-center'><IoMdEye size={17} /></span>
                             </span>
                             </>
                             : ""

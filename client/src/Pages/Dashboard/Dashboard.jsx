@@ -121,7 +121,7 @@ function Dashboard() {
                     <span className={` ${ActivePath.includes('dashboard') ? "bg-white text-black" : "bg-slate-300"} rounded-lg cursor-pointer border py-2 flex gap-2 items-center w-full sm:pl-5 pl-[6px] sm:pr-12 sm:w-full pr-1`} onClick={() => { navigate('') }}>
                       <IoHomeOutline />{sideBarToggle ? <span className='m-0 p-0'>NPOS</span> : ''}
                     </span>
-                    <span className={` ${ActivePath.includes('reports') ? "bg-white text-black" : "bg-slate-300"} cursor-pointer border rounded-lg py-2 flex gap-2 sm:w-full w-full  items-center pl-[6px] sm:pr-12 sm:pl-4 pr-0`} onClick={() => { navigate('reports') }}>
+                    <span className={` ${pathName.includes('reports') ? "bg-white text-black" : "bg-slate-300"} cursor-pointer border rounded-lg py-2 flex gap-2 sm:w-full w-full  items-center pl-[6px] sm:pr-12 sm:pl-4 pr-0`} onClick={() => { navigate('reports') }}>
                       <LiaClipboardListSolid />{sideBarToggle ? <span className='m-0 p-0'>Reports</span> : ''}
                     </span>
                   </>
