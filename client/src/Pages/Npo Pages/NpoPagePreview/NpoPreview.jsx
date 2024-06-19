@@ -189,12 +189,9 @@ function NpoPreview({ Id }) {
                                 {
                                     ReduxPreviewData?.bannerUrl == undefined || ReduxPreviewData?.bannerUrl == '' || PageData?.bannerUrl == undefined
                                         ?
-                                        PageData?.bannerUrl ?
-                                            ReduxPreviewData?.bannerUrl?.length == 0 ?
-                                                <div className=' bg-slate-300  w-full h-full'>
-
-                                                </div>
-                                                :
+                                        bannerUrl ?
+                                       
+                                             
                                                 <div className=' w-full h-full'>
                                                     <img className=' object-cover object-center h-full w-full' src={ReduxPreviewData?.bannerUrl || bannerUrl} alt="" />
                                                     <span className=' absolute top-[175px] sm:top-[250px] text-white w-full flex items-center justify-center'>
@@ -223,11 +220,7 @@ function NpoPreview({ Id }) {
                                 {
                                     ReduxPreviewData?.imageTextUrl == undefined || ReduxPreviewData?.imageTextUrl == '' || PageData?.imageTextUrl == undefined
                                         ?
-                                        PageData?.imageTextUrl ?
-                                            ReduxPreviewData?.imageTextUrl?.length == 0 ?
-                                                <div className='bg-slate-300 min-h-[400px] rounded h-full w-full'>
-                                                </div>
-                                                :
+                                       imageTextUrl ?
 
                                                 <img className='rounded self-stretch h-full w-full object-cover' src={ReduxPreviewData?.imageTextUrl || imageTextUrl} alt="" />
 

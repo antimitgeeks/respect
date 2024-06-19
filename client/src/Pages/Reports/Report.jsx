@@ -52,7 +52,10 @@ function Report() {
             {
               loading?
               <>
-                <span>Loading . .</span>
+              {Array(8).fill(0).map((itm)=>
+              {
+                return <div className=' bg-slate-200 shadow-sm border animate-pulse h-48 w-full'> </div>
+              })}
               </>
               :
               allNposData?.map((itm, indx) => {
