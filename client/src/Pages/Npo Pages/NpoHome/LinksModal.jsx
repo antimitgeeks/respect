@@ -9,17 +9,17 @@ function LinksModal({ close,data }) {
     console.log(data);
     console.log(NpoReduxData);
     const [linksData, setLinksData] = useState({
-        instagram:NpoReduxData?.instagram || data?.linksData?.instagram?.link || '',
-        facebook: NpoReduxData?.facebook || data?.linksData?.facebook?.link|| '',
-        youtube: NpoReduxData?.youtube ||data?.linksData?.youtube?.link ||  '',
-        contactUs: NpoReduxData?.contactUs||data?.linksData?.contactUs?.link ||  '',
-        websiteLink:  NpoReduxData?.websiteLink ||data?.linksData?.websiteLink?.link || '',
+        instagram:NpoReduxData?.instagram!=undefined ?NpoReduxData?.instagram: data?.linksData?.instagram?.link || '',
+        facebook: NpoReduxData?.facebook!=undefined? NpoReduxData?.facebook: data?.linksData?.facebook?.link|| '',
+        youtube: NpoReduxData?.youtube!=undefined?NpoReduxData?.youtube :data?.linksData?.youtube?.link ||  '',
+        contactUs: NpoReduxData?.contactUs!=undefined ?NpoReduxData?.contactUs :data?.linksData?.contactUs?.link ||  '',
+        websiteLink:  NpoReduxData?.websiteLink!=undefined?NpoReduxData?.websiteLink:data?.linksData?.websiteLink?.link || '',
         // backgroundColor: NpoReduxData?.backgroundColor || '#CBD5E1',
-        instaSwitch: NpoReduxData?.length != 0? NpoReduxData?.instaSwitch==false ?false:true:data?.linksData?.instagram?.show==false?false:true,
-        facebookSwitch: NpoReduxData?.length != 0? NpoReduxData?.facebookSwitch==false ?false:true:data?.linksData?.facebook?.show ==false?false:true,
-        youtubeSwitch: NpoReduxData?.length!=0? NpoReduxData?.youtubeSwitch==false ?false:true : data?.linksData?.youtube?.show ==false?false:true,
-        contactSwitch:NpoReduxData?.length!=0? NpoReduxData?.contactSwitch==false ?false:true:data?.linksData?.contactUs?.show==false?false:true,
-        websiteSwitch: NpoReduxData?.length!=0? NpoReduxData?.websiteSwitch==false ?false:true:data?.linksData?.websiteLink?.show==false?false:true,
+        // instaSwitch: NpoReduxData?.length != 0? NpoReduxData?.instaSwitch==false ?false:true:data?.linksData?.instagram?.show==false?false:true,
+        // facebookSwitch: NpoReduxData?.length != 0? NpoReduxData?.facebookSwitch==false ?false:true:data?.linksData?.facebook?.show ==false?false:true,
+        // youtubeSwitch: NpoReduxData?.length!=0? NpoReduxData?.youtubeSwitch==false ?false:true : data?.linksData?.youtube?.show ==false?false:true,
+        // contactSwitch:NpoReduxData?.length!=0? NpoReduxData?.contactSwitch==false ?false:true:data?.linksData?.contactUs?.show==false?false:true,
+        // websiteSwitch: NpoReduxData?.length!=0? NpoReduxData?.websiteSwitch==false ?false:true:data?.linksData?.websiteLink?.show==false?false:true,
 
         // facebookSwitch: data?.linksData?.facebook?.show == false ? false : true,
         // youtubeSwitch: data?.linksData?.youtube?.show == false ? false : true,
@@ -45,7 +45,7 @@ function LinksModal({ close,data }) {
         instagram: Yup.string(),
         facebook: Yup.string(),
         youtube: Yup.string(),
-        contactUs: Yup.string().matches(/^[0-9]+$/,"Invalid number").min(10,"Invalid number").max(10,"Invalid number"),
+        contactUs: Yup.string().optional(),
         websiteLink: Yup.string().matches(/^[a-z A-Z `~!@#$%^&*(_+/:,.|)]+$/,"Invalid link")
     });
 
@@ -82,10 +82,10 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='instagram'
                             value={linksData?.instagram}
-                            className='w-2/3 px-2 py-2 border outline-none'
+                            className='w-4/5 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        <span>{linksData?.instaSwitch ? "Enabled" : "Disabled"}: <Switch checked={linksData.instaSwitch} name='instaSwitch' onChange={handleInputChange} /></span>
+                        {/* <span>{linksData?.instaSwitch ? "Enabled" : "Disabled"}: <Switch checked={linksData.instaSwitch} name='instaSwitch' onChange={handleInputChange} /></span> */}
                     </div>
                 </div>
                 <div className='flex gap-[71px] items-center'>
@@ -96,10 +96,10 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='facebook'
                             value={linksData?.facebook}
-                            className='w-2/3 px-2 py-2 border outline-none'
+                            className='w-4/5 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        <span>{linksData?.facebookSwitch ? "Enabled" : "Disabled"}: <Switch name='facebookSwitch' checked={linksData?.facebookSwitch} onChange={handleInputChange} /></span>
+                        {/* <span>{linksData?.facebookSwitch ? "Enabled" : "Disabled"}: <Switch name='facebookSwitch' checked={linksData?.facebookSwitch} onChange={handleInputChange} /></span> */}
                     </div>
                 </div>
                 <div className='flex gap-20 items-center'>
@@ -110,10 +110,10 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='youtube'
                             value={linksData?.youtube}
-                            className='w-2/3 px-2 py-2 border outline-none'
+                            className='w-4/5 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        <span>{linksData?.youtubeSwitch ? "Enabled" : "Disabled"}: <Switch name='youtubeSwitch' checked={linksData?.youtubeSwitch} onChange={handleInputChange} /></span>
+                        {/* <span>{linksData?.youtubeSwitch ? "Enabled" : "Disabled"}: <Switch name='youtubeSwitch' checked={linksData?.youtubeSwitch} onChange={handleInputChange} /></span> */}
                     </div>
                 </div>
                 <div className='flex gap-[82px] items-center'>
@@ -124,10 +124,10 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='contactUs'
                             value={linksData?.contactUs}
-                            className='w-2/3 px-2 py-2 border outline-none'
+                            className='w-4/5 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        <span>{linksData?.contactSwitch ? "Enabled" : "Disabled"}: <Switch name='contactSwitch' checked={linksData?.contactSwitch} onChange={handleInputChange} /></span>
+                        {/* <span>{linksData?.contactSwitch ? "Enabled" : "Disabled"}: <Switch name='contactSwitch' checked={linksData?.contactSwitch} onChange={handleInputChange} /></span> */}
                     </div>
                 </div>
                 <div className='flex gap-[62px] items-center'>
@@ -138,10 +138,10 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='websiteLink'
                             value={linksData?.websiteLink}
-                            className='w-2/3 px-2 py-2 border outline-none'
+                            className='w-4/5 px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
-                        <span>{linksData?.websiteSwitch ? "Enabled" : "Disabled"}: <Switch name='websiteSwitch' checked={linksData?.websiteSwitch} onChange={handleInputChange} /></span>
+                        {/* <span>{linksData?.websiteSwitch ? "Enabled" : "Disabled"}: <Switch name='websiteSwitch' checked={linksData?.websiteSwitch} onChange={handleInputChange} /></span> */}
                     </div>
                 </div>
                 <hr />

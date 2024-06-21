@@ -4,14 +4,14 @@ import { toast } from 'react-toastify';
 function VideoModal({ close, onchange }) {
     const [videoData, setVideoData] = useState('');
     const [videoFileData, setVideoFileData] = useState(null);
-    const [videoPreviewUrl, setVideoPreviewUrl] = useState('');
+    const [videoPreviewUrl, setVideoPreviewUrl] = useState();
 
     const handleSave = () => {
-        if (videoData || videoPreviewUrl || videoFileData) {
-            close(videoPreviewUrl || videoData);
-        } else {
-            toast.error("Field cannot be empty");
-        }
+        // if (videoData || videoPreviewUrl || videoFileData) {
+            close(videoPreviewUrl!=undefined?videoPreviewUrl: videoData);
+        // } else {
+            // toast.error("Field cannot be empty");
+        // }
     };
 
     const handleVideoFile = (e) => {

@@ -49,11 +49,11 @@ function AddNgo(
         CreateNpo({ data: data })
             .then((res) => {
                 if (res.error) {
-                    if (res.data?.error) {
+                    if (res?.data?.error) {
                         toast.error(res?.data?.error)
 
                     }
-                    console.log(res.error)
+                    console.log(res?.error)
                     toast.error(res?.error?.data?.message)
                 }
                 else {
@@ -92,7 +92,7 @@ function AddNgo(
                                     <InputComponent
                                         auto={'off'}
                                         required
-                                        label={'Npo name'}
+                                        label={'Name'}
                                         placeholder={'Enter npo name'}
                                         name={'name'}
                                         onChange={settingsProps.handleChange}

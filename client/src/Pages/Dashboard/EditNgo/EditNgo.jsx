@@ -38,7 +38,7 @@ function EditNgo(
             setNpoData(singleData?.result);
             setTimeout(() => {
                 setLoading(false)
-            }, 500);
+            }, 300);
         }
 
     }, [singleData, isdataLoading, isdataFetching])
@@ -81,7 +81,6 @@ function EditNgo(
                 console.log(err)
                 setUpdateLoading(false)
             })
-
     };
 
     return (
@@ -151,17 +150,17 @@ function EditNgo(
                                                     onChange={settingsProps.handleChange}
                                                     value={settingsProps.values.password}
                                                 />
-                                                 <span className=' absolute cursor-pointer right-2 bottom-3'>
-                                        {
+                                                <span className=' absolute cursor-pointer right-2 bottom-3'>
+                                                    {
 
-                                            showPassword === "text" ?
-                                            <IoEye onClick={() => setShowPassword("password")} size={18} />
-                                            :
-                                                <IoEyeOff onClick={() => setShowPassword("text")} size={18} />
+                                                        showPassword === "text" ?
+                                                            <IoEye onClick={() => setShowPassword("password")} size={18} />
+                                                            :
+                                                            <IoEyeOff onClick={() => setShowPassword("text")} size={18} />
 
-                                        }
-                                        
-                                    </span> 
+                                                    }
+
+                                                </span>
                                             </div>
                                             <InputComponent
                                                 label={'Contact Number'}

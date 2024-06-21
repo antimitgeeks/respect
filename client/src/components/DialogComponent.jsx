@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogTitle } from '@mui/material'
 import React from 'react';
-import Slide from '@mui/material/Slide';
+// import Slide from '@mui/material/Slide';
 
 function DialogComponent(
   {
@@ -32,4 +32,4 @@ function DialogComponent(
   )
 }
 
-export default DialogComponent
+export default DialogComponent;

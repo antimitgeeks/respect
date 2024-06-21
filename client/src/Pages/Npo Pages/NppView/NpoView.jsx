@@ -19,15 +19,14 @@ function NpoView() {
   const [UserId, setUserId] = useState('')
   const data = useParams();
 
-  useEffect(()=>
-  {
+  useEffect(() => {
     setUserId(data?.id);
     console.log(data?.id)
-  },[data])
+  }, [data])
 
 
-  const { data: singleData, isFetching: isdataFetching, isLoading: isdataLoading } = useGetSingleNpoQuery({ Id:UserId })
-
+  const { data: singleData, isFetching: isdataFetching, isLoading: isdataLoading } = useGetSingleNpoQuery({ Id: UserId })
+  
   // const { data: NpoPagedata, error, isFetching, isLoading } = useGetPageByIdQuery(
   //   { Id: NpoData?.id },
   //   { skip: !showDetails } // Only fetch when showDetails is true
@@ -45,14 +44,13 @@ function NpoView() {
       setNpoData(singleData?.result);
       setTimeout(() => {
         setLoading(false)
-      }, 500);
+      }, 300);
     }
 
   }, [singleData, isdataLoading, isdataFetching])
 
   return (
     <>
-
       <div className=' h-full overflow-y-scroll flex flex-col gap-2 pt-2  '>
         {
           loading ?
@@ -67,11 +65,11 @@ function NpoView() {
               {
                 NpoData ?
                   <>
-                    <h1 className="text-3xl font-bold mb-4">{NpoData?.name} Details</h1>
+                    <h1 className="text-2xl font-bold mb-4">{NpoData?.name} Details</h1>
                     <div className="bg-white rounded-lg p-6">
-                      <p className="text-[19px] mb-2"><strong>Name:</strong> {NpoData?.name? NpoData?.name:"N/A"}</p>
-                      <p className="text-[19px] mb-2"><strong>Email:</strong> {NpoData?.email?NpoData?.email:"N/A"}</p>
-                      <p className="text-[19px]"><strong>Number:</strong> {NpoData?.number?NpoData?.number:"N/A"}</p>
+                      <p className="text-[19px] mb-2"><strong>Name:</strong> {NpoData?.name ? NpoData?.name : "N/A"}</p>
+                      <p className="text-[19px] mb-2"><strong>Email:</strong> {NpoData?.email ? NpoData?.email : "N/A"}</p>
+                      <p className="text-[19px]"><strong>Number:</strong> {NpoData?.number ? NpoData?.number : "N/A"}</p>
                     </div>
                     <button
                       onClick={toggleDetails}
@@ -89,12 +87,12 @@ function NpoView() {
                           <div className=' flex w-full gap-2 flex-col'>
                             <span className=' capitalize'>
                               <span className=' font-semibold mr-2'>Page name </span>
-                               :  {NpoData?.name}
-                               </span>
+                              :  {NpoData?.name}
+                            </span>
                             {/* <span> <span className=' font-semibold mr-8'>Page no </span>: {NpoData?.id}</span> */}
-                          <div className="bg-white border-2 w-full rounded-lg p-6">
-                            <NpoPreview Id={UserId}/>
-                          </div>
+                            <div className="bg-white border-2 w-full rounded-lg p-1 sm:p-6">
+                              <NpoPreview Id={UserId} />
+                            </div>
                           </div>
                         )}
                       </div>

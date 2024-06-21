@@ -10,10 +10,11 @@ import { PrimeReactProvider } from 'primereact/api';
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify'
 import "primereact/resources/themes/lara-light-cyan/theme.css";
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css';
 
 const myfunc=()=>
   {
-      console.log("HII")
       localStorage.clear('previewData')
   }
 window.onload= myfunc();

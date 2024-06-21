@@ -47,6 +47,7 @@ function Routing() {
 
     }, [decodedToken, userToken])
 
+    const windowLocation=(window.location.href)
 
     return (
         <div>
@@ -56,18 +57,18 @@ function Routing() {
                 <Route path="login/npo" element={<NpoLogin auth={setAthenticateLogin} />} />
                 <Route path="/forgot-password/:id" element={<ForgetPassword />} />
                 <Route path="/reset-password" element={<EmailAuth />} />
-                {/* <Route path="*" element={<Login auth={setAthenticateLogin} />} /> */}
+                <Route path="*" element={windowLocation?.includes('admin')? <Login auth={setAthenticateLogin} />: windowLocation?.includes('np')&&<NpoLogin auth={setAthenticateLogin} />} />
                 <Route path="page/preview" element={<NpoPreview />} />
                 {
                     authenticateLogin ?
                         <Route path="/dashboard" element={<Dashboard />} >
-                            <Route path='' element={role == 'Admin' ? <Home />:<NpoHome />} />
+                            <Route path='' element={role === 'Admin' ? <Home />: role==='npo'&&<NpoHome />} />  
                             <Route path='reports' element={<Report />} />
                             <Route path="reports/details/:id" element={<ReportDetail />} />
                             <Route path="npo/details/:id" element={<NpoView />} />
                         </Route>
-                     :"" 
-                }
+                       :"" 
+                } 
             </Routes>
         </div>
     )
