@@ -102,6 +102,7 @@ function ReportDetail() {
         setDateValue('')
     }
 
+    console.log(ReportData?.records?.length);
     return (
         <>
             <div className=' h-[86vh] overflow-y-scroll px-3 py-3 gap-3 flex flex-col'>
@@ -173,7 +174,7 @@ function ReportDetail() {
                                 </span>
                             </>
                             :
-                            ReportData?.records?.length == 0 ?
+                            ReportData?.records?.length == 0  ?
                                 <span className=' w-full flex  items-center justify-center border py-1'>No data Found</span>
                                 :
                                 ReportData?.records?.rows?.map((itm) => {
