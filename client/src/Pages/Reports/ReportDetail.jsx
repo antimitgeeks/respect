@@ -137,7 +137,7 @@ function ReportDetail() {
                         Back
                     </div>
                 </div>
-                <div className=' w-full flex-col text-sm sm:text-[14px] sm:flex-row flex mb-2 justify-between'>
+                <div className=' w-full flex-col text-sm sm:text-[15.5px] sm:flex-row flex mb-2 justify-between'>
                     <div className=' flex gap-3 items-center'>
                         <div onClick={() => setDateModal(true)} className=' flex gap-2 hover:opacity-85 w-fit  border-2 border-slate-400 px-2 py-1 rounded cursor-pointer mb-2'>
                             {/* Filters area */}
@@ -159,7 +159,7 @@ function ReportDetail() {
                                 Total Npo Amount : {ReportData?.totalAmount?.toFixed(3) || "N/A"}
                             </span>
                         </div>
-                        <div onClick={() => handleClearAllFilter()} className=' text-sm border-b h-fit w-fit p-0 m-0 cursor-pointer border-blue-600 hover:text-blue-600'>
+                        <div onClick={() => handleClearAllFilter()} className=' sm:text-[15.5px] text-sm border-b h-fit w-fit p-0 m-0 cursor-pointer border-blue-600 hover:text-blue-600'>
 
                             Clear all filter
                         </div>
