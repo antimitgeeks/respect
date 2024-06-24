@@ -714,6 +714,10 @@ function NpoHome() {
                 !AllowEdit ?
                     <div className=' w-full flex justify-center py-4 items-center'>
                         <span className=' font-semibold text-lg pt-4 '>
+                            {/* Your page is disabled by the admin */}
+
+
+
                             Your page is disabled by the admin
                         </span>
                     </div>
@@ -922,7 +926,6 @@ function NpoHome() {
                                                                 :
                                                             </span>
                                                             <span className=' pl-[30px] cursor-pointer'>
-
                                                                 {linksData?.contactUs || localNpoPreviewDataState?.linksData?.contactUs?.link || FinalData?.linksData?.contactUs?.link}
                                                             </span>
                                                             <span></span>

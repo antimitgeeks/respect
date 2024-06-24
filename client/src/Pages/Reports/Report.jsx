@@ -27,13 +27,11 @@ function Report() {
 
     else {
       setLoading(false);
-      console.log(ListData)
       setAllNposData(ListData?.result?.rows)
 
     }
 
   }, [ListLoading, ListData, listFetching])
-  console.log(ListData)
 
   const handleDetailClick = (id) => {
     navigate(`details/${id}`)
