@@ -126,6 +126,7 @@ function ReportDetail() {
             return formattedDate;
         }
     }
+    console.log(ReportData?.records)
   
     return (
         <>
@@ -136,7 +137,7 @@ function ReportDetail() {
                         Back
                     </div>
                 </div>
-                <div className=' w-full flex mb-2 justify-between'>
+                <div className=' w-full flex-col text-sm sm:text-[14px] sm:flex-row flex mb-2 justify-between'>
                     <div className=' flex gap-3 items-center'>
                         <div onClick={() => setDateModal(true)} className=' flex gap-2 hover:opacity-85 w-fit  border-2 border-slate-400 px-2 py-1 rounded cursor-pointer mb-2'>
                             {/* Filters area */}
@@ -152,13 +153,13 @@ function ReportDetail() {
                             </span>
                         }
                     </div>
-                    <div className=' flex gap-6'>
+                    <div className=' flex gap-4 sm:gap-6'>
                         <div>
-                            <span className=' font-semibold text-lg cursor-default'>
+                            <span className=' font-semibold text-sm sm:text-lg cursor-default'>
                                 Total Npo Amount : {ReportData?.totalAmount?.toFixed(3) || "N/A"}
                             </span>
                         </div>
-                        <div onClick={() => handleClearAllFilter()} className=' border-b h-fit w-fit p-0 m-0 cursor-pointer border-blue-600 hover:text-blue-600'>
+                        <div onClick={() => handleClearAllFilter()} className=' text-sm border-b h-fit w-fit p-0 m-0 cursor-pointer border-blue-600 hover:text-blue-600'>
 
                             Clear all filter
                         </div>
@@ -198,8 +199,8 @@ function ReportDetail() {
                                 </span>
                             </>
                             :
-                            ReportData?.records?.length == 0  ?
-                                <span className=' w-full flex  items-center justify-center border py-1'>No data Found</span>
+                            ReportData?.records?.rows?.length == 0   ?
+                                <span className=' w-full flex  items-center justify-center  mt-1 py-1'>No data Found</span>
                                 :
                                 ReportData?.records?.rows?.map((itm,indx) => {
                                     return <div key={indx}>

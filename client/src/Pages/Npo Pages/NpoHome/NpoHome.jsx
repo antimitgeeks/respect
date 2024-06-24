@@ -723,6 +723,9 @@ function NpoHome() {
                     </div>
                     :
                     <>
+                    {
+                        !linksModalOpen &&
+
                         <div className=' fixed z-[5000] right-9 top-[75px] gap-2 flex px-2 sm:px-14 pt-3'>
                             <span onClick={() => handlePreviewPage()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
                                 Preview Page
@@ -734,6 +737,7 @@ function NpoHome() {
                                 SAVE
                             </span>
                         </div>
+                    }
                         {
                             loading || TextImageloading || logoLoading || bannerLoading ?
                                 <div className=' flex items-center justify-center w-full  flex-col  pt-12 px-12'>
@@ -761,7 +765,7 @@ function NpoHome() {
                                                         </div>
                                                         :
                                                         <div className=' cursor-pointer p-[1px]  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-500 border-2  rounded-full'> <input onInput={(e) => handleLogoInput(e)} accept='image/*' id='logoInput' type="file" className=' hidden w-0' />
-                                                            <label htmlFor='logoInput' className=' m-0 cursor-pointer  w-[70px] h-[70px] rounded-full bg-slate-400  flex items-center justify-center'>LOGO</label>
+                                                            <label htmlFor='logoInput' className=' m-0 cursor-pointer text-sm w-[45px] h-[45px]  sm:w-[70px] sm:h-[70px] rounded-full bg-slate-400  flex items-center justify-center'>LOGO</label>
                                                         </div>
 
                                                 }
@@ -777,7 +781,7 @@ function NpoHome() {
                                                                 value={bannerBackgroundText}
                                                                 onInput={(e) => setBannerBackgroundText(e.target.value)}
                                                                 type="text"
-                                                                className={`text-center  w-1/2 font-bold placeholder-slate-200 text-xl py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 px-2 outline-none bg-inherit placeholder:font-normal`}
+                                                                className={`text-center w-2/3  sm:w-1/2 font-bold placeholder-slate-200  sm:text-xl py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2 px-2 outline-none bg-inherit placeholder:font-normal`}
                                                                 placeholder='TYPE YOUR CONTENT HERE'
                                                                 style={{ color: bannerTextColor || 'black' }} // Inline style for text color
                                                             />
@@ -795,16 +799,16 @@ function NpoHome() {
                                                         <label onClick={() => { setBannerUrl(''); handleBannerRemove() }} className=' m-0  z-10  cursor-pointer absolute text-black p-[2px] top-[-10px] font-bold bg-slate-200  right-[-7px]'><FaRegEdit /></label>
                                                     </div>
                                                     :
-                                                    <div className=' flex  focus:border-2 p-1  focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center bg-slate-300 w-full h-[535px]'>
+                                                    <div className=' flex  focus:border-2 p-1  focus:border-black focus:border-solid border-dashed border-slate-400 border-2 items-center justify-center bg-slate-300 w-full h-[340px] sm:h-[535px]'>
                                                         <div className=' p-[1px] py-[1px] focus:border-2 rounded focus:border-black focus:border-solid border-dashed border-slate-500 border-2'>
                                                             <input onChange={(e) => handleBannerInput(e)} type="file" id='bannerInput' className=' w-0 hidden' accept='image/*' />
-                                                            <label htmlFor='bannerInput' className=' m-0 p-2 rounded cursor-pointer  bg-slate-400 '>Banner image</label>
+                                                            <label htmlFor='bannerInput' className=' m-0 p-1 sm:p-2 rounded cursor-pointer  bg-slate-400 '>Banner image</label>
                                                         </div>
                                                     </div>
                                             }
                                         </div>
                                         <div className=' w-full justify-between  flex-col md:flex-row flex  '>
-                                            <div className='relative h-[200px] sm:h-[380px] border-r-4 self-stretch items-center justify-center flex w-full bg-slate-300'>
+                                            <div className='relative h-[200px] sm:h-[420px] border-r-4 self-stretch items-center justify-center flex w-full bg-slate-300'>
                                                 {
                                                     imageTextUrl && imageTextUrl?.length > 0
                                                         ?
@@ -817,7 +821,7 @@ function NpoHome() {
                                                         <div className=' w-full py-1  focus:border-2 h-full focus:border-black focus:border-solid border-dashed border-slate-400 border-2  flex items-center justify-center'>
                                                             <div className=' rounded  focus:border-2 px-[1px] py-[1px] focus:border-black focus:border-solid border-dashed border-slate-500 border-2'>
                                                                 <input onInput={(e) => handleImagewithText(e)} id='imageWithText' type="file" accept='image/*' className=' w-0 hidden' />
-                                                                <label htmlFor='imageWithText' className=' m-0 bg-slate-400 p-2 rounded flex items-center justify-center  w-[118px] cursor-pointer'> Image</label>
+                                                                <label htmlFor='imageWithText' className=' m-0 bg-slate-400 p-1 sm:p-2 rounded flex items-center justify-center w-[100px]  sm:w-[118px] cursor-pointer'> Image</label>
                                                             </div>
                                                         </div>
                                                 }
@@ -830,7 +834,7 @@ function NpoHome() {
 
                                                         <div className=' relative w-full'>
 
-                                                            <textarea onInput={(e) => handleImageTextInput(e)} value={imageText} type="text" placeholder='Text' className=' py-2  sm:min-h-[250px] min-h-[200px]  m-auto w-full h-full flex bg-slate-300 items-center justify-center  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2  px-1 outline-none' />
+                                                            <textarea onInput={(e) => handleImageTextInput(e)} value={imageText} type="text" placeholder='Text' className=' py-2  sm:min-h-[250px] min-h-[190px]  m-auto w-full h-full flex bg-slate-300 items-center justify-center  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2  px-1 outline-none' />
 
                                                         </div>
                                                     </span>
@@ -874,7 +878,7 @@ function NpoHome() {
                                         <div className=' w-full bg-slate-300 px-2 py-4 flex items-center justify-center'>
                                             <div className=' w-full flex items-center justify-center flex-col gap-3'>
                                                 {/* <span>Heading</span> */}
-                                                <span className='relative w-[80%]'>
+                                                <span className='relative w-[90%]'>
                                                     <input value={richHeading} onInput={(e) => setRichHeading(e.target.value)} type="text" className=' py-2 font-semibold placeholder-opacity-75 placeholder-slate-400 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit placeholder:font-normal' placeholder='Heading' />
                                                     {/* {
                                     richHeading && richHeading?.length > 0
@@ -882,7 +886,7 @@ function NpoHome() {
                                     <span onClick={() => setRichHeading('')} className=' text-red-500 absolute top-[1px] right-[-26px] font-semibold cursor-pointer'><LuDelete size={21} /></span>
                                 } */}
                                                 </span>
-                                                <div className=' w-[80%] relative' >
+                                                <div className=' w-[90%] relative' >
                                                     <textarea value={richBody} type="text" onInput={(e) => setRichBody(e.target.value)} placeholder='Text' className=' py-2 focus:border-2 w-full focus:border-black focus:border-solid border-slate-400 px-2 min-h-[200px] border-2 border-dashed flex items-center justify-center bg-inherit outline-none' />
                                                     {/* {
                                     richBody && richBody?.length > 0
