@@ -146,7 +146,7 @@ function Login(props) {
                                             <label htmlFor='checkbox' className='select-none p-0 m-0 cursor-pointer text-[14px]'>Remember me?</label>
                                         </div>
                                         <div>
-                                            <span onClick={() => navigate('/reset-password')} className='cursor-pointer text-slate-600'>
+                                            <span onClick={() => navigate('/reset-password/admin')} className='cursor-pointer text-slate-600'>
                                                 <u>Forgot Password?</u>
                                             </span>
                                         </div>

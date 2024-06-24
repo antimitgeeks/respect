@@ -716,8 +716,6 @@ function NpoHome() {
                         <span className=' font-semibold text-lg pt-4 '>
                             {/* Your page is disabled by the admin */}
 
-
-
                             Your page is disabled by the admin
                         </span>
                     </div>

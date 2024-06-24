@@ -241,7 +241,7 @@ function NpoPreview({ Id }) {
                             </div>
                         </div>
 
-                        <div className=' w-full h-[380px] sm:h-[580px] px-2 sm:px-20 py-3'>
+                        <div className=' w-full h-[380px] sm:h-[625px] px-2 sm:px-20 py-3'>
                             {
                                 ReduxPreviewData?.videoData == undefined || ReduxPreviewData?.videoData == '' || PageData?.videoData == undefined ?
                                     PageData?.videoData ?

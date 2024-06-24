@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import InputComponent from '../../components/InputComponent';
 import { useResetPasswordMutation } from '../../services/AuthServices';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
@@ -14,7 +14,8 @@ function EmailAuth() {
     const [linksend, setLinkSend] = useState(false);
     const [loading, setLoading] = useState(false);
     const [resetPassword] = useResetPasswordMutation();
-
+    const { role } = useParams();
+    console.log(role)
 
 
     /* form initialValues */
@@ -33,8 +34,10 @@ function EmailAuth() {
     const handleSubmit = (data, { resetForm }) => {
         setLoading(true)
         setUserData(data)
+        console.log(data);
+        const roleData = { email: data?.email, role: role }
         // tutorialService.resetPassword(data)
-        resetPassword({ data })
+        resetPassword({ data: roleData })
             .then((dta) => {
                 if (dta?.data) {
                     setTimeout(() => {
@@ -44,7 +47,12 @@ function EmailAuth() {
                         resetForm();
                     }, 100);
                     setTimeout(() => {
-                        navigate('/')
+                        if (role == 'admin') {
+                            navigate('/login/admin')
+                        }
+                        else {
+                            navigate('/login/npo')
+                        }
                     }, 600);
                 }
                 else if (dta?.error) {
@@ -71,8 +79,6 @@ function EmailAuth() {
 
     return (
         <div className='h-[100vh] relative flex-col gap-2 flex w-full items-center justify-center'>
-
-
             <span className=' text-[18px]  text-green-500'> {linksend && "Check Your Email to Reset Password !"} </span>
 
             <Formik
@@ -97,7 +103,7 @@ function EmailAuth() {
                                         placeholder={'Enter your email'}
                                     />
                                     <div className=' w-full flex end justify-end'>
-                                        <span className='  text-black cursor-pointer ' onClick={()=>navigate('/login/npo')} > <u>Login ? </u></span>
+                                        <span className='  text-black cursor-pointer ' onClick={() => { role == 'admin' ? navigate('/login/admin') : navigate('/login/npo') }}> <u>Login ? </u></span>
                                     </div>
                                 </div>
 
