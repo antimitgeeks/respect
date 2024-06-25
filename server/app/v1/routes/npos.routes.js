@@ -21,8 +21,7 @@ router.post('/upload/:id', authValidation.id, authValidation.npoImageType, (req,
             res.status(400).send(err);
         } else {
             if (req.file == undefined) {
-
-                const dir = `app/v1/utils/images/${req.params.id}`;
+                const dir = path.join(__dirname, `../utils/images/${req.params.id}`);;
                 const fileName = await service.findImageName(dir, req.query.type);
                 if (fileName) {
                     fs.unlinkSync(path.join(dir, fileName));
@@ -38,6 +37,7 @@ router.get('/image/:id', authValidation.id, authValidation.npoImageType, control
 router.get('/shopify/image/:id', authValidation.id, authValidation.npoImageType, controllers.getShopifyPageImage);
 router.post('/webhook/order-complete', controllers.orderCompleteWebhook);
 router.post('/records/:id', controllers.records);
+router.post('/valid', controllers.validNpos);
 
 
 module.exports = router;

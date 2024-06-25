@@ -119,6 +119,8 @@ exports.orderComplete = async (payload) => {
                     await transaction.commit();
                     return true;
                 }
+            } else {
+                await this.updateShopifyCustomerMetaFields(orderRecordDetails.customerDetails.id, []);
             }
         }
         return true
@@ -161,6 +163,7 @@ exports.records = async (npoId, details) => {
 
 // update shopify customer metafield
 exports.updateShopifyCustomerMetaFields = async (customerId, metaFields) => {
+    metaFields = metaFields.length ? metaFields : "emptyNpos";
     // Query the customer to check for existing metafields
     let queryData = JSON.stringify({
         query: `query {
@@ -268,8 +271,6 @@ exports.updateShopifyCustomerMetaFields = async (customerId, metaFields) => {
         data: mutationData
     };
 
-    console.log(mutationConfig, '-------------------------------mutationConfig');
-
     const mutationResponse = await axios.request(mutationConfig);
     if (mutationResponse?.data?.data?.customerUpdate?.userErrors?.length) {
         console.log(mutationResponse.data.data.customerUpdate.userErrors, ":: Error IN Customer MetaFields Updated!!");
@@ -280,6 +281,15 @@ exports.updateShopifyCustomerMetaFields = async (customerId, metaFields) => {
 }
 
 // return valid npos array 
-exports.validNpos = async (npos) => {
-        
+exports.validNpos = async (nposNames) => {
+    const validNpos = await Npos.findAll({
+        where: {
+            name: {
+                [Op.in]: nposNames
+            }
+        },
+        attributes: ['name']
+    });
+
+    return validNpos.map(npo => npo.name);
 }
