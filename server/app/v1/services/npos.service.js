@@ -278,3 +278,8 @@ exports.updateShopifyCustomerMetaFields = async (customerId, metaFields) => {
     }
     return true;
 }
+
+// return valid npos array 
+exports.validNpos = async (npos) => {
+        
+}
