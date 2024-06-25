@@ -28,7 +28,7 @@ module.exports = (sequelize, Sequelize) => {
             //     model: 'order',
             //     key: 'id',
             // },
-        },
+        }, 
         npoId: {
             type: Sequelize.INTEGER,
             // references: {

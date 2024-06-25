@@ -1,4 +1,5 @@
 const service = require("../services/auth.service");
+const adminService = require("../services/admin.service.js");
 const { sendResponse } = require("../utils/sendResponse.js");
 const { SuccessMessage, ErrorMessage } = require("../constants/messages.js");
 const statusCode = require("../constants/statusCodes.js");
@@ -37,9 +38,19 @@ exports.resetPassword = async (req, res) => {
     console.info('***************************************************Reset Password Api************************************************');
     try {
         const email = req.body.email;
-        const emailExist = await service.userExistByEmail(email);
-        if (!emailExist) {
-            return sendResponse(res, statusCode.BAD_REQUEST, false, `User ${ErrorMessage.NOT_FOUND}`);
+        const role = req.body.role;
+        let emailExist;
+        // check for admin
+        if (role === 'admin') {
+            emailExist = await service.userExistByEmail(email);
+            if (!emailExist) {
+                return sendResponse(res, statusCode.BAD_REQUEST, false, `User ${ErrorMessage.NOT_FOUND}`);
+            }
+        } else {
+            emailExist = await adminService.npoByEmail(email);
+            if (!emailExist) {
+                return sendResponse(res, statusCode.BAD_REQUEST, false, `User ${ErrorMessage.NOT_FOUND}`);
+            }
         }
         await service.resetPassword(emailExist.email, emailExist.id);
         return sendResponse(res, statusCode.OK, true, SuccessMessage.RESET_PASSWORD);

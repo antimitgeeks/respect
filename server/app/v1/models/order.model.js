@@ -28,7 +28,7 @@ module.exports = (sequelize, Sequelize) => {
         amount: {
             type: Sequelize.INTEGER,
         },
-        orderDate: {
+        orderDate: { 
             type: Sequelize.DATE,
         },
         customerDetails: {

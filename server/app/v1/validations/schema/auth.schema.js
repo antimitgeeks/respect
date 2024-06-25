@@ -19,7 +19,8 @@ exports.registerSchema = Joi.object({
 });
 
 exports.resetPasswordSchema = Joi.object({
-    email: emailSchema.required()
+    email: emailSchema.required(),
+    role: Joi.string().required(),
 });
 
 exports.forgotPasswordSchema = Joi.object({

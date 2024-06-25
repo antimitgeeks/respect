@@ -97,7 +97,7 @@ exports.orderComplete = async (payload) => {
                     // Find existing NPOs
                     let existingNpos = [], nposName = [];
                     for (const npoName of valuesArray) {
-                        const npo = await Npos.findOne({ where: { name: npoName, isActive: true }, transaction });
+                        const npo = await Npos.findOne({ where: { name: npoName }, transaction });
                         if (npo) {
                             existingNpos.push(npo);
                         }
@@ -143,13 +143,13 @@ exports.records = async (npoId, details) => {
                 model: Order,
                 attributes: ['id', 'orderId', 'amount', 'orderDate', 'customerDetails'],
                 where: orderWhere,
-                order: [['orderDate', 'DESC']]
             },
             {
                 model: Npos,
                 attributes: ['id', 'name'],
             }
         ],
+        order: [['createdAt', 'DESC']],
         limit: details.limit,
         offset: details.offset,
     });
@@ -161,50 +161,76 @@ exports.records = async (npoId, details) => {
 
 // update shopify customer metafield
 exports.updateShopifyCustomerMetaFields = async (customerId, metaFields) => {
+    // Query the customer to check for existing metafields
+    let queryData = JSON.stringify({
+        query: `query {
+                customer(id: "gid://shopify/Customer/${customerId}") {
+                    id
+                    metafields(namespace: "custom", first: 10) {
+                    edges {
+                        node {
+                        id
+                        key
+                        value
+                        }
+                    }
+                    }
+                }
+                }`
+    });
 
-    // check customer have metafield or not 
-    // let customerMetaFieldData = JSON.stringify({
-    //     query: `query getCustomerMetafields($customerId: ID!) {
-    //         customer(id: $customerId) {
-    //             id
-    //             metafields(first: 10) {
-    //             edges {
-    //                 node {
-    //                 id
-    //                 namespace
-    //                 key
-    //                 value
-    //                 }
-    //             }
-    //             }
-    //         }
-    //         }`,
-    //     variables: { "customerId": "gid://shopify/Customer/8255250039067" }
-    // });
+    let queryConfig = {
+        method: 'post',
+        url: 'https://itgdev.myshopify.com/admin/api/2024-04/graphql.json',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Access-Token': `${process.env.STORE_ACCESS_TOKEN}`
+        },
+        data: queryData
+    };
 
-    // let customerMetaFieldConfig = {
-    //     method: 'post',
-    //     maxBodyLength: Infinity,
-    //     url: 'https://itgdev.myshopify.com/admin/api/2024-04/graphql.json',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'X-Shopify-Access-Token': ,
-    //         'Cookie': 'request_method=POST'
-    //     },
-    //     data: customerMetaFieldData
-    // };
+    const queryResponse = await axios.request(queryConfig);
+    const metafields = queryResponse.data.data.customer.metafields.edges;
 
-    // const result = await axios.request(customerMetaFieldConfig)
-    // const customerMetaFields = result.data?.data?.customer?.metafields?.edges;
-    // if (customerMetaFields?.length) {
-    //     const targetMetafield = customerMetaFields.find(metafield =>
-    //         metafield.node.key === 'npos' && metafield.node.namespace === 'custom'
-    //     );
+    // Find if the metafield already exists
+    let existingMetafieldId = null;
+    metafields.forEach(edge => {
+        if (edge.node.key === "npos") {
+            existingMetafieldId = edge.node.id;
+        }
+    });
 
-    //     const npos = targetMetafield ? targetMetafield.node.value : null;
-    // update existing npos
-    let data = JSON.stringify({
-        query: `mutation customerUpdate($input: CustomerInput!) {
+    let mutationData;
+    if (existingMetafieldId) {
+        //Update the metafield if it exists
+        mutationData = JSON.stringify({
+            query: `mutation customerUpdate($input: CustomerInput!) {
+                    customerUpdate(input: $input) {
+                        userErrors {
+                        field
+                        message
+                        }
+                        customer {
+                        id
+                        firstName
+                        lastName
+                        }
+                    }
+                    }`,
+            variables: {
+                "input": {
+                    "id": `gid://shopify/Customer/${customerId}`,
+                    "metafields": {
+                        "id": existingMetafieldId,
+                        "value": `${metaFields}`
+                    }
+                }
+            }
+        });
+    } else {
+        //Create a new metafield if it does not exist
+        mutationData = JSON.stringify({
+            query: `mutation customerUpdate($input: CustomerInput!) {
           customerUpdate(input: $input) {
             userErrors {
               field
@@ -217,10 +243,21 @@ exports.updateShopifyCustomerMetaFields = async (customerId, metaFields) => {
             }
           }
         }`,
-        variables: { "input": { "id": `gid://shopify/Customer/${customerId}`, "metafields": { "id": "gid://shopify/Metafield/37116151038235", "value": `${metaFields}` } } }
-    });
+            variables: {
+                "input": {
+                    "id": `gid://shopify/Customer/${customerId}`,
+                    "metafields": {
+                        "namespace": "custom",
+                        "key": "npos",
+                        "value": `${metaFields}`,
+                        "type": "single_line_text_field"
+                    }
+                }
+            }
+        });
+    }
 
-    let config = {
+    let mutationConfig = {
         method: 'post',
         maxBodyLength: Infinity,
         url: 'https://itgdev.myshopify.com/admin/api/2024-04/graphql.json',
@@ -228,12 +265,16 @@ exports.updateShopifyCustomerMetaFields = async (customerId, metaFields) => {
             'Content-Type': 'application/json',
             'X-Shopify-Access-Token': `${process.env.STORE_ACCESS_TOKEN}`
         },
-        data: data
+        data: mutationData
     };
 
-    const response = await axios.request(config);
-    console.log(response.data, ":: Customer MetaFields Updated!!");
+    console.log(mutationConfig, '-------------------------------mutationConfig');
+
+    const mutationResponse = await axios.request(mutationConfig);
+    if (mutationResponse?.data?.data?.customerUpdate?.userErrors?.length) {
+        console.log(mutationResponse.data.data.customerUpdate.userErrors, ":: Error IN Customer MetaFields Updated!!");
+    } else {
+        console.log(mutationResponse.data, ":: Customer MetaFields Updated!!");
+    }
     return true;
-    // }
-    // return true
 }

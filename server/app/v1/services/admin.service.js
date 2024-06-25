@@ -68,7 +68,7 @@ exports.npoList = async (params) => {
         order: [['createdAt', 'DESC']]
     });
     return nposList;
-}
+} 
 
 // return npo details by id
 exports.npoById = async (id) => {
