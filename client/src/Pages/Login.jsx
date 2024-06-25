@@ -44,7 +44,7 @@ function Login(props) {
             setDecodedToken(DecodedData);
         }
     }, [userToken]);
-    
+
     // console.log(decodedToken)
     useEffect(() => {
         if (isLogged) {
@@ -118,7 +118,7 @@ function Login(props) {
                                 <div className='w-2/3 lg:w-1/2 relative mx-auto'>
                                     <InputComponent
                                         name='email'
-                                        onChange={(e)=>loginProps.setFieldValue('email',e.target.value?.trim())}
+                                        onChange={(e) => loginProps.setFieldValue('email', e.target.value?.trim())}
                                         placeholder='Enter your Email'
                                         value={loginProps.values.email}
                                     />

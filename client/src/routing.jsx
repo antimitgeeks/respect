@@ -55,7 +55,7 @@ function Routing() {
                 <Route path="" element={<WelcomePage />} />
                 <Route path="login/admin" element={<Login auth={setAthenticateLogin} />} />
                 <Route path="login/npo" element={<NpoLogin auth={setAthenticateLogin} />} />
-                <Route path="/forgot-password/:id" element={<ForgetPassword />} />
+                <Route path="/forgot-password/:role/:id" element={<ForgetPassword />} />
                 <Route path="/reset-password/:role" element={<EmailAuth />} />
                 <Route path="*" element={windowLocation?.includes('adm')? <Login auth={setAthenticateLogin} />: windowLocation?.includes('np')&&<NpoLogin auth={setAthenticateLogin} />} />
                 <Route path="page/preview" element={<NpoPreview />} />

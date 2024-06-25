@@ -210,7 +210,7 @@ function Home() {
                             actionIndex[indx] === true ?
                               <>  <span className=' border select-none rounded-full md:right-[70px]  lg:right-[135px] w-[115px] divide-x-2  2xl:right-[160px]  gap-1  py-1 px-1 shadow  bottom-0 bg-white absolute flex  items-center justify-between'>
                                 <span onClick={() => handleEdit()} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><RiEdit2Fill size={18} /></span>
-                                <span onClick={() => handleDelete(indx)} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><AiFillDelete size={17} /></span>
+                                {/* <span onClick={() => handleDelete(indx)} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><AiFillDelete size={17} /></span> */}
                                 <span onClick={() => handleView(itm.id)} className=' cursor-pointer w-full flex items-center justify-center hover:opacity-70'><IoMdEye size={18} /></span>
                               </span>
                               </>

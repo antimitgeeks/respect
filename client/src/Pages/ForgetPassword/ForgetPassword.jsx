@@ -36,14 +36,23 @@ function ForgetPassword() {
     /* handling form submit */
     const handleSubmit = (data, { resetForm }) => {
         setLoading(true)
-        setUserData(data)
-        forgotPassword({ data, Id: paramEmail?.id })
+        setUserData(data);
+        let dataaa = { password: data.password, confirmPassword: data.confirmPassword, role: paramEmail?.role }
+        console.log(dataaa,'dataaa')
+        forgotPassword({ data: dataaa, Id: paramEmail?.id })
             .then((res) => {
                 if (res?.data) {
                     console.log(res?.data)
                     toast.success(res?.data?.message)
                     resetForm();
-                    navigate('/')
+                    // toast.success("Go back to login page")
+                    if (paramEmail?.role == 'npo') {
+                        navigate('/login/npo')
+                    }
+                    else
+                    {
+                        navigate('/login/admin')
+                    }
                 }
                 else if (res?.error) {
                     toast.error('Something went wrong')
@@ -94,7 +103,7 @@ function ForgetPassword() {
                                     />
                                 </div>
                                 <div className='relative w-1/2 self-center  mx-auto'>
-                                    
+
                                     <InputComponent
                                         value={loginProps.values.confirmPassword}
                                         name='confirmPassword'

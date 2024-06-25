@@ -278,7 +278,6 @@ function NpoHome() {
             toast.error("Image size must be less than 5mb");
             // return;
         }
-
         else {
 
             const formData = new FormData();
@@ -352,7 +351,6 @@ function NpoHome() {
                     }
                     else {
                         console.log(res);
-
                     }
                 })
                 .catch((err) => {
@@ -404,7 +402,6 @@ function NpoHome() {
                     }
                     else {
                         console.log(res);
-
                     }
                 })
                 .catch((err) => {
@@ -429,7 +426,6 @@ function NpoHome() {
         //         console.log(err)
         //     })
 
-
     };
     const handleImageTextRemove = () => {
         const formData = new FormData();
@@ -450,10 +446,9 @@ function NpoHome() {
                 console.log(err)
             })
     }
+
     const handleImageTextInput = (ev) => {
-
         const val = ev?.target?.value;
-
         setImageText(val);
     };
 
@@ -595,14 +590,16 @@ function NpoHome() {
         // console.log(logoUrl)
 
 
-
         AddPage({ Id: decodedToken?.id, data: DataForApi })
             .then((res) => {
                 console.log(res);
                 if (res.error) {
+
                     toast.error('An Error Occured')
+
                 }
                 else {
+
                     dispatch(setNpoData(DataForApi));
                     dispatch(setLinkData(linksData));
                     toast.success(res.data.message);
@@ -721,21 +718,21 @@ function NpoHome() {
                     </div>
                     :
                     <>
-                    {
-                        !linksModalOpen &&
+                        {
+                            !linksModalOpen &&
 
-                        <div className=' fixed z-[5000] right-9 top-[75px] gap-2 flex px-2 sm:px-14 pt-3'>
-                            <span onClick={() => handlePreviewPage()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
-                                Preview Page
-                            </span>
-                            {/* <span onClick={() => handleClearAll()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
+                            <div className=' fixed z-[5000] right-9 top-[75px] gap-2 flex px-2 sm:px-14 pt-3'>
+                                <span onClick={() => handlePreviewPage()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
+                                    Preview Page
+                                </span>
+                                {/* <span onClick={() => handleClearAll()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
                                 Clear All
                             </span> */}
-                            <span onClick={() => handleSave()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
-                                SAVE
-                            </span>
-                        </div>
-                    }
+                                <span onClick={() => handleSave()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
+                                    SAVE
+                                </span>
+                            </div>
+                        }
                         {
                             loading || TextImageloading || logoLoading || bannerLoading ?
                                 <div className=' flex items-center justify-center w-full  flex-col  pt-12 px-12'>
