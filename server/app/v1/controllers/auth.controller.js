@@ -52,7 +52,7 @@ exports.resetPassword = async (req, res) => {
                 return sendResponse(res, statusCode.BAD_REQUEST, false, `User ${ErrorMessage.NOT_FOUND}`);
             }
         }
-        await service.resetPassword(emailExist.email, emailExist.id);
+        await service.resetPassword(emailExist.email, emailExist.id, role);
         return sendResponse(res, statusCode.OK, true, SuccessMessage.RESET_PASSWORD);
     } catch (error) {
         console.error('Error in reset password api : ', error);
@@ -66,11 +66,19 @@ exports.forgotPassword = async (req, res) => {
     try {
         const id = req.params.id;
         const password = req.body.password;
-        const userExist = await service.userExistById(id);
-        if (!userExist) {
-            return sendResponse(res, statusCode.BAD_REQUEST, false, `User ${ErrorMessage.NOT_FOUND}`);
+        const role = req.body.role;
+        if (role === 'admin') {
+            const userExist = await service.userExistById(id);
+            if (!userExist) {
+                return sendResponse(res, statusCode.BAD_REQUEST, false, `User ${ErrorMessage.NOT_FOUND}`);
+            }
+        } else {
+            const userExist = await adminService.npoById(id);
+            if (!userExist) {
+                return sendResponse(res, statusCode.BAD_REQUEST, false, `User ${ErrorMessage.NOT_FOUND}`);
+            }
         }
-        await service.forgotPassword(id, password);
+        await service.forgotPassword(id, password, role);
         return sendResponse(res, statusCode.OK, true, SuccessMessage.FORGOT_PASSWORD);
     } catch (error) {
         console.error('Error in forgot password api : ', error);

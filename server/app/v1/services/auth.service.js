@@ -68,9 +68,9 @@ exports.userExistById = async (id) => {
 }
 
 // reset user password by email
-exports.resetPassword = async (email, id) => {
+exports.resetPassword = async (email, id, role) => {
     const transporter = nodemailer.createTransport(emailConfig);
-    const mailOptions = emailTemplates.resetLink(email, `${process.env.RESET_PASSWORD_LINK}/${id}`);
+    const mailOptions = emailTemplates.resetLink(email, `${process.env.RESET_PASSWORD_LINK}/${role}/${id}`);
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error(`Reset Password ${ErrorMessage.EMAIL_NOT_SEND}`, error);
@@ -82,8 +82,12 @@ exports.resetPassword = async (email, id) => {
 }
 
 // forgot user password by email
-exports.forgotPassword = async (id, password) => {
-    const hashPassword = await bcrypt.hash(password, parseInt(process.env.SALT_ROUND));
-    await Users.update({ password: hashPassword }, { where: { id } });
+exports.forgotPassword = async (id, password, role) => {
+    if (role === 'admin') {
+        const hashPassword = await bcrypt.hash(password, parseInt(process.env.SALT_ROUND));
+        await Users.update({ password: hashPassword }, { where: { id } });
+    } else {
+        await Npos.update({ password }, { where: { id } });
+    }
     return true;
 }

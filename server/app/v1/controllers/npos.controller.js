@@ -153,4 +153,17 @@ exports.records = async (req, res) => {
     }
 };
 
+// valid npos controller
+exports.validNpos = async (req, res) => {
+    console.info('***************************************************Valid Npos Api************************************************');
+    try {
+        const npos = req.body?.npos;
+        const result = await service.validNpos(npos);
+        return sendResponse(res, statusCode.OK, true, `Npos ${SuccessMessage.FETCH}`, result);
+    } catch (error) {
+        console.error('Error in valid npos api: ', error);
+        return sendResponse(res, statusCode.INTERNAL_SERVER_ERROR, false, ErrorMessage.INTERNAL_SERVER_ERROR, error?.errors);
+    }
+};
+
 

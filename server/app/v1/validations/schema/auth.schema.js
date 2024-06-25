@@ -20,10 +20,11 @@ exports.registerSchema = Joi.object({
 
 exports.resetPasswordSchema = Joi.object({
     email: emailSchema.required(),
-    role: Joi.string().required(),
+    role: Joi.string().valid('admin', 'npo').required(),
 });
 
 exports.forgotPasswordSchema = Joi.object({
+    role: Joi.string().valid('npo', 'admin').required(),
     id: Joi.number().required(),
     password: Joi.string().min(3).required(),
     confirmPassword: Joi.string().required().valid(Joi.ref('password')),

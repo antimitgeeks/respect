@@ -5,7 +5,8 @@ const db = require("./server/app/v1/models");
 const routes = require("./server/app/v1/routes");
 require('./server/app/v1/utils/cron.job');
 const serveStatic = require("serve-static");
-
+const { readFileSync } = require("fs");
+const { join } = require("path");
 
 const app = express();
 
