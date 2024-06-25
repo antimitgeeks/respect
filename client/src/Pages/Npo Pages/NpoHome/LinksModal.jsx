@@ -61,8 +61,8 @@ function LinksModal({ close,data }) {
     };
 
     return (
-        <div className='flex flex-col gap-8 py-2 w-full'>
-            <div className='relative flex w-full justify-between'>
+        <div className='flex flex-col gap-8 py-2 w-full relative z-[55000] bg-white'>
+            <div className='relative flex w-full justify-between z-[9999999999999999999999999]'>
                 <div className='text-lg font-semibold'>
                     Links
                 </div>
@@ -74,7 +74,7 @@ function LinksModal({ close,data }) {
                 </div>
             </div>
             <div className='flex flex-col gap-4'>
-                <div className='flex gap-[67px] items-center'>
+                <div className='flex flex-col sm:flex-row gap-1 sm:gap-[67px] sm:items-center'>
                     <span className='font-semibold'>Instagram</span>
                     <div className='w-full flex justify-between'>
                         <input
@@ -82,13 +82,13 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='instagram'
                             value={linksData?.instagram}
-                            className='w-4/5 px-2 py-2 border outline-none'
+                            className='sm:w-4/5 w-full px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
                         {/* <span>{linksData?.instaSwitch ? "Enabled" : "Disabled"}: <Switch checked={linksData.instaSwitch} name='instaSwitch' onChange={handleInputChange} /></span> */}
                     </div>
                 </div>
-                <div className='flex gap-[71px] items-center'>
+                <div className='flex flex-col sm:flex-row gap-1 sm:gap-[71px] sm:items-center'>
                     <span className='font-semibold'>Facebook</span>
                     <div className='w-full flex justify-between'>
                         <input
@@ -96,13 +96,13 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='facebook'
                             value={linksData?.facebook}
-                            className='w-4/5 px-2 py-2 border outline-none'
+                            className='sm:w-4/5 w-full px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
                         {/* <span>{linksData?.facebookSwitch ? "Enabled" : "Disabled"}: <Switch name='facebookSwitch' checked={linksData?.facebookSwitch} onChange={handleInputChange} /></span> */}
                     </div>
                 </div>
-                <div className='flex gap-20 items-center'>
+                <div className='flex flex-col sm:flex-row gap-1 sm:gap-20 sm:items-center'>
                     <span className='font-semibold'>YouTube</span>
                     <div className='w-full flex justify-between items-center'>
                         <input
@@ -110,13 +110,13 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='youtube'
                             value={linksData?.youtube}
-                            className='w-4/5 px-2 py-2 border outline-none'
+                            className='sm:w-4/5 w-full px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
                         {/* <span>{linksData?.youtubeSwitch ? "Enabled" : "Disabled"}: <Switch name='youtubeSwitch' checked={linksData?.youtubeSwitch} onChange={handleInputChange} /></span> */}
                     </div>
                 </div>
-                <div className='flex gap-[82px] items-center'>
+                <div className='flex gap-1 sm:gap-[82px] flex-col sm:flex-row sm:items-center'>
                     <span className='font-semibold'>Contact</span>
                     <div className='w-full flex justify-between items-center'>
                         <input
@@ -124,13 +124,13 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='contactUs'
                             value={linksData?.contactUs}
-                            className='w-4/5 px-2 py-2 border outline-none'
+                            className='sm:w-4/5 w-full px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
                         {/* <span>{linksData?.contactSwitch ? "Enabled" : "Disabled"}: <Switch name='contactSwitch' checked={linksData?.contactSwitch} onChange={handleInputChange} /></span> */}
                     </div>
                 </div>
-                <div className='flex gap-[62px] items-center'>
+                <div className='flex gap-1 sm:gap-[62px] flex-col sm:flex-row sm:items-center'>
                     <span className='font-semibold w-24'>Website link</span>
                     <div className='w-full flex justify-between items-center'>
                         <input
@@ -138,7 +138,7 @@ function LinksModal({ close,data }) {
                             type="text"
                             name='websiteLink'
                             value={linksData?.websiteLink}
-                            className='w-4/5 px-2 py-2 border outline-none'
+                            className='sm:w-4/5 w-full px-2 py-2 border outline-none'
                             onChange={handleInputChange}
                         />
                         {/* <span>{linksData?.websiteSwitch ? "Enabled" : "Disabled"}: <Switch name='websiteSwitch' checked={linksData?.websiteSwitch} onChange={handleInputChange} /></span> */}

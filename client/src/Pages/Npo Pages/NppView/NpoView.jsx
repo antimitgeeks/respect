@@ -67,9 +67,9 @@ function NpoView() {
                   <>
                     <h1 className="text-2xl font-bold mb-4">{NpoData?.name} Details</h1>
                     <div className="bg-white rounded-lg p-6">
-                      <p className="text-[19px] mb-2"><strong>Name:</strong> {NpoData?.name ? NpoData?.name : "N/A"}</p>
-                      <p className="text-[19px] mb-2"><strong>Email:</strong> {NpoData?.email ? NpoData?.email : "N/A"}</p>
-                      <p className="text-[19px]"><strong>Number:</strong> {NpoData?.number ? NpoData?.number : "N/A"}</p>
+                      <p className="text-[19px] mb-2"><strong>Name:</strong> {NpoData?.name ||  "N/A"}</p>
+                      <p className="text-[19px] mb-2"><strong>Email:</strong> {NpoData?.email || "N/A"}</p>
+                      <p className="text-[19px]"><strong>Number:</strong> {NpoData?.number || "N/A"}</p>
                     </div>
                     <button
                       onClick={toggleDetails}
@@ -87,7 +87,7 @@ function NpoView() {
                           <div className=' flex w-full gap-2 flex-col'>
                             <span className=' capitalize'>
                               <span className=' font-semibold mr-2'>Page name </span>
-                              :  {NpoData?.name}
+                              :  {NpoData?.name || "N/A"}
                             </span>
                             {/* <span> <span className=' font-semibold mr-8'>Page no </span>: {NpoData?.id}</span> */}
                             <div className="bg-white border-2 w-full rounded-lg p-1 sm:p-6">

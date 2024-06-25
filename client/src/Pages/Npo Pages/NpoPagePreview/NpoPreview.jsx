@@ -269,8 +269,6 @@ function NpoPreview({ Id }) {
                                 </span>
                             </div>
                         </div>
-
-
                         <hr />
 
                         <div className=' flex-wrap flex w-full items-center gap-4 mb-4 mt-2 py-3 justify-center'>

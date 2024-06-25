@@ -194,13 +194,6 @@ function Home() {
               </div>
               <div className=' flex flex-col gap-2 pt-2  '>
                 {
-                  // loading ?
-                  //   <div className=' w-full flex flex-col gap-2'>
-                  //     {Array(5).fill(0).map((itm, indx) => {
-                  //       return <div key={indx} className=' border h-[60px] rounded w-full bg-slate-400 animate-pulse'></div>
-                  //     })}
-                  //   </div>
-                  //   :
                   listData?.length <= 0 || !listData ?
                     <div className=' py-3 flex items-center justify-center'>
                       <span className=' w-full border py-[7px]  justify-center flex gap-3 items-center'>No Data Found <IoWarningOutline size={19} /></span>
@@ -232,28 +225,34 @@ function Home() {
             <div className='   md:hidden table rounded '>
               <div className=' flex flex-col  items-start gap-1  '>
                 {
-                  listData?.map((itm, indx) => {
-                    return <div key={indx} className=' w-full  items-start bg-white select-none sm:flex-col border-slate-400 flex-col md:flex-row  gap-3 border-2   rounded-md  px-2 py-3'>
-                      <span className=' w-full text-[13.4px]  flex gap-14 '><span className=' font-semibold'> Npo name</span>  {itm?.name ? itm?.name : "N/A"} </span>
-                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Npo email : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.email ? itm?.email : "N/A"}</span> </span>
-                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Npo number : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.number ? itm?.number : "N/A"}</span> </span>
-                      <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Active : </span> <span className=' w-auto text-[5px] flex-wrap text-wrap break-words'><Switch size='small' checked={itm?.isActive} onChange={(e) => handleSwitchToggle(itm, e)} /></span> </span>
-                      {/* <span className=' w-full  text-[13.4px] flex gap-10'><span className=' font-semibold'>Api store Key :</span> {itm.apiKey}</span> */}
-                      {/* <span className=' w-full  text-[13.4px] flex gap-10'><span className=' font-semibold'>Api store pass </span>{itm.apiPassword}</span> */}
-                      <span className=' w-full  text-[13.4px] gap-20 relative  flex'> <span className=' font-semibold'>Actions  </span> <span className=' pt-1 cursor-pointer' onClick={() => { actionIndex[indx] === true ? handleActionsClose(indx) : handleActions(indx, itm?.id) }}><BsThreeDotsVertical /></span>
-                        {
-                          actionIndex[indx] === true ?
-                            <>  <span className=' select-none rounded-full left-[145px] sm:left-[200px] lg:left-[80px] w-[130px] divide-x-2 2xl:right-[100px]  gap-1  py-1 px-2 shadow  right-5 bottom-0 bg-white absolute flex  items-center justify-between'>
-                              <span className=' cursor-pointer w-full flex items-center justify-center'><RiEdit2Fill size={17} /></span>
-                              {/* <span onClick={() => handleDelete(indx)} className=' cursor-pointer w-full flex items-center justify-center'><AiFillDelete size={16} /></span> */}
-                              <span onClick={() => handleView(itm.id)} className=' cursor-pointer w-full flex items-center justify-center'><IoMdEye size={17} /></span>
-                            </span>
-                            </>
-                            : ""
-                        }
-                      </span>
+                  listData?.length <= 0 || !listData ?
+                    <div className=' w-full py-3 flex items-center justify-center'>
+                      <span className=' w-full border py-[7px]  justify-center flex gap-3 items-center'>No Data Found <IoWarningOutline size={19} /></span>
                     </div>
-                  })
+                    :
+
+                    listData?.map((itm, indx) => {
+                      return <div key={indx} className=' w-full  items-start bg-white select-none sm:flex-col border-slate-400 flex-col md:flex-row  gap-3 border-2   rounded-md  px-2 py-3'>
+                        <span className=' w-full text-[13.4px]  flex gap-14 '><span className=' font-semibold'> Npo name</span>  {itm?.name ? itm?.name : "N/A"} </span>
+                        <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Npo email : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.email ? itm?.email : "N/A"}</span> </span>
+                        <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Npo number : </span> <span className=' w-auto flex-wrap text-wrap break-words'>{itm?.number ? itm?.number : "N/A"}</span> </span>
+                        <span className=' w-full text-[12.8px]  flex gap-6'> <span className='  flex-wrap font-semibold'>Active : </span> <span className=' w-auto text-[5px] flex-wrap text-wrap break-words'><Switch size='small' checked={itm?.isActive} onChange={(e) => handleSwitchToggle(itm, e)} /></span> </span>
+                        {/* <span className=' w-full  text-[13.4px] flex gap-10'><span className=' font-semibold'>Api store Key :</span> {itm.apiKey}</span> */}
+                        {/* <span className=' w-full  text-[13.4px] flex gap-10'><span className=' font-semibold'>Api store pass </span>{itm.apiPassword}</span> */}
+                        <span className=' w-full  text-[13.4px] gap-20 relative  flex'> <span className=' font-semibold'>Actions  </span> <span className=' pt-1 cursor-pointer' onClick={() => { actionIndex[indx] === true ? handleActionsClose(indx) : handleActions(indx, itm?.id) }}><BsThreeDotsVertical /></span>
+                          {
+                            actionIndex[indx] === true ?
+                              <>  <span className=' select-none rounded-full left-[145px] sm:left-[200px] lg:left-[80px] w-[130px] divide-x-2 2xl:right-[100px]  gap-1  py-1 px-2 shadow  right-5 bottom-0 bg-white absolute flex  items-center justify-between'>
+                                <span onClick={()=>handleEdit()} className=' cursor-pointer w-full flex items-center justify-center'><RiEdit2Fill size={17} /></span>
+                                {/* <span onClick={() => handleDelete(indx)} className=' cursor-pointer w-full flex items-center justify-center'><AiFillDelete size={16} /></span> */}
+                                <span onClick={() => handleView(itm.id)} className=' cursor-pointer w-full flex items-center justify-center'><IoMdEye size={17} /></span>
+                              </span>
+                              </>
+                              : ""
+                          }
+                        </span>
+                      </div>
+                    })
                 }
               </div>
             </div>

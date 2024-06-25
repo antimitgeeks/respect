@@ -21,7 +21,7 @@ import ReportDetail from './Pages/Reports/ReportDetail';
 function Routing() {
     const [authenticateLogin, setAthenticateLogin] = useState(true);
     const [decodedToken, setDecodedToken] = useState();
-    const [role, setRole] = useState('admin')
+    const [role, setRole] = useState('Admin')
 
     const userToken = Cookies.get("isLogged");
     //////// Checking if user is logged or not ////////////  
@@ -57,7 +57,7 @@ function Routing() {
                 <Route path="login/npo" element={<NpoLogin auth={setAthenticateLogin} />} />
                 <Route path="/forgot-password/:id" element={<ForgetPassword />} />
                 <Route path="/reset-password" element={<EmailAuth />} />
-                <Route path="*" element={windowLocation?.includes('admin')? <Login auth={setAthenticateLogin} />: windowLocation?.includes('np')&&<NpoLogin auth={setAthenticateLogin} />} />
+                <Route path="*" element={windowLocation?.includes('adm')? <Login auth={setAthenticateLogin} />: windowLocation?.includes('np')&&<NpoLogin auth={setAthenticateLogin} />} />
                 <Route path="page/preview" element={<NpoPreview />} />
                 {
                     authenticateLogin ?

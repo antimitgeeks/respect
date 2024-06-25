@@ -24,6 +24,7 @@ function ReportDetail() {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
 
+ 
     // states for paginatin 
     const [page, setPage] = useState(1);
     const dataPerPage = 6;
@@ -35,7 +36,6 @@ function ReportDetail() {
     }
 
 
-    console.log(id?.id)
     const { data: ReportsData, isFetching: dataFetching, isLoading: dataLoading } = useGetReportByIdQuery({
         Id: id?.id, data: {
             limit: dataPerPage,
@@ -51,8 +51,6 @@ function ReportDetail() {
             setLoading(true)
         }
         else {
-            console.log(ReportsData)
-            console.log(ReportsData?.result?.records?.count)
             setCount(Math.ceil(ReportsData?.result?.records?.count / dataPerPage))
             setReportData(ReportsData?.result)
             setLoading(false)
@@ -70,7 +68,6 @@ function ReportDetail() {
     }
 
     const handledateChange = (ev) => {
-        console.log(ev)
         settempDateValue(ev)
     }
     function formatDate(calendarObject) {
@@ -102,6 +99,35 @@ function ReportDetail() {
         setDateValue('')
     }
 
+
+    useEffect(() => {
+        if (dataFetching || dataLoading) {
+            setLoading(true)
+        }
+        else {
+            setCount(Math.ceil(ReportsData?.result?.records?.count / dataPerPage))
+            setReportData(ReportsData?.result)
+            setLoading(false)
+        }
+    }, [ReportsData, dataFetching, dataLoading])
+
+
+
+    function formatDate(calendarObject) {
+        if (calendarObject) {
+
+            const month = calendarObject?.month?.number?.toString().padStart(2, '0'); // Ensure two digits for the month
+            const day = calendarObject?.day?.toString().padStart(2, '0'); // Ensure two digits for the day
+            const year = calendarObject?.year;
+
+            // Regular format: YYYY-MM-DD
+            const formattedDate = `${year}-${month}-${day}`;
+
+            return formattedDate;
+        }
+    }
+    console.log(ReportData?.records)
+  
     return (
         <>
             <div className=' h-[86vh] overflow-y-scroll px-3 py-3 gap-3 flex flex-col'>
@@ -111,7 +137,7 @@ function ReportDetail() {
                         Back
                     </div>
                 </div>
-                <div className=' w-full flex mb-2 justify-between'>
+                <div className=' w-full flex-col text-sm sm:text-[15.5px] sm:flex-row flex mb-2 justify-between'>
                     <div className=' flex gap-3 items-center'>
                         <div onClick={() => setDateModal(true)} className=' flex gap-2 hover:opacity-85 w-fit  border-2 border-slate-400 px-2 py-1 rounded cursor-pointer mb-2'>
                             {/* Filters area */}
@@ -127,13 +153,13 @@ function ReportDetail() {
                             </span>
                         }
                     </div>
-                    <div className=' flex gap-6'>
+                    <div className=' flex gap-4 sm:gap-6'>
                         <div>
-                            <span className=' font-semibold text-lg cursor-default'>
+                            <span className=' font-semibold text-sm sm:text-lg cursor-default'>
                                 Total Npo Amount : {ReportData?.totalAmount?.toFixed(3) || "N/A"}
                             </span>
                         </div>
-                        <div onClick={() => handleClearAllFilter()} className=' border-b h-fit w-fit p-0 m-0 cursor-pointer border-blue-600 hover:text-blue-600'>
+                        <div onClick={() => handleClearAllFilter()} className=' sm:text-[15.5px] text-sm border-b h-fit w-fit p-0 m-0 cursor-pointer border-blue-600 hover:text-blue-600'>
 
                             Clear all filter
                         </div>
@@ -157,8 +183,8 @@ function ReportDetail() {
                         </div>
                     </div>
                 </DialogComponent>
-                <div className=' hidden md:flex flex-col gap-2'>
-                    <div className=' rounded py-2 text-[15.4px] bg-slate-300 flex px-2 justify-between'>
+                <div className=' hidden md:flex flex-col gap-2 border-2'>
+                    <div className=' py-2 text-[15.4px] bg-slate-300 flex px-2 justify-between'>
                         <div className=' uppercase w-4/5 flex items-center pl-3'>Order id</div>
                         <div className=' uppercase w-4/5 flex items-center'>Npo amount</div>
                         <div className=' uppercase w-4/5 flex items-center'>Order amount</div>
@@ -173,11 +199,11 @@ function ReportDetail() {
                                 </span>
                             </>
                             :
-                            ReportData?.records?.length == 0 ?
-                                <span className=' w-full flex  items-center justify-center border py-1'>No data Found</span>
+                            ReportData?.records?.rows?.length == 0   ?
+                                <span className=' w-full flex  items-center justify-center  mt-1 py-1'>No data Found</span>
                                 :
-                                ReportData?.records?.rows?.map((itm) => {
-                                    return <>
+                                ReportData?.records?.rows?.map((itm,indx) => {
+                                    return <div key={indx}>
                                         <div className=' flex border-b text-[15px] justify-between rounded py-2 px-1'>
                                             <div className=' w-4/5 pl-[14px] '>{itm?.order?.orderId || "N/A"}</div>
                                             <div className=' w-4/5 pl-3'>{itm?.amount?.toFixed(3) || "N/A"}</div>
@@ -185,14 +211,14 @@ function ReportDetail() {
                                             <div className=' w-3/4 '>{itm?.order?.orderDate?.split('T')[0] || "N/A"}</div>
                                             <div className=' w-2/3 '> <span onClick={() => handleDetails(itm?.order)} className='border-b cursor-pointer hover:text-blue-600 border-b-blue-500 w-16 px-[3px]'>Details</span></div>
                                         </div>
-                                    </>
+                                    </div>
                                 })
                     }
 
                 </div>
                 <div className=' flex md:hidden w-full flex-col gap-[10px] '>
-                    {ReportData?.records?.rows?.map((itm) => {
-                        return <div>
+                    {ReportData?.records?.rows?.map((itm,indx) => {
+                        return <div key={indx}>
                             <div className=' bg-white border text-[14.5px] font-semibold  py-3 px-2'>
                                 <div className=' uppercase w-4/5 flex items-center  pl-0'>Order id : <span className=' pl-5'>{itm?.order?.orderId || "N/A"}</span> </div>
                                 <div className=' uppercase w-4/5 flex items-center'>Npo amount : <span className=' pl-4'>{itm?.amount?.toFixed(3) || "N/A"}</span> </div>
@@ -224,4 +250,4 @@ function ReportDetail() {
     )
 }
 
-export default ReportDetail
+export default ReportDetail;
