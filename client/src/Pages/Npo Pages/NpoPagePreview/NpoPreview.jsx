@@ -245,12 +245,15 @@ function NpoPreview({ Id }) {
                             {
                                 ReduxPreviewData?.videoData == undefined || ReduxPreviewData?.videoData == '' || PageData?.videoData == undefined ?
                                     PageData?.videoData ?
-                                        ReduxPreviewData?.videoData?.length < 5 ?
+                                        ReduxPreviewData?.videoData?.length < 1 ?
                                             <div className=' w-full h-full bg-slate-300 rounded'>
                                             </div>
                                             :
                                             <iframe allowFullScreen src={ReduxPreviewData?.videoData != undefined ? ReduxPreviewData?.videoData : PageData?.videoData} className=' fullscreen rounded w-full h-full' ></iframe>
 
+                                        :
+                                        ReduxPreviewData?.videoData?.length>1?
+                                        <iframe allowFullScreen src={ReduxPreviewData?.videoData != undefined ? ReduxPreviewData?.videoData : PageData?.videoData} className=' fullscreen rounded w-full h-full' ></iframe>
                                         :
                                         <div className=' w-full h-full bg-slate-300 rounded'>
                                         </div>
