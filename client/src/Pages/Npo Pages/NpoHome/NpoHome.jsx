@@ -722,7 +722,7 @@ function NpoHome() {
                             !linksModalOpen &&
 
                             <div className=' fixed z-[5000] right-9 top-[75px] gap-2 flex px-2 sm:px-14 pt-3'>
-                                <span onClick={() => handlePreviewPage()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
+                                <span onClick={() => handlePreviewPage()} className=' border hover:cursor-pointer cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
                                     Preview Page
                                 </span>
                                 {/* <span onClick={() => handleClearAll()} className=' border cursor-pointer bg-slate-500 rounded hover:opacity-90 text-white px-3 py-2'>
@@ -821,7 +821,7 @@ function NpoHome() {
                                                         </div>
                                                 }
                                             </div>
-                                            <div className=' self-stretch flex-col justify-center  items-center flex gap-2 w-full bg-slate-300'>
+                                            <div className=' self-stretch flex-col  pt-2  items-center flex gap-2 w-full bg-slate-300'>
                                                 <div className=' px-3 py-1 w-full flex flex-col gap-2 items-center'>
                                                     <span className=' relative flex-col gap-2 flex items-center  h-full py-2 justify-center w-full'>
                                                         <input value={imageHeading} onInput={(e) => setImageHeading(e.target.value)} type="text" className='font-semibold placeholder-opacity-70 placeholder-slate-400 py-2 focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 w-full border-2 px-2 outline-none bg-inherit placeholder:font-normal' placeholder='Heading' />
@@ -829,7 +829,7 @@ function NpoHome() {
 
                                                         <div className=' relative w-full'>
 
-                                                            <textarea onInput={(e) => handleImageTextInput(e)} value={imageText} type="text" placeholder='Text' className=' py-2  sm:min-h-[250px] min-h-[190px]  m-auto w-full h-full flex bg-slate-300 items-center justify-center  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2  px-1 outline-none' />
+                                                            <textarea onInput={(e) => handleImageTextInput(e)} value={imageText} type="text" placeholder='Text' className=' py-2  sm:min-h-[300px] min-h-[190px]  m-auto w-full h-full flex bg-slate-300 items-center justify-center  focus:border-2 focus:border-black focus:border-solid border-dashed border-slate-400 border-2  px-1 outline-none' />
 
                                                         </div>
                                                     </span>
@@ -952,23 +952,26 @@ function NpoHome() {
                                     &&
                                     } */}
 
-                                                    <a href={linksData?.instagram || localNpoPreviewDataState?.linksData?.instagram?.link || FinalData?.linksData?.instagram?.link} target='_blank'>
+                                                    {/* <a href={linksData?.instagram || localNpoPreviewDataState?.linksData?.instagram?.link || FinalData?.linksData?.instagram?.link} target='_blank'> */}
+                                                    <span  target='_blank'>
                                                         <img className=' w-[42px] h-[41px]' src={insta} alt="" />
-                                                    </a>
+                                                    </span>
                                                     {/* {
                                     linksData?.facebookSwitch != false
                                 }
                                     && */}
-                                                    <a href={linksData?.facebook || localNpoPreviewDataState?.linksData?.facebook?.link || FinalData?.linksData?.facebook?.link} target='_blank'>
+                                                    {/* <a href={linksData?.facebook || localNpoPreviewDataState?.linksData?.facebook?.link || FinalData?.linksData?.facebook?.link} target='_blank'> */}
+                                                    <span>
                                                         <img className=' w-fit h-[28px]' src={facebook} alt="" />
-                                                    </a>
+                                                    </span>
                                                     {/* {
                                     linksData?.youtubeSwitch != false
                                     &&
                                     } */}
-                                                    <a href={linksData?.youtube || localNpoPreviewDataState?.linksData?.youtube?.link || FinalData?.linksData?.youtube?.link} target='_blank'>
+                                                    <span>
+                                                    {/* <a href={linksData?.youtube || localNpoPreviewDataState?.linksData?.youtube?.link || FinalData?.linksData?.youtube?.link} target='_blank'> */}
                                                         <img className=' w-fit h-[28px]' src={ytLogo} alt="" />
-                                                    </a>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

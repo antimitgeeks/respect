@@ -57,7 +57,7 @@ function Report() {
               </>
               :
               allNposData?.map((itm, indx) => {
-                return <div key={indx} className=' shadow-md border p-1 flex flex-col justify-center items-center gap-3 px-2 py-2 w-full bg-slate-50 rounded-md '>
+                return <div key={indx} className={`${itm?.isActive?"shadow-green-100":" shadow-red-200"}  shadow-md border p-1 flex flex-col justify-center items-center gap-3 px-2 py-2 w-full bg-slate-50 rounded-md `}>
                   {/* <img src={itm.img} className=' border object-cover p-1 rounded-lg object-center w-full h-[180px]' alt="" /> */}
                   <div className=' w-full gap-2 text-sm sm:text-[17px] flex flex-col '>
                     <div className=' w-full flex flex-col items-center justify-start gap-0 '>

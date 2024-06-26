@@ -215,20 +215,20 @@ function NpoPreview({ Id }) {
                                 }
                             </div>
                         </div>
-                        <div className='w-full gap-1 flex flex-col sm:flex-row px-2 sm:px-3'>
-                            <div className=' w-full sm:w-1/2 self-stretch min-h-[220px] sm:min-h-[320px] h-full px-1 py-1'>
+                        <div className='w-full gap-1 flex items-center justify-center center flex-col sm:flex-row px-2 sm:px-3'>
+                            <div className=' w-full self-center sm:w-1/2  flex items-center justify-center min-h-[220px] sm:min-h-[320px] h-full px-1 py-1'>
                                 {
                                     ReduxPreviewData?.imageTextUrl == undefined || ReduxPreviewData?.imageTextUrl == '' || PageData?.imageTextUrl == undefined
                                         ?
                                        imageTextUrl ?
 
-                                                <img className='rounded self-stretch h-full w-full object-cover' src={ReduxPreviewData?.imageTextUrl || imageTextUrl} alt="" />
+                                                <img className='rounded self-center   object-cover' src={ReduxPreviewData?.imageTextUrl || imageTextUrl} alt="" />
 
                                             :
                                             <div className='bg-slate-300 min-h-[400px] rounded h-full w-full'>
                                             </div>
                                         :
-                                        <img className='rounded self-stretch h-full w-full object-cover' src={ReduxPreviewData?.imageTextUrl || imageTextUrl} alt="" />
+                                        <img className='rounded object-cover self-center' src={ReduxPreviewData?.imageTextUrl || imageTextUrl} alt="" />
                                 }
                             </div>
                             <div className=' w-full sm:w-1/2  self-stretch  border my-1 px-3 rounded mr-1 flex items-center justify-center'>
