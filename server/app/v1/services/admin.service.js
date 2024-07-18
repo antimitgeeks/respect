@@ -25,6 +25,9 @@ exports.addNpo = async (details) => {
     }
     details.pageId = pageCreated.page.id;
     const npoDetails = await Npos.create(details);
+    if (npoDetails) {
+        this.updateShopifyProductMetaFields(npoDetails.name);
+    }
     return npoDetails;
 }
 
@@ -68,7 +71,7 @@ exports.npoList = async (params) => {
         order: [['createdAt', 'DESC']]
     });
     return nposList;
-} 
+}
 
 // return npo details by id
 exports.npoById = async (id) => {
@@ -92,4 +95,71 @@ exports.npoUpdate = async (details, id) => {
 exports.npoDelete = async (id) => {
     await Npos.destroy({ where: { id } });
     return true;
+}
+
+exports.updateShopifyProductMetaFields = async (npoName) => {
+    const config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `https://${process.env.STORE_NAME}.myshopify.com/admin/api/${process.env.STORE_VERSION}/products/${process.env.PRODUCT_ID}/metafields.json`,
+        headers: {
+            'X-Shopify-Access-Token': `${process.env.STORE_ACCESS_TOKEN}`
+        }
+    };
+    try {
+        const response = await axios.request(config)
+        const details = response.data;
+        if (!details) {
+            return true
+        }
+        const metaFieldsDetails = details.metafields?.find(mf => mf.namespace === 'custom' && mf.key === 'npos');
+        let metaFields = metaFieldsDetails?.value;
+        metaFields = metaFields ? metaFields : "";
+        metaFields.length > 0 ? metaFields += "," + npoName : metaFields = npoName;
+
+        let data = JSON.stringify({
+            query: `mutation ($metafields: [MetafieldsSetInput!]!) {
+                    metafieldsSet(metafields: $metafields) {
+                    metafields {
+                        id
+                        namespace
+                        key
+                        value
+                        type
+                    }
+                    userErrors {
+                        field
+                        message
+                    }
+                    }
+                }`,
+            variables: {
+                "metafields": [
+                    {
+                        "namespace": "custom",
+                        "key": "npos",
+                        "value": `${metaFields}`,
+                        "type": "single_line_text_field",
+                        "ownerId": `gid://shopify/Product/${process.env.PRODUCT_ID}`
+                    }]
+            }
+        });
+
+        let metaFieldUpdateConfig = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `https://${process.env.STORE_NAME}.myshopify.com/admin/api/${process.env.STORE_VERSION}/graphql.json`,
+            headers: {
+                'X-Shopify-Access-Token': `${process.env.STORE_ACCESS_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            data: data
+        };
+
+        await axios.request(metaFieldUpdateConfig)
+        console.log("Product MetaFields Updated !");
+        return true;
+    } catch (err) {
+        console.log("Error in get product metaFields :", err);
+    }
 }
